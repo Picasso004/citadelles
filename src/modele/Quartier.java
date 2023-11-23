@@ -1,2 +1,4 @@
-package modele;public class Quartier {
+package modele;
+
+public class Quartier {
 }
