@@ -17,7 +17,7 @@ public class Joueur extends Quartier {
     public String getNom() {
         return this.nom;
     }
-    public int nbPiece() {
+    public int nbPieces() {
         return this.tresor;
     }
     public int nbQuartiersDansCite() {
@@ -54,16 +54,41 @@ public class Joueur extends Quartier {
             this.cite[this.cite.length + 1] = q;
         }
     }
-    public boolean PresentDansCite(Quartier v) {
-        for(Quartier element :  this.cite) {
-            if(v == element) {
+    public boolean quartierPresentDansCite(String v) {
+        for(Quartier quartier :  this.cite) {
+            if(quartier != null && v.equals(quartier.getNom())) {
                 return true;}
         }
-        return possedeCouronne;
+        return false;
     }
-    public void retirerQuartierDansCite(String quartier) {
+    public Quartier retirerQuartierDansCite(String q) {
+        for(int i = 0; i < this.cite.length; i++){
+            Quartier quartier = this.cite[i];
+            if(quartier != null && q.equals(quartier.getNom())){
+                this.cite[i]=null;
+                this.nbQuartiers--;
+                return quartier;
+            }
+        }
+        return null;
+    }
 
+    public void ajouterQuartierDansMain(Quartier q){
+        this.main.add(q);
     }
+    public Quartier retirerQuartierDansMain(){
+        if(!this.main.isEmpty()){
+            Random generateur = new Random();
+            int numeroHasard = generateur.nextInt(this.nbQuartiersDansMain());
+            return this.main.remove(numeroHasard);
+        }
+        return null;
+    }
+    public void reinitialiser(){
+        this.tresor =0;
+        this.main.clear();
+        this.nbQuartiers = 0;
+    }
+
 
 }
-
