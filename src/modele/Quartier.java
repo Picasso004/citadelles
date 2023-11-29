@@ -9,20 +9,20 @@ public class Quartier {
         this.nom = "";
         this.type = "";
         this.coutConstruction = 0;
-        this.caractéristiques = "";
+        this.caracteristiques = "";
         this.embelli = false;
     }
     public Quartier(String nom, String type, int cout) {
         this.nom = nom;
         this.type = type;
         this.coutConstruction = cout;
-        this.caractéristiques = "";
+        this.caracteristiques = "";
     }
     public Quartier(String nom, String type, int cout, String caractéristiques) {
         this.nom = nom;
         this.type = type;
         this.coutConstruction = cout;
-        this.caractéristiques = caractéristiques;
+        this.caracteristiques = caractéristiques;
     }
     public String getNom() {
         return this.nom;
@@ -54,11 +54,11 @@ public class Quartier {
             this.coutConstruction = 0;
         }
     }
-    public String getCaractéristiques() {
-        return this.caractéristiques;
+    public String getCaracteristiques() {
+        return this.caracteristiques;
     }
-    public void setCaractéristiques(String c) {
-        this.caractéristiques = c;
+    public void setCaracteristiques(String c) {
+        this.caracteristiques = c;
     }
 
 }
