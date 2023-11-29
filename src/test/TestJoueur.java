@@ -17,9 +17,9 @@ public class TestJoueur {
         System.out.println("TEST DU CONSTRUCTEUR");
         Joueur joueur = new Joueur("Billy");
         Test.test(joueur.getNom().equals("Billy"),"test du nom du joueur");
-        Test.test(joueur.nbPieces() == 0,"test du tr?sor initial du joueur");
+        Test.test(joueur.nbPieces() == 0,"test du trésor initial du joueur");
         Test.test(joueur.nbQuartiersDansCite()== 0,
-                "test de nombre de quartiers dans la cite");
+                "test de nombre de quartiers dans la cité");
         Test.test(joueur.nbQuartiersDansMain()== 0,
                 "test du nombre de quartiers dans la main du joueur");
     }
@@ -29,16 +29,16 @@ public class TestJoueur {
         Joueur joueur = new Joueur("Billy");
         joueur.ajouterPieces(2);
         joueur.ajouterPieces(1);
-        Test.test(joueur.nbPieces() == 3,"test de l'ajout d'un nombre de pi?ces");
+        Test.test(joueur.nbPieces() == 3,"test de l'ajout d'un nombre de pièces");
         joueur.ajouterPieces(-2);
-        Test.test(joueur.nbPieces() == 3,"test d'ajout d'un nombre de pi?ces n?gatif");
+        Test.test(joueur.nbPieces() == 3,"test d'ajout d'un nombre de pièces négatif");
         joueur.retirerPieces(-1);
-        Test.test(joueur.nbPieces() == 3,"test d'un retrait d'un nombre n?gatif de pi?ces");
+        Test.test(joueur.nbPieces() == 3,"test d'un retrait d'un nombre négatif de pièces");
         joueur.retirerPieces(4);
-        Test.test(joueur.nbPieces() == 3,"test de retrait d'un trop grand nombre de pi?ces");
+        Test.test(joueur.nbPieces() == 3,"test de retrait d'un trop grand nombre de pièces");
         joueur.retirerPieces(2);
         joueur.retirerPieces(1);
-        Test.test(joueur.nbPieces() == 0,"test de retrait d'un nombre de pi?ces");
+        Test.test(joueur.nbPieces() == 0,"test de retrait d'un nombre de pièces");
     }
 
     public void test3() {
@@ -51,11 +51,11 @@ public class TestJoueur {
         joueur.ajouterQuartierDansCite(quartier2);
         joueur.ajouterQuartierDansCite(quartier3);
         Test.test(joueur.nbQuartiersDansCite() == 3,"test de l'ajout de trois quartiers");
-        Test.test(joueur.quartierPresentDansCite("temple"), "test de pr?sence d'un quartier");
+        Test.test(joueur.quartierPresentDansCite("temple"), "test de présence d'un quartier");
         Quartier retour = joueur.retirerQuartierDansCite("prison");
         Test.test(joueur.nbQuartiersDansCite() == 2 && retour==quartier2,
                 "test de retrait d'un quartier");
-        Test.test(!joueur.quartierPresentDansCite("march?"), "test de non pr?sence d'un quartier");
+        Test.test(!joueur.quartierPresentDansCite("march?"), "test de non présence d'un quartier");
     }
 
     public void test4() {
@@ -88,6 +88,6 @@ public class TestJoueur {
         joueur.ajouterPieces(2);
         joueur.reinitialiser();
         Test.test(joueur.nbQuartiersDansMain()==0 && joueur.nbQuartiersDansCite()==0
-                && joueur.nbPieces()==0,"test de la r?initialisation");
+                && joueur.nbPieces()==0,"test de la réinitialisation");
     }
 }

@@ -21,31 +21,31 @@ public class Joueur {
 
     // Accesseurs en lecture
     public String getNom() {
-        return nom;
+        return this.nom;
     }
 
     public int nbPieces() {
-        return tresor;
+        return this.tresor;
     }
 
     public int nbQuartiersDansCite() {
-        return nbQuartiers;
+        return this.nbQuartiers;
     }
 
     public Quartier[] getCite() {
-        return cite;
+        return this.cite;
     }
 
     public ArrayList<Quartier> getMain() {
-        return main;
+        return this.main;
     }
 
     public int nbQuartiersDansMain() {
-        return main.size();
+        return this.main.size();
     }
 
     public boolean getPossedeCouronne() {
-        return possedeCouronne;
+        return this.possedeCouronne;
     }
 
     // Accesseur en écriture
