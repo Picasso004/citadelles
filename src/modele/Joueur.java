@@ -67,17 +67,3 @@ public class Joueur extends Quartier {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-//public int ajouterPiece(int nbPieces) {
-
-//}
