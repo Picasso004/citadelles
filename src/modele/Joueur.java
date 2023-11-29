@@ -30,7 +30,7 @@ public class Joueur extends Quartier {
         return this.main;
     }
     public int nbQuartiersDansMain() {
-        return ((CharSequence) this.main).length();
+        return this.main.size();
     }
     public boolean getPossedeCouronne() {
         return this.possedeCouronne;
