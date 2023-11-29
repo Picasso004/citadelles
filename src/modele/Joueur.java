@@ -2,29 +2,29 @@ package modele;
 import java.util.*;
 public class Joueur extends Quartier {
     private String nom;
-    private int trésor, nbQuartiers;
-    private Quartier[] cité;
+    private int tresor, nbQuartiers;
+    private Quartier[] cite;
     private boolean possedeCouronne;
     private ArrayList<Quartier> main;
     public Joueur(String nom) {
         this.nom = nom;
-        this.trésor = 0;
+        this.tresor = 0;
         this.nbQuartiers = 0;
         this.possedeCouronne = false;
-        this.cité = new Quartier[8];
+        this.cite = new Quartier[8];
         this.main = new ArrayList<Quartier>();
     }
     public String getNom() {
         return this.nom;
     }
     public int nbPiece() {
-        return this.trésor;
+        return this.tresor;
     }
     public int nbQuartiersDansCite() {
-        return this.cité.length;
+        return this.cite.length;
     }
     public Quartier[] getCite() {
-        return this.cité;
+        return this.cite;
     }
     public ArrayList<Quartier> getMain() {
         return this.main;
@@ -40,22 +40,22 @@ public class Joueur extends Quartier {
     }
     public void ajouterPieces(int t) {
         if(t>0) {
-            this.trésor+=t;
+            this.tresor+=t;
         }
     }
     public void retirerPieces(int p) {
-        if(p>0 && p<=this.trésor) {
-            this.trésor-=p;
+        if(p>0 && p<=this.tresor) {
+            this.tresor-=p;
         }
     }
 
     public void ajouterQuartierDansCite(Quartier q) {
-        if(this.cité.length<8) {
-            this.cité[this.cité.length + 1] = q;
+        if(this.cite.length<8) {
+            this.cite[this.cite.length + 1] = q;
         }
     }
     public boolean PresentDansCite(Quartier v) {
-        for(Quartier element :  this.cité) {
+        for(Quartier element :  this.cite) {
             if(v == element) {
                 return true;}
         }
