@@ -1,71 +1,92 @@
 package modele;
-import java.util.*;
-public class Joueur extends Quartier {
+import java.util.ArrayList;
+import java.util.Random;
+
+public class Joueur {
     private String nom;
-    private int tresor, nbQuartiers;
+    private int tresor;
+    private int nbQuartiers;
     private Quartier[] cite;
     private boolean possedeCouronne;
     private ArrayList<Quartier> main;
+
     public Joueur(String nom) {
         this.nom = nom;
         this.tresor = 0;
         this.nbQuartiers = 0;
         this.possedeCouronne = false;
         this.cite = new Quartier[8];
-        this.main = new ArrayList<Quartier>();
+        this.main = new ArrayList<>();
     }
+
+    // Accesseurs en lecture
     public String getNom() {
-        return this.nom;
+        return nom;
     }
+
     public int nbPieces() {
-        return this.tresor;
+        return tresor;
     }
+
     public int nbQuartiersDansCite() {
-        return this.cite.length;
+        return nbQuartiers;
     }
+
     public Quartier[] getCite() {
-        return this.cite;
+        return cite;
     }
+
     public ArrayList<Quartier> getMain() {
-        return this.main;
+        return main;
     }
+
     public int nbQuartiersDansMain() {
-        return this.main.size();
+        return main.size();
     }
+
     public boolean getPossedeCouronne() {
-        return this.possedeCouronne;
+        return possedeCouronne;
     }
-    public void setPossedeCouronne(boolean b){
+
+    // Accesseur en écriture
+    public void setPossedeCouronne(boolean b) {
         this.possedeCouronne = b;
     }
+
+    // Méthodes
     public void ajouterPieces(int t) {
-        if(t>0) {
-            this.tresor+=t;
+        if (t > 0) {
+            this.tresor += t;
         }
     }
+
     public void retirerPieces(int p) {
-        if(p>0 && p<=this.tresor) {
-            this.tresor-=p;
+        if (p > 0 && p <= this.tresor) {
+            this.tresor -= p;
         }
     }
 
     public void ajouterQuartierDansCite(Quartier q) {
-        if(this.cite.length<8) {
-            this.cite[this.cite.length + 1] = q;
+        if (this.nbQuartiers < 8) {
+            this.cite[this.nbQuartiers] = q;
+            this.nbQuartiers++;
         }
     }
+
     public boolean quartierPresentDansCite(String v) {
-        for(Quartier quartier :  this.cite) {
-            if(quartier != null && v.equals(quartier.getNom())) {
-                return true;}
+        for (Quartier quartier : this.cite) {
+            if (quartier != null && v.equals(quartier.getNom())) {
+                return true;
+            }
         }
         return false;
     }
+
     public Quartier retirerQuartierDansCite(String q) {
-        for(int i = 0; i < this.cite.length; i++){
+        for (int i = 0; i < this.nbQuartiers; i++) {
             Quartier quartier = this.cite[i];
-            if(quartier != null && q.equals(quartier.getNom())){
-                this.cite[i]=null;
+            if (quartier != null && q.equals(quartier.getNom())) {
+                this.cite[i] = null;
                 this.nbQuartiers--;
                 return quartier;
             }
@@ -73,22 +94,22 @@ public class Joueur extends Quartier {
         return null;
     }
 
-    public void ajouterQuartierDansMain(Quartier q){
+    public void ajouterQuartierDansMain(Quartier q) {
         this.main.add(q);
     }
-    public Quartier retirerQuartierDansMain(){
-        if(!this.main.isEmpty()){
+
+    public Quartier retirerQuartierDansMain() {
+        if (!this.main.isEmpty()) {
             Random generateur = new Random();
             int numeroHasard = generateur.nextInt(this.nbQuartiersDansMain());
             return this.main.remove(numeroHasard);
         }
         return null;
     }
-    public void reinitialiser(){
-        this.tresor =0;
+
+    public void reinitialiser() {
+        this.tresor = 0;
         this.main.clear();
         this.nbQuartiers = 0;
     }
-
-
 }
