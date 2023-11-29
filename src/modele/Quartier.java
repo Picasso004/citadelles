@@ -2,7 +2,7 @@ package modele;
 
 public class Quartier {
     private int coutConstruction;
-    private String nom, type, caractéristiques;
+    private String nom, type, caracteristiques;
     public boolean embelli;
     public static final String[] TYPE_QUARTIERS = {"Religieux", "Militaire", "Noble", "Commerçant", "Merveille"};
     public Quartier() {
@@ -18,11 +18,11 @@ public class Quartier {
         this.coutConstruction = cout;
         this.caracteristiques = "";
     }
-    public Quartier(String nom, String type, int cout, String caractéristiques) {
+    public Quartier(String nom, String type, int cout, String caracteristiques) {
         this.nom = nom;
         this.type = type;
         this.coutConstruction = cout;
-        this.caracteristiques = caractéristiques;
+        this.caracteristiques = caracteristiques;
     }
     public String getNom() {
         return this.nom;
