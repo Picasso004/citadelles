@@ -1,6 +1,7 @@
 package modele;
 
 public class Caracteristiques {
+
     public static String ASSASSIN=
             "L'assassin peut tuer un personnage de son choix. " +
                     "Celui-ci ne jouera pas ce tour-ci.";
