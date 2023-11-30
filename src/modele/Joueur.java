@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Joueur {
+    //Attributs
     private String nom;
     private int tresor;
     private int nbQuartiers;
@@ -10,6 +11,7 @@ public class Joueur {
     private boolean possedeCouronne;
     private ArrayList<Quartier> main;
 
+    //Constructeur
     public Joueur(String nom) {
         this.nom = nom;
         this.tresor = 0;
