@@ -62,6 +62,7 @@ public abstract class Personnage {
     // Accesseurs en écriture
     public void setJoueur(Joueur j) {
         joueur = j;
+        joueur.monPersonnage=this;
     }
 
     public void setVole() {
@@ -71,6 +72,8 @@ public abstract class Personnage {
     public void setAssassine() {
         assassine = true;
     }
+
+
 
     // Méthodes
     public void ajouterPieces() {
@@ -98,6 +101,9 @@ public abstract class Personnage {
     public abstract void utiliserPouvoir();
 
     public void reinitialiser() {
+        if (this.joueur !=null){
+            this.joueur.monPersonnage=null;
+        }
         joueur = null;
         vole = false;
         assassine = false;
