@@ -16,7 +16,7 @@ public class TestPlateauDeJeu {
         testPlateau.test4();
     }
 
-    public void test1() {
+   public void test1() {
         System.out.println("TEST DU CONSTRUCTEUR");
         PlateauDeJeu plateau = new PlateauDeJeu();
         Test.test(plateau.getNombreJoueurs()== 0,"test du nombre de joueurs");
