@@ -9,6 +9,9 @@ public abstract class Personnage {
     private boolean assassine;
     private boolean vole;
 
+    // Ajout de l'attribut PlateauDeJeu
+    private PlateauDeJeu plateau;
+
     // Constructeur
     public Personnage(String nom, int rang, String caracteristiques) {
         this.nom = nom;
@@ -19,20 +22,32 @@ public abstract class Personnage {
         this.vole = false;
     }
 
+    // Ajout des accesseurs PlateauDeJeu
+    public PlateauDeJeu getPlateau() {
+        return plateau;
+    }
+
+    public void setPlateau(PlateauDeJeu plateau) {
+        this.plateau = plateau;
+    }
     // Accesseurs en lecture
     public String getNom() {
+
         return this.nom;
     }
 
     public int getRang() {
+
         return this.rang;
     }
 
     public String getCaracteristiques() {
+
         return this.caracteristiques;
     }
 
     public Joueur getJoueur() {
+
         return  this.joueur;
     }
 

@@ -1,5 +1,5 @@
 package test;
-/*
+
 import modele.Caracteristiques;
 import modele.Joueur;
 import modele.PlateauDeJeu;
@@ -10,9 +10,9 @@ public class TestPlateauDeJeu {
 
     public static void main(String[] args) {
         TestPlateauDeJeu testPlateau = new TestPlateauDeJeu();
-        //testPlateau.test1();
-        //testPlateau.test2();
-        //testPlateau.test3();
+        testPlateau.test1();
+        testPlateau.test2();
+        testPlateau.test3();
         testPlateau.test4();
     }
 
@@ -52,4 +52,3 @@ public class TestPlateauDeJeu {
                 "association du plateau au personnage");
     }
 }
-*/
