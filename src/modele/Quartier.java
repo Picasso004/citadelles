@@ -4,23 +4,23 @@ public class Quartier {
     private int coutConstruction;
     private String nom, type, caracteristiques;
     public boolean embelli;
-    public static final String[] TYPE_QUARTIERS = {"Religieux", "Militaire", "Noble", "Commerçant", "Merveille"};
+    public static final String[] TYPE_QUARTIERS = {"RELIGIEUX", "MILITAIRE", "NOBLE", "COMMERCANT", "MERVEILLE"};
     public Quartier() {
         this.nom = "";
-        this.type = "";
+        this.setType("");
         this.coutConstruction = 0;
         this.caracteristiques = "";
         this.embelli = false;
     }
     public Quartier(String nom, String type, int cout) {
         this.nom = nom;
-        this.type = type;
+        this.setType(type);
         this.coutConstruction = cout;
         this.caracteristiques = "";
     }
     public Quartier(String nom, String type, int cout, String caracteristiques) {
         this.nom = nom;
-        this.type = type;
+        this.setType(type);
         this.coutConstruction = cout;
         this.caracteristiques = caracteristiques;
     }
@@ -34,14 +34,15 @@ public class Quartier {
     public String getType() {
         return this.type;
     }
-    public void setType(String Type) {
-        String val = "";
-        for(String element :  Quartier.TYPE_QUARTIERS) {
-            if(Type == element) {
-                this.type = Type;
+    public void setType(String type) {
+        for(int i=0; i<TYPE_QUARTIERS.length; i++) {
+            if(TYPE_QUARTIERS[i].equals(type)) {
+                this.type = TYPE_QUARTIERS[i];
+                return;
             }
         }
-        this.type = val;
+        this.type = "";
+
     }
     public int getCout() {
         return this.coutConstruction;
