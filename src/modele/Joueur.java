@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Joueur {
+
     //Attributs
     private String nom;
     private int tresor;
@@ -10,6 +11,8 @@ public class Joueur {
     private Quartier[] cite;
     private boolean possedeCouronne;
     private ArrayList<Quartier> main;
+
+    protected Personnage monPersonnage;
 
     //Constructeur
     public Joueur(String nom) {
@@ -56,6 +59,10 @@ public class Joueur {
     }
 
     // Méthodes
+
+    public Personnage getPersonnage(){
+        return this.monPersonnage;
+    }
     public void ajouterPieces(int t) {
         if (t > 0) {
             this.tresor += t;
