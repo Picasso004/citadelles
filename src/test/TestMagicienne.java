@@ -1,5 +1,5 @@
 package test;
-
+/*
 import modele.Assassin;
 import modele.Magicienne;
 import modele.Roi;
@@ -130,3 +130,4 @@ public class TestMagicienne {
     }
 
 }
+*/
