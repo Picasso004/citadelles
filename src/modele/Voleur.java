@@ -30,10 +30,11 @@ public class Voleur extends Personnage {
                 } else {
                     Joueur joueurCible = plateau.getPersonnage(choix).getJoueur();
                     if (joueurCible != null) {
-                        joueurCible.retirerPieces(2);
-                        this.getJoueur().ajouterPieces(2); // Le voleur reçoit les pièces volées
+                        int piecesVolees = joueurCible.nbPieces();
+                        joueurCible.retirerPieces(piecesVolees);
+                        this.getJoueur().ajouterPieces(piecesVolees); // Le voleur reçoit toutes les pièces volées
                         plateau.getPersonnage(choix).setVole();
-                        System.out.println("Le personnage " + plateau.getPersonnage(choix).getNom() + " a été volé.");
+                        System.out.println("Le personnage " + plateau.getPersonnage(choix).getNom() + " a été complètement dépouillé.");
                     } else {
                         System.out.println("Ce personnage n'est pas attribué à un joueur, rien n'a été volé.");
                     }
