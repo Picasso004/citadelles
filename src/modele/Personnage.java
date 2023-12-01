@@ -61,16 +61,16 @@ public abstract class Personnage {
 
     // Accesseurs en écriture
     public void setJoueur(Joueur j) {
-        joueur = j;
-        joueur.monPersonnage=this;
+        this.joueur = j;
+        this.joueur.monPersonnage=this;
     }
 
     public void setVole() {
-        vole = true;
+        this.vole = true;
     }
 
     public void setAssassine() {
-        assassine = true;
+        this.assassine = true;
     }
 
 

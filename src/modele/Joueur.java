@@ -22,6 +22,7 @@ public class Joueur {
         this.possedeCouronne = false;
         this.cite = new Quartier[8];
         this.main = new ArrayList<>();
+        this.monPersonnage = null;
     }
 
     // Accesseurs en lecture
