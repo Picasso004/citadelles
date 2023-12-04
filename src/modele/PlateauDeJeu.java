@@ -28,6 +28,10 @@ public class PlateauDeJeu {
         return this.pioche;
     }
 
+    public void setPioche(Pioche p) {
+        this.pioche=p;
+    }
+
     public Personnage getPersonnage(int i) {
         if (i >= 0 && i < this.nombrePersonnages) {
             return this.listePersonnages[i];
