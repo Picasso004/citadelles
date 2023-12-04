@@ -8,8 +8,16 @@ public class Marchande extends Personnage{
 
     @Override
     public void percevoirRessourcesSpecifiques() {
+        int nbQuartiersCommercants =0;
+        if (getJoueur() != null){
+            Quartier[] cite = getJoueur().getCite();
+            for (Quartier quartier : cite){
+                if(quartier != null && quartier.getType().equals(Quartier.TYPE_QUARTIERS[3])){
+                    nbQuartiersCommercants ++;
+                }
+            }
+        }
         if(getJoueur() != null && !getAssassine()){
-            int nbQuartiersCommercants = compterQuartiersCommercants();
             getJoueur().ajouterPieces(nbQuartiersCommercants);
             System.out.println(getNom() + " a reçu " + nbQuartiersCommercants +
                     " pièce(s) d'or supplémentaire(s) pour ses quartiers commerçants.");
@@ -23,18 +31,5 @@ public class Marchande extends Personnage{
             System.out.println(getNom() + " a utilisé son pouvoir et a reçu 1 pièce d'or supplémentaire.");
         }
     }
-
-    private int compterQuartiersCommercants(){
-        if (getJoueur() != null){
-            Quartier[] cite = getJoueur().getCite();
-            int count = 0;
-            for (Quartier quartier : cite){
-                if(quartier != null && quartier.getType().equals(Quartier.TYPE_QUARTIERS[3])){
-                    count ++;
-                }
-            }
-            return count;
-        }
-        return 0;
-    }
+    
 }
