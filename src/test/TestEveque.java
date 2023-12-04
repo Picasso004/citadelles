@@ -5,7 +5,7 @@ import modele.Joueur;
 import modele.Quartier;
 import modele.Eveque;
 
-public class TestEveque {
+public class  TestEveque {
 
     public static void main(String[] args) {
         TestEveque test= new TestEveque();

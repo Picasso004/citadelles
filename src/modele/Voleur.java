@@ -2,6 +2,8 @@ package modele;
 
 import controleur.Interaction;
 
+import java.util.Random;
+
 public class Voleur extends Personnage {
 
     public Voleur() {
@@ -44,5 +46,36 @@ public class Voleur extends Personnage {
                 System.out.println("Choix invalide. Réessayez.");
             }
         } while (true);
+    }
+
+    @Override
+    public void utiliserPouvoirAvatar() {
+        if (!getAssassine()) {
+            System.out.println("Le pouvoir du Voleur Avatar est activé!");
+
+            // Simulate a random choice for the avatar power
+            Random random = new Random();
+            int choice = random.nextInt(3);  // Assuming there are 3 choices, modify as needed
+
+            switch (choice) {
+                case 0:
+                    // Perform action for choice 0
+                    System.out.println("Action spéciale pour le choix 0 du Voleur Avatar.");
+                    break;
+                case 1:
+                    // Perform action for choice 1
+                    System.out.println("Action spéciale pour le choix 1 du Voleur Avatar.");
+                    break;
+                case 2:
+                    // Perform action for choice 2
+                    System.out.println("Action spéciale pour le choix 2 du Voleur Avatar.");
+                    break;
+                default:
+                    // Handle unexpected choice
+                    System.out.println("Choix invalide pour le Voleur Avatar.");
+            }
+        } else {
+            System.out.println("Le Voleur ne peut pas utiliser son pouvoir Avatar car il est assassiné.");
+        }
     }
 }
