@@ -95,7 +95,7 @@ public abstract class Personnage {
     }
 
     public void percevoirRessourcesSpecifiques() {
-        System.out.println("Aucune ressource spécifique.");
+        System.out.println("Aucune ressource specifique.");
     }
 
     public abstract void utiliserPouvoir();

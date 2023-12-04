@@ -99,10 +99,10 @@ public class Caracteristiques {
                     "avec un quartier adverse. Chaque quartier Militaire " +
                     "dans sa cit� lui rapporte 1 pi�ce d'or.";
     public static String CONDOTTIERE=
-            "Le Condottiere peut d�truire un quartier en payant " +
-                    "son co�t de construction moins 1. " +
-                    "Chaque quartier Militaire dans sa cit� lui rapporte 1 " +
-                    "pi�ce d'or.";
+            "Le Condottiere peut détruire un quartier en payant " +
+                    "son coût de construction moins 1. " +
+                    "Chaque quartier Militaire dans sa cité lui rapporte 1 " +
+                    "pièce d'or.";
     public static String ARTISTE=
             "L'Artiste peut embellir un ou deux de ses quartiers en " +
                     "leur assignant 1 pi�ce d'or. Un m�me quartier ne peut �tre " +
