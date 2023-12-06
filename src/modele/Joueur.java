@@ -59,6 +59,7 @@ public class Joueur {
         this.possedeCouronne = b;
     }
 
+
     // Méthodes
 
     public Personnage getPersonnage(){
@@ -121,5 +122,9 @@ public class Joueur {
         this.tresor = 0;
         this.main.clear();
         this.nbQuartiers = 0;
+    }
+
+    public void setPersonnage(Personnage personnage) {
+        this.monPersonnage=personnage;
     }
 }

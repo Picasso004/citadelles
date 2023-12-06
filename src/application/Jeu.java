@@ -1,17 +1,16 @@
 package application;
 
+import controleur.Interaction;
 import modele.*;
 
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Jeu {
     private PlateauDeJeu plateauDeJeu;
     private int numeroConfiguration;
     private Random generateur;
 
-    public Jeu(PlateauDeJeu plateauDeJeu, int numeroConfiguration, Random generateur) {
+    public Jeu() {
         this.plateauDeJeu = new PlateauDeJeu();
         this.numeroConfiguration = 0;
         this.generateur = new Random();
@@ -63,12 +62,27 @@ public class Jeu {
         System.out.println("La partie est terminée !");
     }
     private void initialisation(){
-        Pioche p = Configuration.nouvellePioche();
-        this.plateauDeJeu = Configuration.configurationDeBase(p);
+        // Initialiser la pioche avec les 54 cartes Quartier
+        Pioche pioche = Configuration.nouvellePioche();
 
-        ArrayList<Joueur> joueurs = new ArrayList<>();
-        Joueur joueurUtilisateur = new Joueur("Utilisateur");
-        joueurs.add(joueurUtilisateur);
+        // Initialiser le plateau de jeu avec la configuration de base
+        this.plateauDeJeu = Configuration.configurationDeBase(pioche);
+
+        // Attribuer les ressources et la couronne aux joueurs
+        for (int i = 0; i < this.plateauDeJeu.getNombreJoueurs(); i++) {
+            Joueur joueur = this.plateauDeJeu.getJoueur(i);
+
+            // Distribuer deux pièces d'or à chaque joueur
+            joueur.ajouterPieces(2);
+
+            // Piocher quatre cartes Quartier pour chaque joueur
+            for (int j = 0; j < 4; j++) {
+                Quartier carte = this.plateauDeJeu.getPioche().piocher();
+                if (carte != null) {
+                    joueur.ajouterQuartierDansMain(carte);
+                }
+            }
+        }
     }
     private void gestionCouronne(){
         //TODO VERIFIER
@@ -94,7 +108,9 @@ public class Jeu {
             System.out.println("Personnage du Roi non choisi, la couronne reste au même joueur");
         }
     }
-    private void reinitialisationPersonnages(){}
+    private void reinitialisationPersonnages(){
+        //TODO IMPLEMENTER
+    }
     private boolean partieFinie(){
         //TODO VERIFIER
         for ( Joueur joueur : plateauDeJeu.getListeJoueurs()){
@@ -108,111 +124,87 @@ public class Jeu {
     private void tourDeJeu(){
         //TODO implémenter la méthode
         System.out.println("Tour de jeu.");
-        // 1 - Choix des Personnages
-        choixPersonnages();
+    }
+    private void choixPersonnages() {
+        System.out.println("Choix des personnages :");
 
-        // 2 - Choisir le premier personnage
-        Joueur premierJoueur = choisirPremierJoueur();
+        for (Joueur joueur : plateauDeJeu.getListeJoueurs()) {
+            ArrayList<Personnage> personnagesRestants = new ArrayList<>(List.of(plateauDeJeu.getListePersonnages()));
 
-        // 3 - Appeler un personnage
-        do {
-            Personnage personnageCourant = premierJoueur.getPersonnage(); // Méthode à implémenter dans la classe Joueur
+            // Écarte deux cartes face cachée et une face visible
+            Collections.shuffle(personnagesRestants);
+            Personnage carteVisible = personnagesRestants.remove(0);
+            Personnage carteCachee1 = personnagesRestants.remove(0);
+            Personnage carteCachee2 = personnagesRestants.remove(0);
 
-            // 3a - Si le personnage est assassiné, changer de personnage
-            if (personnageCourant.getAssassine()) {
-                changerDePersonnage(premierJoueur); // Méthode à implémenter
-            } else {
-                // 3b - Si le personnage est volé, donner de l'argent au voleur et percevoir les ressources
-                if (personnageCourant.getVole()) {
-                    System.out.println("S'est fait volé ses ressources.");
-                    // Méthode à implémenter
-                }
+            System.out.println("Le personnage \"" + carteVisible.getNom() + "\" est écarté face visible");
+            System.out.println("Le personnage \"" + carteCachee1.getNom() + "\" est écarté face cachée");
+            System.out.println("Le personnage \"" + carteCachee2.getNom() + "\" est écarté face cachée");
 
-                percevoirRessource(personnageCourant); // Méthode à implémenter
-
-                // 4 - Percevoir les ressources spécifiques
-                percevoirRessourcesSpecifiques(personnageCourant); // Méthode à implémenter
-
-                // 5 - Si le joueur décide d'utiliser son pouvoir, utiliser le pouvoir
-                if (lireOuiOuNon()) {
-                    personnageCourant.utiliserPouvoir();
-                    System.out.println("Vous avez utilisé votre pouvoir.");
-                }
-
-                // 5b - Si le joueur veut construire, construire
-                if (lireOuiOuNon()) {
-                    construire(premierJoueur);
-                }
-
-                // 5c - Après les choix précédents, changer de personnage
-                changerDePersonnage(premierJoueur); // Méthode à implémenter
-            }
-
-        } while (!tousLesPersonnagesOntJoue()); // Méthode à implémenter
+            joueur.setPersonnage(choisirPersonnage(personnagesRestants));
+        }
     }
 
-    // Méthodes à implémenter
+    private Personnage choisirPersonnage(ArrayList<Personnage> personnagesRestants) {
+        System.out.println("Personnages restants :");
+        for (int i = 0; i < personnagesRestants.size(); i++) {
+            System.out.println((i + 1) + ". " + personnagesRestants.get(i).getNom());
+        }
 
-    private Joueur choisirPremierJoueur() {
-        // Choisir le premier joueur en fonction de celui qui a la couronne
-        // Méthode à implémenter
-        return null;
-    }
-
-    private void changerDePersonnage(Joueur joueur) {
-        // Changer de personnage pour le joueur donné
-        // Méthode à implémenter
-    }
-
-    private void donnerArgentAuVoleur(Joueur voleur) {
-        // Donner de l'argent au voleur
-        // Méthode à implémenter
-    }
-
-    private void percevoirRessource(Personnage personnage) {
-        // Percevoir les ressources en fonction du personnage
-        // Méthode à implémenter
-    }
-
-    private void percevoirRessourcesSpecifiques(Personnage personnage) {
-        // Percevoir les ressources spécifiques en fonction du personnage
-        // Méthode à implémenter
-    }
-
-    private void utiliserPouvoir(Personnage personnage) {
-        // Utiliser le pouvoir du personnage
-        // Méthode à implémenter
-    }
-
-    private void construire(Joueur joueur) {
-
-        // Construire une cité
-        // Méthode à implémenter
-    }
-
-    private boolean tousLesPersonnagesOntJoue() {
-        // Vérifier si tous les personnages ont joué
-        // Méthode à implémenter
-        return false;
-    }
-    private boolean lireOuiOuNon() {
         Scanner scanner = new Scanner(System.in);
-        String reponse = scanner.next().toLowerCase(); // Convertir la réponse en minuscules pour gérer "Oui" ou "Non"
-        return reponse.equals("oui");
-    }
+        int choix;
+        do {
+            System.out.print("Choisissez un personnage (1-" + personnagesRestants.size() + ") : ");
+            choix = scanner.nextInt();
+        } while (choix < 1 || choix > personnagesRestants.size());
 
-    private void choixPersonnages(){
-        //TODO implémenter la méthode
+        return personnagesRestants.get(choix - 1);
     }
-    private void percevoirRessource(){
-        //TODO implémenter la méthode
+    public void percevoirRessource(Joueur joueur) {
+        System.out.println("Choisissez une action :");
+        System.out.println("1) Prendre deux pièces d'or");
+        System.out.println("2) Piocher deux cartes de la pioche");
+
+        int choix = Interaction.lireUnEntier(1, 3);
+
+        switch (choix) {
+            case 1:
+                joueur.ajouterPieces(2);
+                break;
+            case 2:
+                for (int i = 0; i < 2; i++) {
+                    Quartier carte = plateauDeJeu.getPioche().piocher();
+                    joueur.ajouterQuartierDansMain(carte);
+                }
+
+                System.out.println("Voici vos deux cartes. Choisissez celle que vous voulez garder :");
+                for (int i = 0; i < joueur.nbQuartiersDansMain(); i++) {
+                    Quartier carte = joueur.retirerQuartierDansMain();
+                    System.out.println((i + 1) + ") " + carte.getNom());
+                    joueur.ajouterQuartierDansMain(carte);
+                }
+
+                int carteGardee = Interaction.lireUnEntier(1, joueur.nbQuartiersDansMain() + 1);
+
+                for (int i = 0; i < joueur.nbQuartiersDansMain(); i++) {
+                    if (i + 1 != carteGardee) {
+                        Quartier carte = joueur.retirerQuartierDansMain();
+                        plateauDeJeu.getPioche().ajouter(carte);
+                    }
+                }
+                break;
+            default:
+                System.out.println("Choix invalide. Veuillez choisir à nouveau.");
+                percevoirRessource(joueur);
+                break;
+        }
     }
     private void calculDesPoints(){
         //TODO implémenter la méthode
     }
 
     public static void main(String[] args){
-        Jeu jeu = new Jeu(new PlateauDeJeu(), 0, new Random());
+        Jeu jeu = new Jeu();
         jeu.jouer();
     }
 }
