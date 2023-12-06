@@ -5,10 +5,13 @@ import modele.*;
 
 import java.util.*;
 
+import static controleur.Interaction.lireOuiOuNon;
+
 public class Jeu {
     private PlateauDeJeu plateauDeJeu;
     private int numeroConfiguration;
     private Random generateur;
+    private ArrayList<Personnage> personnagesRestants;
 
     public Jeu() {
         this.plateauDeJeu = new PlateauDeJeu();
@@ -124,6 +127,57 @@ public class Jeu {
     private void tourDeJeu(){
         //TODO implémenter la méthode
         System.out.println("Tour de jeu.");
+
+        // 1 - Choix des Personnages
+        choixPersonnages();
+
+        // 2 - Choisir le premier joueur
+        //Joueur premierJoueur = choisirPremierJoueur();
+        // Boucle pour le tour de chaque joueur
+        for (int i = 0; i < plateauDeJeu.getNombreJoueurs(); i++) {
+            Joueur joueurCourant = plateauDeJeu.getJoueur(i);
+
+        // 3 - Appeler un personnage
+        do {
+            Personnage personnageCourant = joueurCourant.getPersonnage();
+
+            // 3a - Si le personnage est assassiné, changer de personnage
+            if (personnageCourant.getAssassine()) {
+                System.out.println("S'est fait assassiné.");
+                changerDePersonnage(joueurCourant, personnagesRestants);
+            } else {
+                // 3b - Si le personnage est volé, donner de l'argent au voleur et percevoir les ressources
+                if (personnageCourant.getVole()) {
+                    System.out.println("S'est fait voler ses ressources.");
+                }
+
+                percevoirRessource(joueurCourant); // Méthode à adapter selon votre modèle
+
+                // 4 - Percevoir les ressources spécifiques
+                //percevoirRessourcesSpecifiques(personnageCourant); // Méthode à adapter selon votre modèle
+
+                // 5 - Si le joueur décide d'utiliser son pouvoir, utiliser le pouvoir
+                if (lireOuiOuNon()) {
+                    personnageCourant.utiliserPouvoir();
+                    System.out.println("Vous avez utilisé votre pouvoir.");
+                }
+
+                // 5b - Si le joueur veut construire, construire
+                if (lireOuiOuNon()) {
+                    Quartier quartierChoisi = joueurCourant.retirerQuartierDansMain();
+                    if (quartierChoisi != null) {
+                        joueurCourant.ajouterQuartierDansCite(quartierChoisi);
+                        System.out.println("Vous avez construit un quartier dans votre cité.");
+                    } else {
+                        System.out.println("Votre main est vide. Vous ne pouvez pas construire de quartier.");
+                    }
+                }
+
+                // 5c - Après les choix précédents, changer de personnage
+                changerDePersonnage(joueurCourant, personnagesRestants);
+            }
+        } while (!tousLesPersonnagesOntJoue()); // Méthode à adapter selon votre modèle
+        }
     }
     private void choixPersonnages() {
         System.out.println("Choix des personnages :");
@@ -203,8 +257,32 @@ public class Jeu {
         //TODO implémenter la méthode
     }
 
+
+    // Méthodes à implémenter
+    /*private Joueur choisirPremierJoueur() {
+        // Choisir le premier joueur en fonction de celui qui a la couronne
+        // Méthode à implémenter
+        return null;
+    }*/
+
+    private void changerDePersonnage(Joueur joueur, ArrayList<Personnage> personnagesRestants) {
+        // Changer de personnage pour le joueur donné
+        Personnage nouveauPersonnage = choisirPersonnage(personnagesRestants);
+        joueur.setPersonnage(nouveauPersonnage);
+    }
+    /*private void percevoirRessourcesSpecifiques(Personnage personnage) {
+        // Percevoir les ressources spécifiques en fonction du personnage
+        // Méthode à implémenter
+    }*/
+    private boolean tousLesPersonnagesOntJoue() {
+        // Vérifier si tous les personnages ont joué
+        // Méthode à implémenter
+        return false;
+    }
+
     public static void main(String[] args){
         Jeu jeu = new Jeu();
         jeu.jouer();
     }
+
 }
