@@ -11,8 +11,8 @@ public class Jeu {
     private int numeroConfiguration;
     private Random generateur;
 
-    public Jeu(modele.PlateauDeJeu plateauDeJeu, int numeroConfiguration, Random generateur) {
-        plateauDeJeu = new PlateauDeJeu();
+    public Jeu(PlateauDeJeu plateauDeJeu, int numeroConfiguration, Random generateur) {
+        this.plateauDeJeu = new PlateauDeJeu();
         this.numeroConfiguration = 0;
         this.generateur = new Random();
     }
@@ -67,7 +67,7 @@ public class Jeu {
         this.plateauDeJeu = Configuration.configurationDeBase(p);
 
         ArrayList<Joueur> joueurs = new ArrayList<>();
-        Joueur joueurUtilisateur = new Joueur("Utilissateur");
+        Joueur joueurUtilisateur = new Joueur("Utilisateur");
         joueurs.add(joueurUtilisateur);
     }
     private void gestionCouronne(){
