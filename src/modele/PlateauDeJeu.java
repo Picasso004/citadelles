@@ -28,6 +28,14 @@ public class PlateauDeJeu {
         return this.pioche;
     }
 
+    public Personnage[] getListePersonnages() {
+        return listePersonnages;
+    }
+
+    public Joueur[] getListeJoueurs() {
+        return listeJoueurs;
+    }
+
     public void setPioche(Pioche p) {
         this.pioche=p;
     }

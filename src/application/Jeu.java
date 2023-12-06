@@ -1,19 +1,18 @@
 package application;
 
-import modele.Joueur;
-import modele.PlateauDeJeu;
+import modele.*;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Jeu {
-    private PlateauDeJeu PlateauDeJeu;
+    private PlateauDeJeu plateauDeJeu;
     private int numeroConfiguration;
     private Random generateur;
 
     public Jeu(modele.PlateauDeJeu plateauDeJeu, int numeroConfiguration, Random generateur) {
-        PlateauDeJeu = new PlateauDeJeu();
+        plateauDeJeu = new PlateauDeJeu();
         this.numeroConfiguration = 0;
         this.generateur = new Random();
     }
@@ -64,20 +63,48 @@ public class Jeu {
         System.out.println("La partie est terminée !");
     }
     private void initialisation(){
-        Configuration.nouvellePioche();
-        Configuration.configurationDeBase(modele.PlateauDeJeu);
+        Pioche p = Configuration.nouvellePioche();
+        this.plateauDeJeu = Configuration.configurationDeBase(p);
 
         ArrayList<Joueur> joueurs = new ArrayList<>();
         Joueur joueurUtilisateur = new Joueur("Utilissateur");
         joueurs.add(joueurUtilisateur);
     }
     private void gestionCouronne(){
-        //TODO implémenter la méthode
+        //TODO VERIFIER
+        Personnage roi = null;
+        Joueur joueurCouronne = null;
+
+        for (Personnage personnage : plateauDeJeu.getListePersonnages()){
+            if (personnage instanceof Roi){
+                roi = personnage;
+                break;
+            }
+        }
+        for (Joueur joueur : plateauDeJeu.getListeJoueurs()){
+            if (joueur.getPersonnage() == roi){
+                joueurCouronne = joueur;
+                break;
+            }
+        }
+        if (joueurCouronne != null){
+            joueurCouronne.setPossedeCouronne(true);
+            System.out.println("La couronne est attribuée à " + joueurCouronne.getNom());
+        }else{
+            System.out.println("Personnage du Roi non choisi, la couronne reste au même joueur");
+        }
     }
     private void reinitialisationPersonnages(){}
     private boolean partieFinie(){
-        //TODO implémenter la méthode
-        return false;}
+        //TODO VERIFIER
+        for ( Joueur joueur : plateauDeJeu.getListeJoueurs()){
+            if (joueur.nbQuartiersDansCite() >= 8){
+                System.out.println(joueur.getNom() + " a une cité complète. La partie est terminée !");
+                return true;
+            }
+        }
+        return false;
+    }
     private void tourDeJeu(){
         //TODO implémenter la méthode
         System.out.println("Tour de jeu.");
