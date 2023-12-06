@@ -1,7 +1,9 @@
 package application;
 
+import modele.Joueur;
 import modele.PlateauDeJeu;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -48,19 +50,47 @@ public class Jeu {
 
     }
     private void afficherLesRegles(){
+        //TODO implémenter la méthode
         System.out.println("Voici les règles du jeu citadelles.");
     }
     private void jouerPartie(){
-        System.out.println("Méthode pour jouer une partie.");
+        initialisation();
+        do {
+            tourDeJeu();
+            gestionCouronne();
+            reinitialisationPersonnages();
+        }while (!partieFinie());
+
+        System.out.println("La partie est terminée !");
     }
-    private void initialisation(){}
-    private void gestionCouronne(){}
+    private void initialisation(){
+        Configuration.nouvellePioche();
+        Configuration.configurationDeBase(modele.PlateauDeJeu);
+
+        ArrayList<Joueur> joueurs = new ArrayList<>();
+        Joueur joueurUtilisateur = new Joueur("Utilissateur");
+        joueurs.add(joueurUtilisateur);
+    }
+    private void gestionCouronne(){
+        //TODO implémenter la méthode
+    }
     private void reinitialisationPersonnages(){}
-    private boolean partieFinie(){return false;}
-    private void tourDeJeu(){}
-    private void choixPersonnages(){}
-    private void percevoirRessource(){}
-    private void calculDesPoints(){}
+    private boolean partieFinie(){
+        //TODO implémenter la méthode
+        return false;}
+    private void tourDeJeu(){
+        //TODO implémenter la méthode
+        System.out.println("Tour de jeu.");
+    }
+    private void choixPersonnages(){
+        //TODO implémenter la méthode
+    }
+    private void percevoirRessource(){
+        //TODO implémenter la méthode
+    }
+    private void calculDesPoints(){
+        //TODO implémenter la méthode
+    }
 
     public static void main(String[] args){
         Jeu jeu = new Jeu(new PlateauDeJeu(), 0, new Random());
