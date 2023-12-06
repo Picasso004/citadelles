@@ -15,11 +15,12 @@ import java.util.ArrayList;
 public class TestMagicienne {
     public static void main(String[] args) {
         TestMagicienne test = new TestMagicienne();
-        //test.test1();
-        test.test2();
+        test.test1();
+       test.test2();
+        test.testPouvoirAvatar();
     }
 
-    public void test1() {
+   public void test1() {
         System.out.println("TEST DU CONSTRUCTEUR");
         PlateauDeJeu plateau = new PlateauDeJeu();
         Roi roi = new Roi();
@@ -127,6 +128,20 @@ public class TestMagicienne {
         // on v�rifie que la taille de la pioche n'a pas chang�:
         Test.test(taillePiocheAvantPouvoir==pioche.nombreElements(),
                 "taille inchang�e de la pioche");
+    }
+    public void testPouvoirAvatar() {
+        System.out.println("TEST DU POUVOIR AVATAR DE LA MAGICIENNE");
+        PlateauDeJeu plateau = new PlateauDeJeu();
+        Magicienne magicienne = new Magicienne();
+        plateau.ajouterPersonnage(magicienne);
+
+        // créer un joueur
+        Joueur joueur = new Joueur("MagicienTest");
+        plateau.ajouterJoueur(joueur);
+        magicienne.setJoueur(joueur);
+
+        // utiliser le pouvoir Avatar de la magicienne :
+        magicienne.utiliserPouvoirAvatar();
     }
 
 }

@@ -108,5 +108,8 @@ public abstract class Personnage {
         vole = false;
         assassine = false;
     }
+    public abstract void utiliserPouvoirAvatar();
+
+
 }
 

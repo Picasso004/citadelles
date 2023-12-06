@@ -1,7 +1,9 @@
 package application;
 
+import modele.Joueur;
 import modele.PlateauDeJeu;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -47,73 +49,51 @@ public class Jeu {
         }while (choix != 3);
 
     }
-
     private void afficherLesRegles(){
+        //TODO implémenter la méthode
         System.out.println("Voici les règles du jeu citadelles.");
     }
     private void jouerPartie(){
-        System.out.println("Méthode pour jouer une partie.");
+        initialisation();
+        do {
+            tourDeJeu();
+            gestionCouronne();
+            reinitialisationPersonnages();
+        }while (!partieFinie());
+
+        System.out.println("La partie est terminée !");
     }
-    private void initialisation(){}
-    private void gestionCouronne(){}
+    private void initialisation(){
+        Configuration.nouvellePioche();
+        Configuration.configurationDeBase(modele.PlateauDeJeu);
+
+        ArrayList<Joueur> joueurs = new ArrayList<>();
+        Joueur joueurUtilisateur = new Joueur("Utilissateur");
+        joueurs.add(joueurUtilisateur);
+    }
+    private void gestionCouronne(){
+        //TODO implémenter la méthode
+    }
     private void reinitialisationPersonnages(){}
-    private boolean partieFinie(){return false;}
+    private boolean partieFinie(){
+        //TODO implémenter la méthode
+        return false;}
     private void tourDeJeu(){
-        // Étape 1: Choix des personnages
-        choixPersonnages();
-
-        // Étape 2: Choisir le premier personnage
-        // (Pour simplifier, nous supposons que chaque joueur doit choisir un personnage à tour de rôle)
-        for (int i = 0; i < plateauDeJeu.getNombreDeJoueurs(); i++) {
-            System.out.println("Tour du joueur " + (i + 1));
-
-            // Étape 3: Appeler un personnage
-            Personnage personnageCourant = plateauDeJeu.getJoueur(i).getPersonnage();
-
-            // Vérifier si le personnage est assassiné
-            if (!personnageCourant.estAssassine()) {
-                // Vérifier si le personnage est volé
-                if (personnageCourant.estVole()) {
-                    // Si le personnage est volé, choisir le voleur
-                    Personnage voleur = choisirVoleur();
-                    plateauDeJeu.getJoueur(i).donnerArgentAuVoleur(voleur);
-                    // Étape 4: Percevoir les ressources
-                    percevoirRessources(plateauDeJeu.getJoueur(i), personnageCourant);
-                } else {
-                    // Si le personnage n'est pas volé, percevoir directement les ressources
-                    // Étape 4: Percevoir les ressources
-                    percevoirRessources(plateauDeJeu.getJoueur(i), personnageCourant);
-                }
-
-                // Étape 5: Percevoir les ressources spécifiques
-                percevoirRessourcesSpecifiques(plateauDeJeu.getJoueur(i), personnageCourant);
-
-                // Étape 6: Utiliser le pouvoir
-                if (utiliserPouvoir(personnageCourant)) {
-                    // Si le pouvoir est utilisé, implémenter la logique correspondante
-                }
-
-                // Étape 7: Décider de construire
-                if (deciderConstruire(plateauDeJeu.getJoueur(i))) {
-                    // Si le joueur décide de construire, implémenter la logique de construction
-                    construire(plateauDeJeu.getJoueur(i));
-                    // Fin de l'activité
-                    return;
-                }
-            }
-
-            // Retour à l'étape 3 pour changer de personnage
-        }
+        //TODO implémenter la méthode
+        System.out.println("Tour de jeu.");
     }
-    private void choixPersonnages(){}
-    private void percevoirRessource(){}
-    private void calculDesPoints(){}
+    private void choixPersonnages(){
+        //TODO implémenter la méthode
+    }
+    private void percevoirRessource(){
+        //TODO implémenter la méthode
+    }
+    private void calculDesPoints(){
+        //TODO implémenter la méthode
+    }
 
     public static void main(String[] args){
         Jeu jeu = new Jeu(new PlateauDeJeu(), 0, new Random());
         jeu.jouer();
     }
-
-
-
 }
