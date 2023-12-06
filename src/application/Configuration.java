@@ -55,6 +55,36 @@ public class Configuration {
         plateau.ajouterJoueur(joueur3);
         plateau.ajouterJoueur(joueur4);
 
+
+        // Ajouter les 14 quartiers Merveille à la pioche passée en paramètre
+        Quartier bibliotheque = new Quartier("Bibliothèque", Quartier.TYPE_QUARTIERS[4], 6);
+        Quartier forge = new Quartier("Forge", Quartier.TYPE_QUARTIERS[4], 5);
+        Quartier carriere = new Quartier("Carrière", Quartier.TYPE_QUARTIERS[4], 5);
+        Quartier laboratoire = new Quartier("Laboratoire", Quartier.TYPE_QUARTIERS[4], 5 );
+        Quartier courDesMiracles = new Quartier("Cour des Miracles", Quartier.TYPE_QUARTIERS[4], 2);
+        Quartier manufacture = new Quartier("Manufacture", Quartier.TYPE_QUARTIERS[4], 5);
+        Quartier donjon = new Quartier("Donjon", Quartier.TYPE_QUARTIERS[4], 3);
+        Quartier salleDesCartes = new Quartier("Salle des Cartes", Quartier.TYPE_QUARTIERS[4], 5);
+        Quartier dracoport = new Quartier("Dracoport", Quartier.TYPE_QUARTIERS[4], 6);
+        Quartier statueEquestre = new Quartier("Statue Equestre", Quartier.TYPE_QUARTIERS[4], 3);
+        Quartier ecoleDeMagie = new Quartier("Ecole de Magie", Quartier.TYPE_QUARTIERS[4], 6);
+        Quartier tresorImperial = new Quartier("Tresor Impérial", Quartier.TYPE_QUARTIERS[4], 5);
+        Quartier fontaineAuxSouhaits = new Quartier("Fontaine aux Souhaits", Quartier.TYPE_QUARTIERS[4], 5);
+
+        p.ajouter(bibliotheque);
+        p.ajouter(forge);
+        p.ajouter(carriere);
+        p.ajouter(laboratoire);
+        p.ajouter(courDesMiracles);
+        p.ajouter(manufacture);
+        p.ajouter(donjon);
+        p.ajouter(salleDesCartes);
+        p.ajouter(dracoport);
+        p.ajouter(statueEquestre);
+        p.ajouter(ecoleDeMagie);
+        p.ajouter(tresorImperial);
+        p.ajouter(fontaineAuxSouhaits);
+
         plateau.setPioche(p);
 
         return plateau;
