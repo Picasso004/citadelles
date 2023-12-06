@@ -108,7 +108,99 @@ public class Jeu {
     private void tourDeJeu(){
         //TODO implémenter la méthode
         System.out.println("Tour de jeu.");
+        // 1 - Choix des Personnages
+        choixPersonnages();
+
+        // 2 - Choisir le premier personnage
+        Joueur premierJoueur = choisirPremierJoueur();
+
+        // 3 - Appeler un personnage
+        do {
+            Personnage personnageCourant = premierJoueur.getPersonnage(); // Méthode à implémenter dans la classe Joueur
+
+            // 3a - Si le personnage est assassiné, changer de personnage
+            if (personnageCourant.getAssassine()) {
+                changerDePersonnage(premierJoueur); // Méthode à implémenter
+            } else {
+                // 3b - Si le personnage est volé, donner de l'argent au voleur et percevoir les ressources
+                if (personnageCourant.getVole()) {
+                    System.out.println("S'est fait volé ses ressources.");
+                    // Méthode à implémenter
+                }
+
+                percevoirRessource(personnageCourant); // Méthode à implémenter
+
+                // 4 - Percevoir les ressources spécifiques
+                percevoirRessourcesSpecifiques(personnageCourant); // Méthode à implémenter
+
+                // 5 - Si le joueur décide d'utiliser son pouvoir, utiliser le pouvoir
+                if (lireOuiOuNon()) {
+                    personnageCourant.utiliserPouvoir();
+                    System.out.println("Vous avez utilisé votre pouvoir.");
+                }
+
+                // 5b - Si le joueur veut construire, construire
+                if (lireOuiOuNon()) {
+                    construire(premierJoueur);
+                }
+
+                // 5c - Après les choix précédents, changer de personnage
+                changerDePersonnage(premierJoueur); // Méthode à implémenter
+            }
+
+        } while (!tousLesPersonnagesOntJoue()); // Méthode à implémenter
     }
+
+    // Méthodes à implémenter
+
+    private Joueur choisirPremierJoueur() {
+        // Choisir le premier joueur en fonction de celui qui a la couronne
+        // Méthode à implémenter
+        return null;
+    }
+
+    private void changerDePersonnage(Joueur joueur) {
+        // Changer de personnage pour le joueur donné
+        // Méthode à implémenter
+    }
+
+    private void donnerArgentAuVoleur(Joueur voleur) {
+        // Donner de l'argent au voleur
+        // Méthode à implémenter
+    }
+
+    private void percevoirRessource(Personnage personnage) {
+        // Percevoir les ressources en fonction du personnage
+        // Méthode à implémenter
+    }
+
+    private void percevoirRessourcesSpecifiques(Personnage personnage) {
+        // Percevoir les ressources spécifiques en fonction du personnage
+        // Méthode à implémenter
+    }
+
+    private void utiliserPouvoir(Personnage personnage) {
+        // Utiliser le pouvoir du personnage
+        // Méthode à implémenter
+    }
+
+    private void construire(Joueur joueur) {
+
+        // Construire une cité
+        // Méthode à implémenter
+    }
+
+    private boolean tousLesPersonnagesOntJoue() {
+        // Vérifier si tous les personnages ont joué
+        // Méthode à implémenter
+        return false;
+    }
+    private boolean lireOuiOuNon() {
+        Scanner scanner = new Scanner(System.in);
+        String reponse = scanner.next().toLowerCase(); // Convertir la réponse en minuscules pour gérer "Oui" ou "Non"
+        return reponse.equals("oui");
+    }
+
     private void choixPersonnages(){
         //TODO implémenter la méthode
     }
