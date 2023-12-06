@@ -1,5 +1,6 @@
 package application;
 
+import controleur.Interaction;
 import modele.*;
 
 import java.util.*;
@@ -9,7 +10,7 @@ public class Jeu {
     private int numeroConfiguration;
     private Random generateur;
 
-    public Jeu(PlateauDeJeu plateauDeJeu, int numeroConfiguration, Random generateur) {
+    public Jeu() {
         this.plateauDeJeu = new PlateauDeJeu();
         this.numeroConfiguration = 0;
         this.generateur = new Random();
@@ -61,12 +62,27 @@ public class Jeu {
         System.out.println("La partie est terminée !");
     }
     private void initialisation(){
-        Pioche p = Configuration.nouvellePioche();
-        this.plateauDeJeu = Configuration.configurationDeBase(p);
+        // Initialiser la pioche avec les 54 cartes Quartier
+        Pioche pioche = Configuration.nouvellePioche();
 
-        ArrayList<Joueur> joueurs = new ArrayList<>();
-        Joueur joueurUtilisateur = new Joueur("Utilisateur");
-        joueurs.add(joueurUtilisateur);
+        // Initialiser le plateau de jeu avec la configuration de base
+        this.plateauDeJeu = Configuration.configurationDeBase(pioche);
+
+        // Attribuer les ressources et la couronne aux joueurs
+        for (int i = 0; i < this.plateauDeJeu.getNombreJoueurs(); i++) {
+            Joueur joueur = this.plateauDeJeu.getJoueur(i);
+
+            // Distribuer deux pièces d'or à chaque joueur
+            joueur.ajouterPieces(2);
+
+            // Piocher quatre cartes Quartier pour chaque joueur
+            for (int j = 0; j < 4; j++) {
+                Quartier carte = this.plateauDeJeu.getPioche().piocher();
+                if (carte != null) {
+                    joueur.ajouterQuartierDansMain(carte);
+                }
+            }
+        }
     }
     private void gestionCouronne(){
         //TODO VERIFIER
@@ -92,7 +108,9 @@ public class Jeu {
             System.out.println("Personnage du Roi non choisi, la couronne reste au même joueur");
         }
     }
-    private void reinitialisationPersonnages(){}
+    private void reinitialisationPersonnages(){
+        //TODO IMPLEMENTER
+    }
     private boolean partieFinie(){
         //TODO VERIFIER
         for ( Joueur joueur : plateauDeJeu.getListeJoueurs()){
@@ -142,16 +160,51 @@ public class Jeu {
 
         return personnagesRestants.get(choix - 1);
     }
+    public void percevoirRessource(Joueur joueur) {
+        System.out.println("Choisissez une action :");
+        System.out.println("1) Prendre deux pièces d'or");
+        System.out.println("2) Piocher deux cartes de la pioche");
 
-    private void percevoirRessource(){
-        //TODO implémenter la méthode
+        int choix = Interaction.lireUnEntier(1, 3);
+
+        switch (choix) {
+            case 1:
+                joueur.ajouterPieces(2);
+                break;
+            case 2:
+                for (int i = 0; i < 2; i++) {
+                    Quartier carte = plateauDeJeu.getPioche().piocher();
+                    joueur.ajouterQuartierDansMain(carte);
+                }
+
+                System.out.println("Voici vos deux cartes. Choisissez celle que vous voulez garder :");
+                for (int i = 0; i < joueur.nbQuartiersDansMain(); i++) {
+                    Quartier carte = joueur.retirerQuartierDansMain();
+                    System.out.println((i + 1) + ") " + carte.getNom());
+                    joueur.ajouterQuartierDansMain(carte);
+                }
+
+                int carteGardee = Interaction.lireUnEntier(1, joueur.nbQuartiersDansMain() + 1);
+
+                for (int i = 0; i < joueur.nbQuartiersDansMain(); i++) {
+                    if (i + 1 != carteGardee) {
+                        Quartier carte = joueur.retirerQuartierDansMain();
+                        plateauDeJeu.getPioche().ajouter(carte);
+                    }
+                }
+                break;
+            default:
+                System.out.println("Choix invalide. Veuillez choisir à nouveau.");
+                percevoirRessource(joueur);
+                break;
+        }
     }
     private void calculDesPoints(){
         //TODO implémenter la méthode
     }
 
     public static void main(String[] args){
-        Jeu jeu = new Jeu(new PlateauDeJeu(), 0, new Random());
+        Jeu jeu = new Jeu();
         jeu.jouer();
     }
 }
