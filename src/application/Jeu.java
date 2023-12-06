@@ -2,6 +2,7 @@ package application;
 
 import modele.Joueur;
 import modele.PlateauDeJeu;
+import modele.Personnage;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -79,8 +80,7 @@ public class Jeu {
         //TODO implémenter la méthode
         return false;}
     private void tourDeJeu(){
-        //TODO implémenter la méthode
-        System.out.println("Tour de jeu.");
+
     }
     private void choixPersonnages(){
         //TODO implémenter la méthode
