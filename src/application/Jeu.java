@@ -72,6 +72,10 @@ public class Jeu {
         // Initialiser le plateau de jeu avec la configuration de base
         this.plateauDeJeu = Configuration.configurationDeBase(pioche);
 
+        //Initialisation personnages restants
+        this.personnagesRestants = new ArrayList<>(Arrays.asList(plateauDeJeu.getListePersonnages()));
+        personnagesRestants.remove(personnagesRestants.size()-1);
+
         // Attribuer les ressources et la couronne aux joueurs
         for (int i = 0; i < this.plateauDeJeu.getNombreJoueurs(); i++) {
             Joueur joueur = this.plateauDeJeu.getJoueur(i);
@@ -87,6 +91,47 @@ public class Jeu {
                 }
             }
         }
+    }
+
+    private void choixPersonnages() {
+        System.out.println("Choix des personnages :");
+
+        Collections.shuffle(personnagesRestants);
+
+        // Écarte deux cartes face cachée et une face visible
+        Personnage carteVisible = personnagesRestants.remove(0);
+        Personnage carteCachee1 = personnagesRestants.remove(0);
+        Personnage carteCachee2 = personnagesRestants.remove(0);
+
+        for (Joueur joueur : plateauDeJeu.getListeJoueurs()) {
+            System.out.println("\nTour de "+joueur.getNom() + " de choisir ");
+
+            System.out.println("Le personnage \"" + carteVisible.getNom() + "\" est écarté face visible");
+            System.out.println("Le personnage \"" + carteCachee1.getNom() + "\" est écarté face cachée");
+            System.out.println("Le personnage \"" + carteCachee2.getNom() + "\" est écarté face cachée");
+
+            Personnage p = choisirPersonnage(personnagesRestants);
+            joueur.setPersonnage(p);
+            personnagesRestants.remove(p);
+
+            System.out.println(joueur.getNom() + " a choisit " + p.getNom() );
+        }
+    }
+
+    private Personnage choisirPersonnage(List<Personnage> personnagesRestants) {
+        System.out.println("Personnages restants :");
+        for (int i = 0; i < personnagesRestants.size(); i++) {
+            System.out.println((i + 1) + ". " + personnagesRestants.get(i).getNom());
+        }
+
+        Scanner scanner = new Scanner(System.in);
+        int choix;
+        do {
+            System.out.print("Choisissez un personnage (1-" + personnagesRestants.size() + ") : ");
+            choix = scanner.nextInt();
+        } while (choix < 1 || choix > personnagesRestants.size());
+
+        return personnagesRestants.get(choix - 1);
     }
     private void gestionCouronne(){
         //TODO VERIFIER
@@ -138,84 +183,47 @@ public class Jeu {
         for (int i = 0; i < plateauDeJeu.getNombreJoueurs(); i++) {
             Joueur joueurCourant = plateauDeJeu.getJoueur(i);
 
-        // 3 - Appeler un personnage
-        do {
-            Personnage personnageCourant = joueurCourant.getPersonnage();
+            // 3 - Appeler un personnage
+            do {
+                Personnage personnageCourant = joueurCourant.getPersonnage();
 
-            // 3a - Si le personnage est assassiné, changer de personnage
-            if (personnageCourant.getAssassine()) {
-                System.out.println("S'est fait assassiné.");
-                changerDePersonnage(joueurCourant, personnagesRestants);
-            } else {
-                // 3b - Si le personnage est volé, donner de l'argent au voleur et percevoir les ressources
-                if (personnageCourant.getVole()) {
-                    System.out.println("S'est fait voler ses ressources.");
-                }
-
-                percevoirRessource(joueurCourant); // Méthode à adapter selon votre modèle
-
-                // 4 - Percevoir les ressources spécifiques
-                //percevoirRessourcesSpecifiques(personnageCourant); // Méthode à adapter selon votre modèle
-
-                // 5 - Si le joueur décide d'utiliser son pouvoir, utiliser le pouvoir
-                if (lireOuiOuNon()) {
-                    personnageCourant.utiliserPouvoir();
-                    System.out.println("Vous avez utilisé votre pouvoir.");
-                }
-
-                // 5b - Si le joueur veut construire, construire
-                if (lireOuiOuNon()) {
-                    Quartier quartierChoisi = joueurCourant.retirerQuartierDansMain();
-                    if (quartierChoisi != null) {
-                        joueurCourant.ajouterQuartierDansCite(quartierChoisi);
-                        System.out.println("Vous avez construit un quartier dans votre cité.");
-                    } else {
-                        System.out.println("Votre main est vide. Vous ne pouvez pas construire de quartier.");
+                // 3a - Si le personnage est assassiné, changer de personnage
+                if (personnageCourant.getAssassine()) {
+                    System.out.println("S'est fait assassiné.");
+                    changerDePersonnage(joueurCourant, personnagesRestants);
+                } else {
+                    // 3b - Si le personnage est volé, donner de l'argent au voleur et percevoir les ressources
+                    if (personnageCourant.getVole()) {
+                        System.out.println("S'est fait voler ses ressources.");
                     }
+
+                    percevoirRessource(joueurCourant); // Méthode à adapter selon votre modèle
+
+                    // 4 - Percevoir les ressources spécifiques
+                    //percevoirRessourcesSpecifiques(personnageCourant); // Méthode à adapter selon votre modèle
+
+                    // 5 - Si le joueur décide d'utiliser son pouvoir, utiliser le pouvoir
+                    if (lireOuiOuNon()) {
+                        personnageCourant.utiliserPouvoir();
+                        System.out.println("Vous avez utilisé votre pouvoir.");
+                    }
+
+                    // 5b - Si le joueur veut construire, construire
+                    if (lireOuiOuNon()) {
+                        Quartier quartierChoisi = joueurCourant.retirerQuartierDansMain();
+                        if (quartierChoisi != null) {
+                            joueurCourant.ajouterQuartierDansCite(quartierChoisi);
+                            System.out.println("Vous avez construit un quartier dans votre cité.");
+                        } else {
+                            System.out.println("Votre main est vide. Vous ne pouvez pas construire de quartier.");
+                        }
+                    }
+
+                    // 5c - Après les choix précédents, changer de personnage
+                    changerDePersonnage(joueurCourant, personnagesRestants);
                 }
-
-                // 5c - Après les choix précédents, changer de personnage
-                changerDePersonnage(joueurCourant, personnagesRestants);
-            }
-        } while (!tousLesPersonnagesOntJoue()); // Méthode à adapter selon votre modèle
+            } while (!tousLesPersonnagesOntJoue()); // Méthode à adapter selon votre modèle
         }
-    }
-    private void choixPersonnages() {
-        System.out.println("Choix des personnages :");
-
-        for (Joueur joueur : plateauDeJeu.getListeJoueurs()) {
-            List<Personnage> personnagesRestants = new ArrayList<>(Arrays.asList(plateauDeJeu.getListePersonnages()));
-            personnagesRestants.remove(personnagesRestants.size()-1);
-
-
-            // Écarte deux cartes face cachée et une face visible
-            Collections.shuffle(personnagesRestants);
-            Personnage carteVisible = personnagesRestants.remove(0);
-            Personnage carteCachee1 = personnagesRestants.remove(0);
-            Personnage carteCachee2 = personnagesRestants.remove(0);
-
-            System.out.println("Le personnage \"" + carteVisible.getNom() + "\" est écarté face visible");
-            System.out.println("Le personnage \"" + carteCachee1.getNom() + "\" est écarté face cachée");
-            System.out.println("Le personnage \"" + carteCachee2.getNom() + "\" est écarté face cachée");
-
-            joueur.setPersonnage(choisirPersonnage(personnagesRestants));
-        }
-    }
-
-    private Personnage choisirPersonnage(List<Personnage> personnagesRestants) {
-        System.out.println("Personnages restants :");
-        for (int i = 0; i < personnagesRestants.size(); i++) {
-            System.out.println((i + 1) + ". " + personnagesRestants.get(i).getNom());
-        }
-
-        Scanner scanner = new Scanner(System.in);
-        int choix;
-        do {
-            System.out.print("Choisissez un personnage (1-" + personnagesRestants.size() + ") : ");
-            choix = scanner.nextInt();
-        } while (choix < 1 || choix > personnagesRestants.size());
-
-        return personnagesRestants.get(choix - 1);
     }
 
     public void percevoirRessource(Joueur joueur) {
