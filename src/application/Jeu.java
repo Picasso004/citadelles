@@ -112,7 +112,7 @@ public class Jeu {
 
             System.out.println("Le personnage \"" + carteVisible.getNom() + "\" est écarté face visible");
             System.out.println("Le personnage \"" + carteCachee1.getNom() + "\" est écarté face cachée");
-            System.out.println("Le personnage \"" + carteCachee2.getNom() + "\" est écarté face cachée");
+            System.out.println("Un personnage est écarté face cachée");
 
             Personnage p = choisirPersonnage(personnagesRestants);
             joueur.setPersonnage(p);
@@ -240,35 +240,35 @@ public class Jeu {
         int choix = Interaction.lireUnEntier(1, 3);
 
         switch (choix) {
-            case 1:
-                joueur.ajouterPieces(2);
-                break;
-            case 2:
+            case 1 -> {
+                    joueur.ajouterPieces(2);
+                    System.out.println(joueur.getNom() + " a reçu 2 pieces d'or.");
+                }
+            case 2 -> {
+                ArrayList<Quartier> cartesPiochees = new ArrayList<>();
                 for (int i = 0; i < 2; i++) {
                     Quartier carte = plateauDeJeu.getPioche().piocher();
-                    joueur.ajouterQuartierDansMain(carte);
+                    cartesPiochees.add(carte);
                 }
-
-                System.out.println("Voici vos deux cartes. Choisissez celle que vous voulez garder :");
-                for (int i = 0; i < joueur.nbQuartiersDansMain(); i++) {
-                    Quartier carte = joueur.retirerQuartierDansMain();
-                    System.out.println((i + 1) + ") " + carte.getNom());
-                    joueur.ajouterQuartierDansMain(carte);
+                System.out.println("Voici vos deux cartes piochees. Choisissez celle que vous voulez garder :");
+                for (int i = 0; i < cartesPiochees.size(); i++) {
+                    System.out.println((i + 1) + ") " + cartesPiochees.get(i).getNom());
                 }
+                choix = Interaction.lireUnEntier(1, cartesPiochees.size() + 1);
 
-                int carteGardee = Interaction.lireUnEntier(1, joueur.nbQuartiersDansMain() + 1);
+                Quartier carteGardee = cartesPiochees.remove(choix-1);
+                joueur.ajouterQuartierDansMain(carteGardee);
 
-                for (int i = 0; i < joueur.nbQuartiersDansMain(); i++) {
-                    if (i + 1 != carteGardee) {
-                        Quartier carte = joueur.retirerQuartierDansMain();
-                        plateauDeJeu.getPioche().ajouter(carte);
-                    }
-                }
-                break;
-            default:
+                Quartier carteNonGardee = cartesPiochees.get(cartesPiochees.size()-1);
+                plateauDeJeu.getPioche().ajouter(carteNonGardee);
+
+                System.out.println("La carte "+carteGardee.getNom() + " a ete ajoute a la main du "+joueur.getNom());
+
+            }
+            default -> {
                 System.out.println("Choix invalide. Veuillez choisir à nouveau.");
                 percevoirRessource(joueur);
-                break;
+            }
         }
     }
     private void calculDesPoints(){
