@@ -72,10 +72,6 @@ public class Jeu {
         // Initialiser le plateau de jeu avec la configuration de base
         this.plateauDeJeu = Configuration.configurationDeBase(pioche);
 
-        //Initialisation personnages restants
-        Personnage[] personnagesArray = plateauDeJeu.getListePersonnages();
-        this.personnagesRestants = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(personnagesArray, 0, plateauDeJeu.getNombrePersonnages())));
-
         // Attribuer les ressources et la couronne aux joueurs
         for (int i = 0; i < this.plateauDeJeu.getNombreJoueurs(); i++) {
             Joueur joueur = this.plateauDeJeu.getJoueur(i);
@@ -94,6 +90,11 @@ public class Jeu {
     }
 
     private void choixPersonnages() {
+
+        //Initialisation personnages restants
+        Personnage[] personnagesArray = plateauDeJeu.getListePersonnages();
+        this.personnagesRestants = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(personnagesArray, 0, plateauDeJeu.getNombrePersonnages())));
+
         System.out.println("Choix des personnages :");
 
         Collections.shuffle(personnagesRestants);
