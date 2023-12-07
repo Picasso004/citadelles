@@ -2,6 +2,7 @@ package application;
 
 import controleur.Interaction;
 import modele.*;
+import java.util.List;
 
 import java.util.*;
 
@@ -11,7 +12,7 @@ public class Jeu {
     private PlateauDeJeu plateauDeJeu;
     private int numeroConfiguration;
     private Random generateur;
-    private ArrayList<Personnage> personnagesRestants;
+    private List<Personnage> personnagesRestants;
 
     public Jeu() {
         this.plateauDeJeu = new PlateauDeJeu();
@@ -21,7 +22,7 @@ public class Jeu {
 
     public void jouer(){
         //Affichage message de bienvenue
-        System.out.println("BIENVENUE !!!!");
+        System.out.println("BIENVENUE SUR CITADELLES v1.0 !!!!");
         //Affichage du menu
         Scanner scanner = new Scanner(System.in);
         int choix;
@@ -117,7 +118,7 @@ public class Jeu {
     private boolean partieFinie(){
         //TODO VERIFIER
         for ( Joueur joueur : plateauDeJeu.getListeJoueurs()){
-            if (joueur.nbQuartiersDansCite() >= 8){
+            if (joueur.nbQuartiersDansCite() >= 7){
                 System.out.println(joueur.getNom() + " a une cité complète. La partie est terminée !");
                 return true;
             }
@@ -183,10 +184,13 @@ public class Jeu {
         System.out.println("Choix des personnages :");
 
         for (Joueur joueur : plateauDeJeu.getListeJoueurs()) {
-            ArrayList<Personnage> personnagesRestants = new ArrayList<>(List.of(plateauDeJeu.getListePersonnages()));
+            List<Personnage> personnagesRestants = new ArrayList<>(Arrays.asList(plateauDeJeu.getListePersonnages()));
+            personnagesRestants.removeLast();
 
+            System.out.println(personnagesRestants.getLast());
             // Écarte deux cartes face cachée et une face visible
             Collections.shuffle(personnagesRestants);
+            System.out.println(personnagesRestants);
             Personnage carteVisible = personnagesRestants.remove(0);
             Personnage carteCachee1 = personnagesRestants.remove(0);
             Personnage carteCachee2 = personnagesRestants.remove(0);
@@ -199,7 +203,7 @@ public class Jeu {
         }
     }
 
-    private Personnage choisirPersonnage(ArrayList<Personnage> personnagesRestants) {
+    private Personnage choisirPersonnage(List<Personnage> personnagesRestants) {
         System.out.println("Personnages restants :");
         for (int i = 0; i < personnagesRestants.size(); i++) {
             System.out.println((i + 1) + ". " + personnagesRestants.get(i).getNom());
@@ -214,6 +218,7 @@ public class Jeu {
 
         return personnagesRestants.get(choix - 1);
     }
+
     public void percevoirRessource(Joueur joueur) {
         System.out.println("Choisissez une action :");
         System.out.println("1) Prendre deux pièces d'or");
@@ -255,6 +260,33 @@ public class Jeu {
     }
     private void calculDesPoints(){
         //TODO implémenter la méthode
+        System.out.println("CALCUL DES POINTS");
+        System.out.println("******************");
+
+        for (Joueur joueur : plateauDeJeu.getListeJoueurs()){
+            int points = 0;
+
+            //Calcul de la somme total des coûts de construction des quartiers de la cité
+            for (Quartier quartier : joueur.getCite()){
+                if (quartier != null){
+                    points += quartier.getCout();
+                }
+            }
+            //Vérification de la présence d'au moins un quartier de chaque type
+            boolean typesDifferents = aCinqTypesDifferents(joueur.getCite());
+            if (typesDifferents){
+                points += 3;
+            }
+            //TODO Verification du premier joueur ayant complété sa cité
+
+            //Ajout des bonus éventuels des Merveilles de la cité
+
+        }
+    }
+
+    //Methode auxiliaire pour vérifier la présence d'au moins un quartier de chaque type
+    private boolean aCinqTypesDifferents(Quartier[] cite){
+        int[] types =new int[5]; //NOBLE, COMMERCANT, RELIGIEUX, MILITAIRE, MERVEILLE
     }
 
 
@@ -265,7 +297,7 @@ public class Jeu {
         return null;
     }*/
 
-    private void changerDePersonnage(Joueur joueur, ArrayList<Personnage> personnagesRestants) {
+    private void changerDePersonnage(Joueur joueur, List<Personnage> personnagesRestants) {
         // Changer de personnage pour le joueur donné
         Personnage nouveauPersonnage = choisirPersonnage(personnagesRestants);
         joueur.setPersonnage(nouveauPersonnage);
