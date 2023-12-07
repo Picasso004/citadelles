@@ -117,6 +117,7 @@ public class Jeu {
             Personnage p = choisirPersonnage(personnagesRestants);
             joueur.setPersonnage(p);
             personnagesRestants.remove(p);
+            p.setJoueur(joueur);
 
             System.out.println(joueur.getNom() + " a choisit " + p.getNom() );
         }
@@ -165,8 +166,9 @@ public class Jeu {
         //TODO IMPLEMENTER
     }
     private boolean partieFinie(){
+        List<Joueur> joueurs = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(plateauDeJeu.getListeJoueurs(), 0, plateauDeJeu.getNombreJoueurs())));
         //TODO VERIFIER
-        for ( Joueur joueur : plateauDeJeu.getListeJoueurs()){
+        for ( Joueur joueur : joueurs){
             if (joueur.nbQuartiersDansCite() >= 7){
                 System.out.println(joueur.getNom() + " a une cité complète. La partie est terminée !");
                 return true;
@@ -183,17 +185,11 @@ public class Jeu {
 
         System.out.println("\nDébut du tour");
 
-        // 2 - Choisir le premier joueur
-        //Joueur premierJoueur = choisirPremierJoueur();
-        // Boucle pour le tour de chaque joueur
-        for (int i = 0; i < plateauDeJeu.getNombreJoueurs(); i++) {
-            Joueur joueurCourant = plateauDeJeu.getJoueur(i);
+        for(int i = 0; i<this.plateauDeJeu.getNombrePersonnages();i++){
+            Personnage personnageCourant = this.plateauDeJeu.getPersonnage(i);
+            Joueur joueurCourant = personnageCourant.getJoueur();
 
-            // 3 - Appeler un personnage
-            do {
-                for (int j=0; j<9; j++){
-
-                Personnage personnageCourant = plateauDeJeu.getPersonnage(j);
+            if(joueurCourant != null){
                 System.out.println("\n" + " Le personnage "  + personnageCourant.getNom() + " est appellé ") ;
 
                 // 3a - Si le personnage est assassiné, changer de personnage
@@ -231,9 +227,62 @@ public class Jeu {
                     // 5c - Après les choix précédents, changer de personnage
                     changerDePersonnage(joueurCourant, personnagesRestants);
                 }
+            }
+        }
+
+
+
+        // 2 - Choisir le premier joueur
+        //Joueur premierJoueur = choisirPremierJoueur();
+        // Boucle pour le tour de chaque joueur
+        /*for (int i = 0; i < plateauDeJeu.getNombreJoueurs(); i++) {
+            Joueur joueurCourant = plateauDeJeu.getJoueur(i);
+
+            // 3 - Appeler un personnage
+            do {
+                for (int j=0; j<9; j++){
+
+                    Personnage personnageCourant = plateauDeJeu.getListePersonnages()[j];
+                    System.out.println("\n" + " Le personnage "  + personnageCourant.getNom() + " est appellé ") ;
+
+                    // 3a - Si le personnage est assassiné, changer de personnage
+                    if (personnageCourant.getAssassine()) {
+                        System.out.println("S'est fait assassiné.");
+                        changerDePersonnage(joueurCourant, personnagesRestants);
+                    } else {
+                        // 3b - Si le personnage est volé, donner de l'argent au voleur et percevoir les ressources
+                        if (personnageCourant.getVole()) {
+                            System.out.println("S'est fait voler ses ressources.");
+                        }
+
+                        percevoirRessource(joueurCourant);
+
+                        // 4 - Percevoir les ressources spécifiques
+                        //percevoirRessourcesSpecifiques(personnageCourant); // Méthode à adapter selon votre modèle
+
+                        // 5 - Si le joueur décide d'utiliser son pouvoir, utiliser le pouvoir
+                        if (lireOuiOuNon()) {
+                            personnageCourant.utiliserPouvoir();
+                            System.out.println("Vous avez utilisé votre pouvoir.");
+                        }
+
+                        // 5b - Si le joueur veut construire, construire
+                        if (lireOuiOuNon()) {
+                            Quartier quartierChoisi = joueurCourant.retirerQuartierDansMain();
+                            if (quartierChoisi != null) {
+                                joueurCourant.ajouterQuartierDansCite(quartierChoisi);
+                                System.out.println("Vous avez construit un quartier dans votre cité.");
+                            } else {
+                                System.out.println("Votre main est vide. Vous ne pouvez pas construire de quartier.");
+                            }
+                        }
+
+                        // 5c - Après les choix précédents, changer de personnage
+                        changerDePersonnage(joueurCourant, personnagesRestants);
+                    }
                 }
             } while (!tousLesPersonnagesOntJoue()); // Méthode à adapter selon votre modèle
-        }
+        }*/
     }
 
     public void percevoirRessource(Joueur joueur) {
