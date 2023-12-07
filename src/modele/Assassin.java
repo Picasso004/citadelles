@@ -16,9 +16,13 @@ public class Assassin extends Personnage {
         Scanner scanner = new Scanner(System.in);
         PlateauDeJeu plateau = this.getPlateau();
 
+
+        System.out.println(plateau.getNombrePersonnages());
         for (int i = 0; i < plateau.getNombrePersonnages(); i++) {
             Personnage personnage = plateau.getPersonnage(i);
-            System.out.println((i + 1) + " " + personnage.getNom());
+            if(personnage.getJoueur() != null){
+                System.out.println((i + 1) + " " + personnage.getNom());
+            }
         }
 
         int choix;

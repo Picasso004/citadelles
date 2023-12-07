@@ -69,5 +69,4 @@ public class Interaction {
         String retour = sc.next();
         return retour;
     }
-
 }
