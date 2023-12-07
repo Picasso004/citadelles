@@ -6,12 +6,77 @@ public class Configuration {
     public static Pioche nouvellePioche() {
         Pioche pioche = new Pioche();
 
-        // Ajout des 54 cartes Quartier de types religieux, militaires, nobles et commerçants
-        for (int i = 1; i <= 54; i++) {
-            String typeQuartier = Quartier.TYPE_QUARTIERS[(i - 1) / 13];
-            Quartier quartier = new Quartier("Quartier " + i, typeQuartier, i % 13 + 1);
-            pioche.ajouter(quartier);
+        for (int i = 0; i < 2; i++){
+            // Réligieux
+            Quartier quartier1 = new Quartier("Cathedrale", Quartier.TYPE_QUARTIERS[0], 5);
+            pioche.ajouter(quartier1);
+
+            // Militaires
+            Quartier quartier2 = new Quartier("Forteresse", Quartier.TYPE_QUARTIERS[1], 5);
+            pioche.ajouter(quartier2);
+
+            // Commerçants
+            Quartier quartier3 = new Quartier("Hotel de ville", Quartier.TYPE_QUARTIERS[3], 5);
+            pioche.ajouter(quartier3);
+
         }
+
+        for (int i = 0; i < 3; i++){
+            // Réligieux
+            Quartier quartier1 = new Quartier("Temple", Quartier.TYPE_QUARTIERS[0], 1);
+            pioche.ajouter(quartier1);
+
+            Quartier quartier2 = new Quartier("Eglise", Quartier.TYPE_QUARTIERS[0], 2);
+            pioche.ajouter(quartier2);
+
+            Quartier quartier3 = new Quartier("Monastere", Quartier.TYPE_QUARTIERS[0], 3);
+            pioche.ajouter(quartier3);
+
+            // Militaires
+            Quartier quartier4 = new Quartier("Tour de guet", Quartier.TYPE_QUARTIERS[1], 1);
+            pioche.ajouter(quartier4);
+
+            Quartier quartier5 = new Quartier("Prison", Quartier.TYPE_QUARTIERS[1], 2);
+            pioche.ajouter(quartier5);
+
+            Quartier quartier6 = new Quartier("Caserne", Quartier.TYPE_QUARTIERS[1], 3);
+            pioche.ajouter(quartier6);
+
+            // Nobles
+            Quartier quartier7 = new Quartier("Palais", Quartier.TYPE_QUARTIERS[2], 5);
+            pioche.ajouter(quartier7);
+
+            // Commerçants
+            Quartier quartier8 = new Quartier("Echoppe", Quartier.TYPE_QUARTIERS[3], 1);
+            pioche.ajouter(quartier8);
+
+            Quartier quartier9 = new Quartier("Comptoir", Quartier.TYPE_QUARTIERS[3], 3);
+            pioche.ajouter(quartier9);
+
+            Quartier quartier10 = new Quartier("Port", Quartier.TYPE_QUARTIERS[3], 4);
+            pioche.ajouter(quartier10);
+        }
+
+        for (int i = 0; i < 4; i++){
+            // Nobles
+            Quartier quartier1 = new Quartier("Chateau", Quartier.TYPE_QUARTIERS[2], 4);
+            pioche.ajouter(quartier1);
+
+            // Commerçants
+            Quartier quartier2 = new Quartier("Marche", Quartier.TYPE_QUARTIERS[3], 2);
+            pioche.ajouter(quartier2);
+        }
+
+        for (int i = 0; i < 5; i++){
+            // Nobles
+            Quartier quartier1 = new Quartier("Manoir", Quartier.TYPE_QUARTIERS[2], 3);
+            pioche.ajouter(quartier1);
+
+            // Commerçants
+            Quartier quartier2 = new Quartier("Taverne", Quartier.TYPE_QUARTIERS[3], 1);
+            pioche.ajouter(quartier2);
+        }
+
 
         // Mélange les cartes de la pioche
         pioche.melanger();
