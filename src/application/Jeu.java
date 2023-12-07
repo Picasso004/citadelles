@@ -191,17 +191,46 @@ public class Jeu {
             Joueur joueurCourant = personnageCourant.getJoueur();
 
             if(joueurCourant != null){
-                System.out.println("\n" + " Le personnage "  + personnageCourant.getNom() + " est appellé ") ;
+                System.out.println("\nLe personnage "  + personnageCourant.getNom() + " est appellé ") ;
 
                 // 3a - Si le personnage est assassiné, changer de personnage
                 if (personnageCourant.getAssassine()) {
-                    System.out.println("S'est fait assassiné.");
+                    System.out.println(personnageCourant.getNom() + "a été assassiné.");
                     //changerDePersonnage(joueurCourant, personnagesRestants);
                 } else {
                     // 3b - Si le personnage est volé, donner de l'argent au voleur et percevoir les ressources
                     if (personnageCourant.getVole()) {
-                        System.out.println("S'est fait voler ses ressources.");
+                        System.out.println(personnageCourant.getNom() + "s'est fait voler ses ressources.");
                     }
+
+
+                    // Affichage informations joueur
+                    System.out.println(joueurCourant.getNom() + " vous disposez de : ");
+                    System.out.println("Trésor : " + joueurCourant.nbPieces());
+                    System.out.println("Cité : ");
+
+                    if(joueurCourant.nbQuartiersDansCite() > 0) {
+                        Quartier[] cite = joueurCourant.getCite();
+                        for(int k = 0; k < cite.length;k++){
+                            System.out.println((k+1) + ". " + cite[k].getNom());
+                        }
+                    }
+                    else {
+                        System.out.println("Votre cite est vide !");
+                    }
+
+                    System.out.println("Votre main : ");
+
+                    if(joueurCourant.nbQuartiersDansMain() > 0) {
+                        ArrayList<Quartier> main = joueurCourant.getMain();
+                        for(int k = 0; k < main.size();k++){
+                            System.out.println((k+1) + ". " + main.get(k).getNom());
+                        }
+                    }
+                    else {
+                        System.out.println("Votre main est vide !");
+                    }
+
 
                     percevoirRessource(joueurCourant);
 
