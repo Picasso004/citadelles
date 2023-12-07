@@ -191,7 +191,10 @@ public class Jeu {
 
             // 3 - Appeler un personnage
             do {
-                Personnage personnageCourant = joueurCourant.getPersonnage();
+                for (int j=0; j<9; j++){
+
+                Personnage personnageCourant = plateauDeJeu.getPersonnage(j);
+                System.out.println("\n" + " Le personnage "  + personnageCourant.getNom() + " est appellé ") ;
 
                 // 3a - Si le personnage est assassiné, changer de personnage
                 if (personnageCourant.getAssassine()) {
@@ -227,6 +230,7 @@ public class Jeu {
 
                     // 5c - Après les choix précédents, changer de personnage
                     changerDePersonnage(joueurCourant, personnagesRestants);
+                }
                 }
             } while (!tousLesPersonnagesOntJoue()); // Méthode à adapter selon votre modèle
         }
