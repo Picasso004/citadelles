@@ -10,8 +10,8 @@ public class PlateauDeJeu {
     public PlateauDeJeu() {
         this.nombrePersonnages = 0;
         this.nombreJoueurs = 0;
-        this.pioche = new Pioche();  // Assuming you have a Pioche class
-        this.listePersonnages = new Personnage[9];
+        this.pioche = new Pioche();
+        this.listePersonnages = new Personnage[9]; // configuration de base
         this.listeJoueurs = new Joueur[9];
     }
 
@@ -58,14 +58,14 @@ public class PlateauDeJeu {
 
     // Methods
     public void ajouterPersonnage(Personnage personnage) {
-        if (personnage != null && this.nombrePersonnages < 9) {
+        if (personnage != null && this.nombrePersonnages < this.listePersonnages.length) {
             this.listePersonnages[this.nombrePersonnages++] = personnage;
             personnage.setPlateau(this);
         }
     }
 
     public void ajouterJoueur(Joueur joueur) {
-        if (joueur != null && this.nombreJoueurs < 9) {
+        if (joueur != null && this.nombreJoueurs < this.listeJoueurs.length) {
             this.listeJoueurs[this.nombreJoueurs++] = joueur;
         }
     }

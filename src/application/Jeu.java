@@ -73,8 +73,8 @@ public class Jeu {
         this.plateauDeJeu = Configuration.configurationDeBase(pioche);
 
         //Initialisation personnages restants
-        this.personnagesRestants = new ArrayList<>(Arrays.asList(plateauDeJeu.getListePersonnages()));
-        personnagesRestants.remove(personnagesRestants.size()-1);
+        Personnage[] personnagesArray = plateauDeJeu.getListePersonnages();
+        this.personnagesRestants = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(personnagesArray, 0, plateauDeJeu.getNombrePersonnages())));
 
         // Attribuer les ressources et la couronne aux joueurs
         for (int i = 0; i < this.plateauDeJeu.getNombreJoueurs(); i++) {
@@ -103,7 +103,10 @@ public class Jeu {
         Personnage carteCachee1 = personnagesRestants.remove(0);
         Personnage carteCachee2 = personnagesRestants.remove(0);
 
-        for (Joueur joueur : plateauDeJeu.getListeJoueurs()) {
+        Joueur[] listeJoueur = this.plateauDeJeu.getListeJoueurs();
+
+        for (int i = 0; i<this.plateauDeJeu.getNombreJoueurs(); i++) {
+            Joueur joueur = listeJoueur[i];
             System.out.println("\nTour de "+joueur.getNom() + " de choisir ");
 
             System.out.println("Le personnage \"" + carteVisible.getNom() + "\" est écarté face visible");
