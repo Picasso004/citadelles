@@ -292,7 +292,7 @@ public class Jeu {
             }
             //TODO Verification du premier joueur ayant complété sa cité
 
-            //Ajout des bonus éventuels des Merveilles de la cité
+            //TODO Ajout des bonus éventuels des Merveilles de la cité
 
         }
     }
@@ -300,7 +300,34 @@ public class Jeu {
     //Methode auxiliaire pour vérifier la présence d'au moins un quartier de chaque type
     private boolean aCinqTypesDifferents(Quartier[] cite){
         int[] types =new int[5]; //NOBLE, COMMERCANT, RELIGIEUX, MILITAIRE, MERVEILLE
-        return false;
+
+        for (Quartier quartier : cite){
+            if (quartier != null){
+                String type = quartier.getType();
+                switch (type) {
+                    case "NOBLE":
+                        types[0] = 1;
+                        break;
+                    case "COMMERCANT":
+                        types[1] =1;
+                        break;
+                    case "RELIGIEUX":
+                        types[2]= 1;
+                        break;
+                    case "MILITAIRE":
+                        types[3] = 1;
+                        break;
+                    case "MERVEILLE":
+                        types[4] = 1;
+                        break;
+                }
+            }
+        }
+        int totalTypes = 0;
+        for (int type : types){
+            totalTypes += type;
+        }
+        return totalTypes >= 5;
     }
 
 
