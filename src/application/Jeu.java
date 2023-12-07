@@ -181,6 +181,8 @@ public class Jeu {
         // 1 - Choix des Personnages
         choixPersonnages();
 
+        System.out.println("\nDébut du tour");
+
         // 2 - Choisir le premier joueur
         //Joueur premierJoueur = choisirPremierJoueur();
         // Boucle pour le tour de chaque joueur
@@ -201,7 +203,7 @@ public class Jeu {
                         System.out.println("S'est fait voler ses ressources.");
                     }
 
-                    percevoirRessource(joueurCourant); // Méthode à adapter selon votre modèle
+                    percevoirRessource(joueurCourant);
 
                     // 4 - Percevoir les ressources spécifiques
                     //percevoirRessourcesSpecifiques(personnageCourant); // Méthode à adapter selon votre modèle
