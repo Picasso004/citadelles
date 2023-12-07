@@ -185,12 +185,11 @@ public class Jeu {
 
         for (Joueur joueur : plateauDeJeu.getListeJoueurs()) {
             List<Personnage> personnagesRestants = new ArrayList<>(Arrays.asList(plateauDeJeu.getListePersonnages()));
-            personnagesRestants.removeLast();
+            personnagesRestants.remove(personnagesRestants.size()-1);
 
-            System.out.println(personnagesRestants.getLast());
+
             // Écarte deux cartes face cachée et une face visible
             Collections.shuffle(personnagesRestants);
-            System.out.println(personnagesRestants);
             Personnage carteVisible = personnagesRestants.remove(0);
             Personnage carteCachee1 = personnagesRestants.remove(0);
             Personnage carteCachee2 = personnagesRestants.remove(0);
@@ -287,6 +286,7 @@ public class Jeu {
     //Methode auxiliaire pour vérifier la présence d'au moins un quartier de chaque type
     private boolean aCinqTypesDifferents(Quartier[] cite){
         int[] types =new int[5]; //NOBLE, COMMERCANT, RELIGIEUX, MILITAIRE, MERVEILLE
+        return false;
     }
 
 
