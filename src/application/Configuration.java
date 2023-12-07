@@ -150,6 +150,8 @@ public class Configuration {
         p.ajouter(tresorImperial);
         p.ajouter(fontaineAuxSouhaits);
 
+        p.melanger();
+
         plateau.setPioche(p);
 
         return plateau;

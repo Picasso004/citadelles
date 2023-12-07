@@ -149,11 +149,12 @@ public class Jeu {
                 break;
             }
         }
-        for (Joueur joueur : plateauDeJeu.getListeJoueurs()){
+        List<Joueur> joueurs = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(plateauDeJeu.getListeJoueurs(), 0, plateauDeJeu.getNombreJoueurs())));
+        for (Joueur joueur : joueurs){
             if (joueur.getPersonnage() == roi){
                 joueurCouronne = joueur;
-                break;
             }
+            joueur.setPossedeCouronne(false);
         }
         if (joueurCouronne != null){
             joueurCouronne.setPossedeCouronne(true);
@@ -195,7 +196,7 @@ public class Jeu {
                 // 3a - Si le personnage est assassiné, changer de personnage
                 if (personnageCourant.getAssassine()) {
                     System.out.println("S'est fait assassiné.");
-                    changerDePersonnage(joueurCourant, personnagesRestants);
+                    //changerDePersonnage(joueurCourant, personnagesRestants);
                 } else {
                     // 3b - Si le personnage est volé, donner de l'argent au voleur et percevoir les ressources
                     if (personnageCourant.getVole()) {
@@ -208,12 +209,14 @@ public class Jeu {
                     //percevoirRessourcesSpecifiques(personnageCourant); // Méthode à adapter selon votre modèle
 
                     // 5 - Si le joueur décide d'utiliser son pouvoir, utiliser le pouvoir
+                    System.out.println("\nVoulez vous utiliser votre pouvoir (oui/o non/n):");
                     if (lireOuiOuNon()) {
                         personnageCourant.utiliserPouvoir();
                         System.out.println("Vous avez utilisé votre pouvoir.");
                     }
 
                     // 5b - Si le joueur veut construire, construire
+                    System.out.println("\nVoulez vous construire ? (oui/o non/n):");
                     if (lireOuiOuNon()) {
                         Quartier quartierChoisi = joueurCourant.retirerQuartierDansMain();
                         if (quartierChoisi != null) {
@@ -225,7 +228,7 @@ public class Jeu {
                     }
 
                     // 5c - Après les choix précédents, changer de personnage
-                    changerDePersonnage(joueurCourant, personnagesRestants);
+                    //changerDePersonnage(joueurCourant, personnagesRestants);
                 }
             }
         }

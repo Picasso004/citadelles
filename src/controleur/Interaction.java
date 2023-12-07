@@ -47,7 +47,7 @@ public class Interaction {
         String saisie;
 
         while (!saisieValide) {
-            saisie = sc.nextLine().toLowerCase(); // Lecture de l'entrée utilisateur en minuscules
+            saisie = lireUneChaine().toLowerCase(); // Lecture de l'entrée utilisateur en minuscules
 
             // Comparaison de l'entrée avec les réponses attendues
             if (saisie.equals("oui") || saisie.equals("o")) {
@@ -66,7 +66,7 @@ public class Interaction {
 
     // renvoie une cha�ne de caractère lue au clavier:
     public static String lireUneChaine() {
-        String retour = sc.nextLine();
+        String retour = sc.next();
         return retour;
     }
 
