@@ -243,7 +243,7 @@ public class Jeu {
                     if(joueurCourant.nbQuartiersDansMain() > 0) {
                         ArrayList<Quartier> main = joueurCourant.getMain();
                         for(int k = 0; k < main.size();k++){
-                            System.out.println((k+1) + ". " + main.get(k).getNom());
+                            System.out.println((k+1) + ". " + main.get(k).getNom() + " : cout de construction = " + main.get(k).getCout());
                         }
                         System.out.println(RESET);
                     }
@@ -263,21 +263,59 @@ public class Jeu {
                         System.out.println("Vous avez utilisé votre pouvoir.");
                     }
 
+
                     // 5b - Si le joueur veut construire, construire
                     System.out.println("\nVoulez vous construire ? (oui/o non/n):");
                     if (lireOuiOuNon()) {
-                        Quartier quartierChoisi = joueurCourant.retirerQuartierDansMain();
+                        // Afficher la liste des quartiers dans la main du joueur
+                        System.out.println("\nListe des quartiers dans votre main :");
+                        ArrayList<Quartier> main = joueurCourant.getMain();
+                        for (int k = 0; k < main.size(); k++) {
+                            System.out.println((k + 1) + ". " + main.get(k).getNom() + " : cout de construction = " + main.get(k).getCout());
+                        }
+
+                        // Demander au joueur de choisir un quartier
+                        System.out.print("Choisissez un quartier à construire (1-" + main.size() + ") : ");
+                        int choixQuartier = Interaction.lireUnEntier(1, main.size()+1);
+
+                        // Vérifier si le joueur a assez de trésors pour construire le quartier
+                        int coutQuartier = main.get(choixQuartier - 1).getCout();
+                        if (coutQuartier > joueurCourant.nbPieces()) {
+                            System.out.println("Vous n'avez pas les moyens nécessaires pour construire le quartier \"" + main.get(choixQuartier - 1).getNom() + "\".");
+                        } else {
+                            // Récupérer le quartier choisi
+                            Quartier quartierChoisi = main.get(choixQuartier - 1);
+
+                            // Ajouter le quartier dans la cité du joueur
+                            joueurCourant.ajouterQuartierDansCite(quartierChoisi);
+                            System.out.println("Vous avez construit le quartier \"" + quartierChoisi.getNom() + "\" dans votre cité.");
+
+                            // Afficher le contenu de la cité après la construction
+                            System.out.println("\nContenu de votre cité après la construction :");
+                            Quartier[] cite = joueurCourant.getCite();
+                            for (int k = 0; k < cite.length; k++) {
+                                if (cite[k] != null) {
+                                    System.out.println((k + 1) + ". " + cite[k].getNom());
+                                }
+                            }
+                        }
+                    }
+
+
+
+
+
+                        /*Quartier quartierChoisi = joueurCourant.retirerQuartierDansMain();
                         if (quartierChoisi != null) {
                             joueurCourant.ajouterQuartierDansCite(quartierChoisi);
                             System.out.println("Vous avez construit un quartier dans votre cité.");
                         } else {
                             System.out.println("Votre main est vide. Vous ne pouvez pas construire de quartier.");
-                        }
+                        }*/
                     }
                 }
             }
         }
-    }
 
     public void percevoirRessource(Joueur joueur) {
         System.out.println("\nChoisissez une action :");
@@ -339,8 +377,40 @@ public class Jeu {
             }
             //TODO Verification du premier joueur ayant complété sa cité
 
-            //TODO Ajout des bonus éventuels des Merveilles de la cité
+            //Ajout des bonus éventuels des Merveilles de la cité
+            if(joueur.quartierPresentDansCite("Dracoport")){
+                points += 2;
+                System.out.println(joueur.getNom() + " possède la merveille Dracoport dans sa cité. Elle lui rapporte 2 pts.");
+            }
 
+            if (joueur.quartierPresentDansCite("Fontaine aux Souhaits")){
+                for(Quartier quartier : joueur.getCite()){
+                    if(quartier != null){
+                        if (quartier.getType().equals("MERVEILLE")){
+                            points += 1;
+                        }
+                    }
+                }
+                System.out.println(joueur.getNom() + " possède la merveille Fontaine aux Souhaits dans sa cité. Elle lui rapporte 1 pt/merveille dans sa cité.");
+            }
+
+            if (joueur.quartierPresentDansCite("Salles des Cartes")){
+                points += joueur.nbQuartiersDansMain();
+                System.out.println(joueur.getNom() + " possède la merveille Salles des Cartes dans sa cité. Elle lui rapporte 1pt/nombre de carte dans sa main.");
+            }
+
+            if(joueur.quartierPresentDansCite("Statue Equestre") && joueur.getPossedeCouronne()){
+                points += 5;
+                System.out.println(joueur.getNom() + " possède la merveille Statue Equestre dans sa cité. Elle lui rapporte 5 pts.");
+            }
+
+            if (joueur.quartierPresentDansCite("Trésor Impérial")){
+                points += joueur.nbPieces();
+                System.out.println(joueur.getNom() + " possède la merveille Trésor Impérial dans sa cité. Elle lui rapporte 1pt/pièce d'or dans son trésor.");
+            }
+
+            System.out.println(MAGENTA + "\n RESULTATS");
+            System.out.println(joueur.getNom() + " : " + points + " points");
         }
     }
 

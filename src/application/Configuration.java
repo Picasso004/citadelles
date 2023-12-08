@@ -129,12 +129,14 @@ public class Configuration {
         Quartier courDesMiracles = new Quartier("Cour des Miracles", Quartier.TYPE_QUARTIERS[4], 2);
         Quartier manufacture = new Quartier("Manufacture", Quartier.TYPE_QUARTIERS[4], 5);
         Quartier donjon = new Quartier("Donjon", Quartier.TYPE_QUARTIERS[4], 3);
-        Quartier salleDesCartes = new Quartier("Salle des Cartes", Quartier.TYPE_QUARTIERS[4], 5);
+        Quartier salleDesCartes = new Quartier("Salles des Cartes", Quartier.TYPE_QUARTIERS[4], 5);
         Quartier dracoport = new Quartier("Dracoport", Quartier.TYPE_QUARTIERS[4], 6);
         Quartier statueEquestre = new Quartier("Statue Equestre", Quartier.TYPE_QUARTIERS[4], 3);
         Quartier ecoleDeMagie = new Quartier("Ecole de Magie", Quartier.TYPE_QUARTIERS[4], 6);
-        Quartier tresorImperial = new Quartier("Tresor Impérial", Quartier.TYPE_QUARTIERS[4], 5);
+        Quartier tresorImperial = new Quartier("Trésor Impérial", Quartier.TYPE_QUARTIERS[4], 5);
         Quartier fontaineAuxSouhaits = new Quartier("Fontaine aux Souhaits", Quartier.TYPE_QUARTIERS[4], 5);
+        Quartier tripot = new Quartier("Tripot", Quartier.TYPE_QUARTIERS[4],6 );
+
 
         p.ajouter(bibliotheque);
         p.ajouter(forge);
@@ -149,6 +151,7 @@ public class Configuration {
         p.ajouter(ecoleDeMagie);
         p.ajouter(tresorImperial);
         p.ajouter(fontaineAuxSouhaits);
+        p.ajouter(tripot);
 
         p.melanger();
 
