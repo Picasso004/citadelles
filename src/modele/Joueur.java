@@ -2,6 +2,9 @@ package modele;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static controleur.Interaction.RED;
+import static controleur.Interaction.RESET;
+
 public class Joueur {
 
     //Attributs
@@ -81,6 +84,7 @@ public class Joueur {
         if (this.nbQuartiers < 8) {
             this.cite[this.nbQuartiers] = q;
             this.nbQuartiers++;
+            System.out.println(RED + "Quartier ajouté : nbre dans cité : " + nbQuartiersDansCite() + RESET);
         }
     }
 

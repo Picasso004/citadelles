@@ -22,7 +22,7 @@ public class Interaction {
         do {
             try {
                 i = sc.nextInt();
-                sc.nextLine(); // Nettoie le retour à la ligne restant dans le buffer
+                //sc.nextLine(); // Nettoie le retour à la ligne restant dans le buffer
                 continu = false;
             } catch (InputMismatchException e) {
                 System.out.print("Veuillez rentrer un chiffre : ");
@@ -53,31 +53,29 @@ public class Interaction {
 
     // lit les réponses "oui", "non", "o" ou "n" et renvoie un booléen
     public static boolean lireOuiOuNon() {
-        boolean retour = false;
-        boolean saisieValide = false;
-        String saisie;
-
-        while (!saisieValide) {
-            saisie = lireUneChaine().toLowerCase(); // Lecture de l'entrée utilisateur en minuscules
-
-            // Comparaison de l'entrée avec les réponses attendues
-            if (saisie.equals("oui") || saisie.equals("o")) {
-                retour = true;
-                saisieValide = true;
-            } else if (saisie.equals("non") || saisie.equals("n")) {
-                retour = false;
-                saisieValide = true;
-            } else {
-                System.out.println("Réponse non reconnue.");
+        boolean retour = true;
+        boolean continu = true;
+        do {
+            String i = lireUneChaine().toLowerCase();
+            if (i.equals("oui") || i.equals("o")){
+                continu = false;
             }
-        }
-
+            else if (i.equals("non") || i.equals("n")){
+                retour = false;
+                continu = false;
+            }
+            else
+                System.out.print("Veuillez rentrer oui (o) ou non (n) : ");
+        }while(continu);
         return retour;
     }
 
     // renvoie une cha�ne de caractère lue au clavier:
     public static String lireUneChaine() {
-        String retour = sc.next();
+        String retour = null;
+        do {
+            retour = sc.next();
+        } while(retour==null);
         return retour;
     }
 }

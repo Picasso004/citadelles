@@ -36,7 +36,7 @@ public class Jeu {
         Scanner scanner = new Scanner(System.in);
         int choix;
         do{
-            System.out.println("MENU PRINCIPAL");
+            System.out.println("\nMENU PRINCIPAL");
             System.out.println("1. JOUER UNE PARTIE");
             System.out.println("2. AFFICHER LES REGLES");
             System.out.println("3. QUITTER");
@@ -228,6 +228,7 @@ public class Jeu {
         }while (!partieFinie());
 
         System.out.println("La partie est terminée !");
+        calculDesPoints();
     }
     private void initialisation(){
         // Initialiser la pioche avec les 54 cartes Quartier
@@ -341,8 +342,8 @@ public class Jeu {
     private boolean partieFinie(){
         List<Joueur> joueurs = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(plateauDeJeu.getListeJoueurs(), 0, plateauDeJeu.getNombreJoueurs())));
         for ( Joueur joueur : joueurs){
-            if (joueur.nbQuartiersDansCite() >= 7){
-                System.out.println(joueur.getNom() + " a une cité complète. La partie est terminée !");
+            if (joueur.nbQuartiersDansCite() >= 2){
+                System.out.println("\n" + joueur.getNom() + " a une cité complète. La partie est terminée !");
                 return true;
             }
         }
@@ -364,106 +365,95 @@ public class Jeu {
                 // 3a - Si le personnage est assassiné, changer de personnage
                 if (personnageCourant.getAssassine()) {
                     System.out.println(RED + personnageCourant.getNom() + " a été assassiné."+RESET);
-                } else {
-                    // 3b - Si le personnage est volé, donner de l'argent au voleur et percevoir les ressources
-                    if (personnageCourant.getVole()) {
-                        System.out.println(RED + personnageCourant.getNom() + " s'est fait voler ses ressources."+RESET);
-                    }
-
-                    //Affichage informations personnage
-                    System.out.println(MAGENTA + "Caracteristiques de " + personnageCourant.getNom() + " : ");
-                    System.out.println(personnageCourant.getCaracteristiques()+RESET);
-
-                    // Affichage informations joueur
-                    System.out.println(BLUE + "\n"+joueurCourant.getNom() + " vous disposez de : ");
-                    System.out.println("Trésor : " + joueurCourant.nbPieces() + " pieces");
-                    System.out.println("Cité : ");
-
-                    if(joueurCourant.nbQuartiersDansCite() > 0) {
-                        List<Quartier> cite = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(joueurCourant.getCite(), 0, joueurCourant.nbQuartiersDansCite())));
-                        for(int k = 0; k < cite.size();k++){
-                            System.out.println((k+1) + ". " + cite.get(k).getNom());
-                        }
-                    }
-                    else {
-                        System.out.println(RED + "Votre cite est vide !" + RESET);
-                    }
-
-                    System.out.println(BLUE+ "Votre main : ");
-
-
-                    if(joueurCourant.nbQuartiersDansMain() > 0) {
-                        ArrayList<Quartier> main = joueurCourant.getMain();
-                        for(int k = 0; k < main.size();k++){
-                            System.out.println((k+1) + ". " + main.get(k).getNom() + " : cout de construction = " + main.get(k).getCout());
-                        }
-                        System.out.println(RESET);
-                    }
-                    else {
-                        System.out.println(RED + "Votre main est vide !" + RESET);
-                    }
-
-                    percevoirRessource(joueurCourant);
-
-                    // 4 - Percevoir les ressources spécifiques
-                    //percevoirRessourcesSpecifiques(personnageCourant); // Méthode à adapter selon votre modèle
-
-                    // 5 - Si le joueur décide d'utiliser son pouvoir, utiliser le pouvoir
-                    System.out.println("\nVoulez vous utiliser votre pouvoir (oui/o non/n):");
-                    if (lireOuiOuNon()) {
-                        personnageCourant.utiliserPouvoir();
-                        System.out.println("Vous avez utilisé votre pouvoir.");
-                    }
-
-
-                    // 5b - Si le joueur veut construire, construire
-                    System.out.println("\nVoulez vous construire ? (oui/o non/n):");
-                    if (lireOuiOuNon()) {
-                        // Afficher la liste des quartiers dans la main du joueur
-                        System.out.println("\nListe des quartiers dans votre main :");
-                        ArrayList<Quartier> main = joueurCourant.getMain();
-                        for (int k = 0; k < main.size(); k++) {
-                            System.out.println((k + 1) + ". " + main.get(k).getNom() + " : cout de construction = " + main.get(k).getCout());
+                }
+                else {
+                        // 3b - Si le personnage est volé, donner de l'argent au voleur et percevoir les ressources
+                        if (personnageCourant.getVole()) {
+                            System.out.println(RED + personnageCourant.getNom() + " s'est fait voler ses ressources."+RESET);
                         }
 
-                        // Demander au joueur de choisir un quartier
-                        System.out.print("Choisissez un quartier à construire (1-" + main.size() + ") : ");
-                        int choixQuartier = Interaction.lireUnEntier(1, main.size()+1);
+                        //Affichage informations personnage
+                        System.out.println(MAGENTA + "Caracteristiques de " + personnageCourant.getNom() + " : ");
+                        System.out.println(personnageCourant.getCaracteristiques()+RESET);
 
-                        // Vérifier si le joueur a assez de trésors pour construire le quartier
-                        int coutQuartier = main.get(choixQuartier - 1).getCout();
-                        if (coutQuartier > joueurCourant.nbPieces()) {
-                            System.out.println("Vous n'avez pas les moyens nécessaires pour construire le quartier \"" + main.get(choixQuartier - 1).getNom() + "\".");
-                        } else {
-                            // Récupérer le quartier choisi
-                            Quartier quartierChoisi = main.get(choixQuartier - 1);
+                        // Affichage informations joueur
+                        System.out.println(BLUE + "\n"+joueurCourant.getNom() + " vous disposez de : ");
+                        System.out.println("Trésor : " + joueurCourant.nbPieces() + " pieces");
+                        System.out.println("Cité : ");
 
-                            // Ajouter le quartier dans la cité du joueur
-                            joueurCourant.ajouterQuartierDansCite(quartierChoisi);
-                            System.out.println("Vous avez construit le quartier \"" + quartierChoisi.getNom() + "\" dans votre cité.");
+                        if(joueurCourant.nbQuartiersDansCite() > 0) {
+                            List<Quartier> cite = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(joueurCourant.getCite(), 0, joueurCourant.nbQuartiersDansCite())));
+                            for(int k = 0; k < cite.size();k++){
+                                System.out.println((k+1) + ". " + cite.get(k).getNom());
+                            }
+                        }
+                        else {
+                            System.out.println(RED + "Votre cite est vide !" + RESET);
+                        }
 
-                            // Afficher le contenu de la cité après la construction
-                            System.out.println("\nContenu de votre cité après la construction :");
-                            Quartier[] cite = joueurCourant.getCite();
-                            for (int k = 0; k < cite.length; k++) {
-                                if (cite[k] != null) {
-                                    System.out.println((k + 1) + ". " + cite[k].getNom());
+                        System.out.println(BLUE+ "Votre main : ");
+
+
+                        if(joueurCourant.nbQuartiersDansMain() > 0) {
+                            ArrayList<Quartier> main = joueurCourant.getMain();
+                            for(int k = 0; k < main.size();k++){
+                                System.out.println((k+1) + ". " + main.get(k).getNom() + " : cout de construction = " + main.get(k).getCout());
+                            }
+                            System.out.println(RESET);
+                        }
+                        else {
+                            System.out.println(RED + "Votre main est vide !" + RESET);
+                        }
+
+                        percevoirRessource(joueurCourant);
+
+                        // 4 - Percevoir les ressources spécifiques
+                        //percevoirRessourcesSpecifiques(personnageCourant); // Méthode à adapter selon votre modèle
+
+                        // 5 - Si le joueur décide d'utiliser son pouvoir, utiliser le pouvoir
+                        System.out.println("\nVoulez vous utiliser votre pouvoir (oui/o non/n):");
+                        if (lireOuiOuNon()) {
+                            personnageCourant.utiliserPouvoir();
+                            System.out.println("Vous avez utilisé votre pouvoir.");
+                        }
+
+                        // 5b - Si le joueur veut construire, construire
+                        System.out.println("\nVoulez vous construire ? (oui/o non/n):");
+                        if (lireOuiOuNon()) {
+                            // Afficher la liste des quartiers dans la main du joueur
+                            System.out.println("Trésor : " + joueurCourant.nbPieces() + " pieces");
+                            System.out.println("\nListe des quartiers dans votre main :");
+                            ArrayList<Quartier> main = joueurCourant.getMain();
+                            for (int k = 0; k < main.size(); k++) {
+                                System.out.println((k + 1) + ". " + main.get(k).getNom() + " : cout de construction = " + main.get(k).getCout());
+                            }
+
+                            // Demander au joueur de choisir un quartier
+                            System.out.print("Choisissez un quartier à construire (1-" + main.size() + ") : ");
+                            int choixQuartier = Interaction.lireUnEntier(1, main.size()+1);
+
+                            // Vérifier si le joueur a assez de trésors pour construire le quartier
+                            int coutQuartier = main.get(choixQuartier - 1).getCout();
+                            if (coutQuartier > joueurCourant.nbPieces()) {
+                                System.out.println("Vous n'avez pas les moyens nécessaires pour construire le quartier \"" + main.get(choixQuartier - 1).getNom() + "\".");
+                            } else {
+                                // Récupérer le quartier choisi
+                                Quartier quartierChoisi = main.remove(choixQuartier - 1);
+
+                                // Ajouter le quartier dans la cité du joueur
+                                joueurCourant.ajouterQuartierDansCite(quartierChoisi);
+                                System.out.println("Vous avez construit le quartier \"" + quartierChoisi.getNom() + "\" dans votre cité.");
+
+                                // Afficher le contenu de la cité après la construction
+                                System.out.println("\nContenu de votre cité après la construction :");
+                                Quartier[] cite = joueurCourant.getCite();
+                                for (int k = 0; k < cite.length; k++) {
+                                    if (cite[k] != null) {
+                                        System.out.println((k + 1) + ". " + cite[k].getNom());
+                                    }
                                 }
                             }
                         }
-                    }
-
-
-
-
-
-                        /*Quartier quartierChoisi = joueurCourant.retirerQuartierDansMain();
-                        if (quartierChoisi != null) {
-                            joueurCourant.ajouterQuartierDansCite(quartierChoisi);
-                            System.out.println("Vous avez construit un quartier dans votre cité.");
-                        } else {
-                            System.out.println("Votre main est vide. Vous ne pouvez pas construire de quartier.");
-                        }*/
                     }
                 }
             }
@@ -510,60 +500,76 @@ public class Jeu {
     }
     private void calculDesPoints(){
         //TODO implémenter la méthode
-        System.out.println("CALCUL DES POINTS");
+        System.out.println("\nCALCUL DES POINTS");
         System.out.println("******************");
+
+        HashMap<Joueur, Integer> pointsDesJoueurs = new HashMap<>();
 
         for (Joueur joueur : plateauDeJeu.getListeJoueurs()){
             int points = 0;
-
-            //Calcul de la somme total des coûts de construction des quartiers de la cité
-            for (Quartier quartier : joueur.getCite()){
-                if (quartier != null){
-                    points += quartier.getCout();
-                }
-            }
-            //Vérification de la présence d'au moins un quartier de chaque type
-            boolean typesDifferents = aCinqTypesDifferents(joueur.getCite());
-            if (typesDifferents){
-                points += 3;
-            }
-            //TODO Verification du premier joueur ayant complété sa cité
-
-            //Ajout des bonus éventuels des Merveilles de la cité
-            if(joueur.quartierPresentDansCite("Dracoport")){
-                points += 2;
-                System.out.println(joueur.getNom() + " possède la merveille Dracoport dans sa cité. Elle lui rapporte 2 pts.");
-            }
-
-            if (joueur.quartierPresentDansCite("Fontaine aux Souhaits")){
-                for(Quartier quartier : joueur.getCite()){
-                    if(quartier != null){
-                        if (quartier.getType().equals("MERVEILLE")){
-                            points += 1;
-                        }
+            if(joueur != null){
+                //Calcul de la somme total des coûts de construction des quartiers de la cité
+                for (Quartier quartier : joueur.getCite()){
+                    if (quartier != null){
+                        points += quartier.getCout();
                     }
                 }
-                System.out.println(joueur.getNom() + " possède la merveille Fontaine aux Souhaits dans sa cité. Elle lui rapporte 1 pt/merveille dans sa cité.");
-            }
+                //Vérification de la présence d'au moins un quartier de chaque type
+                boolean typesDifferents = aCinqTypesDifferents(joueur.getCite());
+                if (typesDifferents){
+                    points += 3;
+                }
 
-            if (joueur.quartierPresentDansCite("Salles des Cartes")){
-                points += joueur.nbQuartiersDansMain();
-                System.out.println(joueur.getNom() + " possède la merveille Salles des Cartes dans sa cité. Elle lui rapporte 1pt/nombre de carte dans sa main.");
-            }
+                //Ajout des bonus éventuels des Merveilles de la cité
+                if(joueur.quartierPresentDansCite("Dracoport")){
+                    points += 2;
+                    System.out.println(joueur.getNom() + " possède la merveille Dracoport dans sa cité. Elle lui rapporte 2 pts.");
+                }
 
-            if(joueur.quartierPresentDansCite("Statue Equestre") && joueur.getPossedeCouronne()){
-                points += 5;
-                System.out.println(joueur.getNom() + " possède la merveille Statue Equestre dans sa cité. Elle lui rapporte 5 pts.");
-            }
+                if (joueur.quartierPresentDansCite("Fontaine aux Souhaits")){
+                    for(Quartier quartier : joueur.getCite()){
+                        if(quartier != null){
+                            if (quartier.getType().equals("MERVEILLE")){
+                                points += 1;
+                            }
+                        }
+                    }
+                    System.out.println(joueur.getNom() + " possède la merveille Fontaine aux Souhaits dans sa cité. Elle lui rapporte 1 pt/merveille dans sa cité.");
+                }
 
-            if (joueur.quartierPresentDansCite("Trésor Impérial")){
-                points += joueur.nbPieces();
-                System.out.println(joueur.getNom() + " possède la merveille Trésor Impérial dans sa cité. Elle lui rapporte 1pt/pièce d'or dans son trésor.");
-            }
+                if (joueur.quartierPresentDansCite("Salles des Cartes")){
+                    points += joueur.nbQuartiersDansMain();
+                    System.out.println(joueur.getNom() + " possède la merveille Salles des Cartes dans sa cité. Elle lui rapporte 1pt/nombre de carte dans sa main.");
+                }
 
-            System.out.println(MAGENTA + "\n RESULTATS");
-            System.out.println(joueur.getNom() + " : " + points + " points");
+                if(joueur.quartierPresentDansCite("Statue Equestre") && joueur.getPossedeCouronne()){
+                    points += 5;
+                    System.out.println(joueur.getNom() + " possède la merveille Statue Equestre dans sa cité. Elle lui rapporte 5 pts.");
+                }
+
+                if (joueur.quartierPresentDansCite("Trésor Impérial")){
+                    points += joueur.nbPieces();
+                    System.out.println(joueur.getNom() + " possède la merveille Trésor Impérial dans sa cité. Elle lui rapporte 1pt/pièce d'or dans son trésor.");
+                }
+
+                // Ajout des points pour ce joueur dans la HashMap
+                pointsDesJoueurs.put(joueur, points);
+            }
         }
+
+        System.out.println(MAGENTA + "\n RESULTATS"+RESET);
+
+        // Maintenant que tous les points sont calculés, on peut les trier par ordre décroissant
+        // En utilisant un TreeMap pour trier la HashMap par les valeurs (points) de manière décroissante
+        TreeMap<Joueur, Integer> pointsTries = new TreeMap<>((a, b) -> pointsDesJoueurs.get(b).compareTo(pointsDesJoueurs.get(a)));
+        pointsTries.putAll(pointsDesJoueurs);
+
+        // Affichage des points triés
+        for (Map.Entry<Joueur, Integer> entry : pointsTries.entrySet()) {
+            System.out.println(entry.getKey().getNom() + " : " + entry.getValue() + " points (Dernier personnage : " +
+                    entry.getKey().getPersonnage().getNom() + " - rang " + entry.getKey().getPersonnage().getRang()+")");
+        }
+        System.out.println();
     }
 
     //Methode auxiliaire pour vérifier la présence d'au moins un quartier de chaque type
