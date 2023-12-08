@@ -428,36 +428,50 @@ public class Jeu {
                         // Afficher la liste des quartiers dans la main du joueur
                         System.out.println("\nListe des quartiers dans votre main :");
                         ArrayList<Quartier> main = joueurCourant.getMain();
+                        System.out.println("0. Ne rien construire");
                         for (int k = 0; k < main.size(); k++) {
                             System.out.println((k + 1) + ". " + main.get(k).getNom() + " : cout de construction = " + main.get(k).getCout());
                         }
 
                         // Demander au joueur de choisir un quartier
-                        System.out.print("Choisissez un quartier à construire (1-" + main.size() + ") : ");
-                        int choixQuartier = Interaction.lireUnEntier(1, main.size()+1);
+                        boolean choixValide = false;
+                        while (!choixValide) {
+                            // Demander au joueur de choisir un quartier (ou "0" pour ne rien construire)
+                            System.out.print("Choisissez un quartier à construire (0-" + main.size() + ") : ");
+                            int choixQuartier = Interaction.lireUnEntier(0, main.size()+1);
 
-                        // Vérifier si le joueur a assez de trésors pour construire le quartier
-                        int coutQuartier = main.get(choixQuartier - 1).getCout();
-                        if (coutQuartier > joueurCourant.nbPieces()) {
-                            System.out.println("Vous n'avez pas les moyens nécessaires pour construire le quartier \"" + main.get(choixQuartier - 1).getNom() + "\".");
-                        } else {
-                            // Récupérer le quartier choisi
-                            Quartier quartierChoisi = main.get(choixQuartier - 1);
+                            while (choixQuartier != 0 && main.get(choixQuartier - 1).getCout() > joueurCourant.nbPieces()) {
+                                // Le joueur a choisi un quartier, mais il n'a pas les moyens de le construire
+                                System.out.println("Vous n'avez pas les moyens nécessaires pour construire le quartier \"" + main.get(choixQuartier - 1).getNom() + "\".");
 
-                            // Ajouter le quartier dans la cité du joueur
-                            joueurCourant.ajouterQuartierDansCite(quartierChoisi);
-                            System.out.println("Vous avez construit le quartier \"" + quartierChoisi.getNom() + "\" dans votre cité.");
+                                // Proposer de refaire un choix en lui permettant de saisir une nouvelle valeur au clavier
+                                System.out.print("Veuillez choisir à nouveau (0-" + main.size() + ") : ");
+                                choixQuartier = Interaction.lireUnEntier(0, main.size()+1);
+                            }
 
-                            // Afficher le contenu de la cité après la construction
-                            System.out.println("\nContenu de votre cité après la construction :");
-                            Quartier[] cite = joueurCourant.getCite();
-                            for (int k = 0; k < cite.length; k++) {
-                                if (cite[k] != null) {
-                                    System.out.println((k + 1) + ". " + cite[k].getNom());
+                            if (choixQuartier == 0) {
+                                // Le joueur a choisi de ne rien construire
+                                System.out.println("Vous avez choisi de ne rien construire.");
+                                choixValide = true;
+                            } else {
+                                // Le choix est valide, procéder comme avant
+                                Quartier quartierChoisi = main.get(choixQuartier - 1);
+                                joueurCourant.ajouterQuartierDansCite(quartierChoisi);
+                                System.out.println("Vous avez construit le quartier \"" + quartierChoisi.getNom() + "\" dans votre cité.");
+
+                                System.out.println("\nContenu de votre cité après la construction :");
+                                Quartier[] cite = joueurCourant.getCite();
+                                for (int k = 0; k < cite.length; k++) {
+                                    if (cite[k] != null) {
+                                        System.out.println((k + 1) + ". " + cite[k].getNom());
+                                    }
                                 }
+
+                                choixValide = true;
                             }
                         }
                     }
+
 
 
 
