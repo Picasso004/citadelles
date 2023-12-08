@@ -24,6 +24,13 @@ public class Jeu {
     public void jouer(){
         //Affichage message de bienvenue
         System.out.println("BIENVENUE SUR CITADELLES v1.0 !!!!");
+        System.out.println("\n" +
+                "_________ .__  __              .___     .__  .__                 \n" +
+                "\\_   ___ \\|__|/  |______     __| _/____ |  | |  |   ____   ______\n" +
+                "/    \\  \\/|  \\   __\\__  \\   / __ |/ __ \\|  | |  | _/ __ \\ /  ___/\n" +
+                "\\     \\___|  ||  |  / __ \\_/ /_/ \\  ___/|  |_|  |_\\  ___/ \\___ \\ \n" +
+                " \\______  /__||__| (____  /\\____ |\\___  >____/____/\\___  >____  >\n" +
+                "        \\/              \\/      \\/    \\/               \\/     \\/ \n");
         //Affichage du menu
         Scanner scanner = new Scanner(System.in);
         int choix;
@@ -139,15 +146,15 @@ public class Jeu {
             System.out.println((i + 1) + ". " + personnagesRestants.get(i).getNom());
         }
 
-        Scanner scanner = new Scanner(System.in);
         int choix;
         do {
             System.out.print("Choisissez un personnage (1-" + personnagesRestants.size() + ") : ");
-            choix = scanner.nextInt();
+            choix = Interaction.lireUnEntier(1, personnagesRestants.size() + 1);
         } while (choix < 1 || choix > personnagesRestants.size());
 
         return personnagesRestants.get(choix - 1);
     }
+
     private void gestionCouronne(){
         //TODO VERIFIER
         Personnage roi = null;
@@ -200,7 +207,7 @@ public class Jeu {
             Joueur joueurCourant = personnageCourant.getJoueur();
 
             if(joueurCourant != null){
-                System.out.println(YELLOW + "\nLe personnage "  + personnageCourant.getNom() + " est appellé " + RESET);
+                System.out.println(YELLOW + "\nLe personnage "  + personnageCourant.getNom() + " est appelé " + RESET);
 
                 // 3a - Si le personnage est assassiné, changer de personnage
                 if (personnageCourant.getAssassine()) {
@@ -217,13 +224,13 @@ public class Jeu {
 
                     // Affichage informations joueur
                     System.out.println(BLUE + "\n"+joueurCourant.getNom() + " vous disposez de : ");
-                    System.out.println("Trésor : " + joueurCourant.nbPieces());
+                    System.out.println("Trésor : " + joueurCourant.nbPieces() + " pieces");
                     System.out.println("Cité : ");
 
                     if(joueurCourant.nbQuartiersDansCite() > 0) {
-                        Quartier[] cite = joueurCourant.getCite();
-                        for(int k = 0; k < cite.length;k++){
-                            System.out.println((k+1) + ". " + cite[k].getNom());
+                        List<Quartier> cite = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(joueurCourant.getCite(), 0, joueurCourant.nbQuartiersDansCite())));
+                        for(int k = 0; k < cite.size();k++){
+                            System.out.println((k+1) + ". " + cite.get(k).getNom());
                         }
                     }
                     else {
@@ -231,6 +238,7 @@ public class Jeu {
                     }
 
                     System.out.println(BLUE+ "Votre main : ");
+
 
                     if(joueurCourant.nbQuartiersDansMain() > 0) {
                         ArrayList<Quartier> main = joueurCourant.getMain();
@@ -370,13 +378,6 @@ public class Jeu {
     }
 
 
-    // Méthodes à implémenter
-    /*private Joueur choisirPremierJoueur() {
-        // Choisir le premier joueur en fonction de celui qui a la couronne
-        // Méthode à implémenter
-        return null;
-    }*/
-
     /*private void percevoirRessourcesSpecifiques(Personnage personnage) {
         // Percevoir les ressources spécifiques en fonction du personnage
         // Méthode à implémenter
@@ -386,10 +387,4 @@ public class Jeu {
         // Méthode à implémenter
         return false;
     }
-
-    public static void main(String[] args){
-        Jeu jeu = new Jeu();
-        jeu.jouer();
-    }
-
 }

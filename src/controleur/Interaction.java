@@ -22,10 +22,11 @@ public class Interaction {
         do {
             try {
                 i = sc.nextInt();
+                sc.nextLine(); // Nettoie le retour à la ligne restant dans le buffer
                 continu = false;
             } catch (InputMismatchException e) {
                 System.out.print("Veuillez rentrer un chiffre : ");
-                sc.next(); // passe l'entier pour �viter de boucler
+                sc.next(); // passe l'entier pour éviter de boucler
             }
         } while(continu);
         return i;
@@ -48,6 +49,7 @@ public class Interaction {
         }
         return i;
     }
+
 
     // lit les réponses "oui", "non", "o" ou "n" et renvoie un booléen
     public static boolean lireOuiOuNon() {
