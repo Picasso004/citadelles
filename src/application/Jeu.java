@@ -1,12 +1,13 @@
 package application;
 
 import controleur.Interaction;
+import static controleur.Interaction.*;
 import modele.*;
 import java.util.List;
 
 import java.util.*;
 
-import static controleur.Interaction.lireOuiOuNon;
+
 
 public class Jeu {
     private PlateauDeJeu plateauDeJeu;
@@ -99,12 +100,11 @@ public class Jeu {
     }
 
     private void choixPersonnages() {
-
         //Initialisation personnages restants
         Personnage[] personnagesArray = plateauDeJeu.getListePersonnages();
         this.personnagesRestants = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(personnagesArray, 0, plateauDeJeu.getNombrePersonnages())));
 
-        System.out.println("Choix des personnages :");
+        System.out.println(Interaction.GREEN + "Choix des personnages :" + Interaction.RESET);
 
         Collections.shuffle(personnagesRestants);
 
@@ -117,7 +117,7 @@ public class Jeu {
 
         for (int i = 0; i<this.plateauDeJeu.getNombreJoueurs(); i++) {
             Joueur joueur = listeJoueur[i];
-            System.out.println("\nC'est au tour du "+joueur.getNom() + " de choisir ");
+            System.out.println(YELLOW + "\nC'est au tour du "+joueur.getNom() + " de choisir :" + RESET);
 
             System.out.println("Le personnage \"" + carteVisible.getNom() + "\" est écarté face visible");
             System.out.println("Le personnage \"" + carteCachee1.getNom() + "\" est écarté face cachée");
@@ -181,7 +181,6 @@ public class Jeu {
     }
     private boolean partieFinie(){
         List<Joueur> joueurs = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(plateauDeJeu.getListeJoueurs(), 0, plateauDeJeu.getNombreJoueurs())));
-        //TODO VERIFIER
         for ( Joueur joueur : joueurs){
             if (joueur.nbQuartiersDansCite() >= 7){
                 System.out.println(joueur.getNom() + " a une cité complète. La partie est terminée !");
@@ -194,27 +193,30 @@ public class Jeu {
         // 1 - Choix des Personnages
         choixPersonnages();
 
-        System.out.println("\nDébut du tour");
+        System.out.println(GREEN + "\nDébut du tour" + RESET);
 
         for(int i = 0; i<this.plateauDeJeu.getNombrePersonnages();i++){
             Personnage personnageCourant = this.plateauDeJeu.getPersonnage(i);
             Joueur joueurCourant = personnageCourant.getJoueur();
 
             if(joueurCourant != null){
-                System.out.println("\nLe personnage "  + personnageCourant.getNom() + " est appellé ") ;
+                System.out.println(YELLOW + "\nLe personnage "  + personnageCourant.getNom() + " est appellé " + RESET);
 
                 // 3a - Si le personnage est assassiné, changer de personnage
                 if (personnageCourant.getAssassine()) {
-                    System.out.println(personnageCourant.getNom() + "a été assassiné.");
-                    //changerDePersonnage(joueurCourant, personnagesRestants);
+                    System.out.println(RED + personnageCourant.getNom() + " a été assassiné."+RESET);
                 } else {
                     // 3b - Si le personnage est volé, donner de l'argent au voleur et percevoir les ressources
                     if (personnageCourant.getVole()) {
-                        System.out.println(personnageCourant.getNom() + "s'est fait voler ses ressources.");
+                        System.out.println(RED + personnageCourant.getNom() + " s'est fait voler ses ressources."+RESET);
                     }
 
+                    //Affichage informations personnage
+                    System.out.println(MAGENTA + "Caracteristiques de " + personnageCourant.getNom() + " : ");
+                    System.out.println(personnageCourant.getCaracteristiques()+RESET);
+
                     // Affichage informations joueur
-                    System.out.println(joueurCourant.getNom() + " vous disposez de : ");
+                    System.out.println(BLUE + "\n"+joueurCourant.getNom() + " vous disposez de : ");
                     System.out.println("Trésor : " + joueurCourant.nbPieces());
                     System.out.println("Cité : ");
 
@@ -225,19 +227,20 @@ public class Jeu {
                         }
                     }
                     else {
-                        System.out.println("Votre cite est vide !");
+                        System.out.println(RED + "Votre cite est vide !" + RESET);
                     }
 
-                    System.out.println("Votre main : ");
+                    System.out.println(BLUE+ "Votre main : ");
 
                     if(joueurCourant.nbQuartiersDansMain() > 0) {
                         ArrayList<Quartier> main = joueurCourant.getMain();
                         for(int k = 0; k < main.size();k++){
                             System.out.println((k+1) + ". " + main.get(k).getNom());
                         }
+                        System.out.println(RESET);
                     }
                     else {
-                        System.out.println("Votre main est vide !");
+                        System.out.println(RED + "Votre main est vide !" + RESET);
                     }
 
                     percevoirRessource(joueurCourant);
@@ -374,11 +377,6 @@ public class Jeu {
         return null;
     }*/
 
-    private void changerDePersonnage(Joueur joueur, List<Personnage> personnagesRestants) {
-        // Changer de personnage pour le joueur donné
-        Personnage nouveauPersonnage = choisirPersonnage(personnagesRestants);
-        joueur.setPersonnage(nouveauPersonnage);
-    }
     /*private void percevoirRessourcesSpecifiques(Personnage personnage) {
         // Percevoir les ressources spécifiques en fonction du personnage
         // Méthode à implémenter
