@@ -337,6 +337,12 @@ public class Jeu {
     }
     private void reinitialisationPersonnages(){
         //TODO IMPLEMENTER
+        for (Personnage personnage : plateauDeJeu.getListePersonnages()) {
+            // Réinitialisez les personnages
+            if(personnage != null) {
+                    personnage.reinitialiser();
+            }
+    }
     }
     private boolean partieFinie(){
         List<Joueur> joueurs = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(plateauDeJeu.getListeJoueurs(), 0, plateauDeJeu.getNombreJoueurs())));
