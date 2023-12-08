@@ -233,7 +233,7 @@ public class Jeu {
                     if(joueurCourant.nbQuartiersDansMain() > 0) {
                         ArrayList<Quartier> main = joueurCourant.getMain();
                         for(int k = 0; k < main.size();k++){
-                            System.out.println((k+1) + ". " + main.get(k).getNom());
+                            System.out.println((k+1) + ". " + main.get(k).getNom() + " : cout de construction = " + main.get(k).getCout());
                         }
                     }
                     else {
@@ -252,21 +252,59 @@ public class Jeu {
                         System.out.println("Vous avez utilisé votre pouvoir.");
                     }
 
+
                     // 5b - Si le joueur veut construire, construire
                     System.out.println("\nVoulez vous construire ? (oui/o non/n):");
                     if (lireOuiOuNon()) {
-                        Quartier quartierChoisi = joueurCourant.retirerQuartierDansMain();
+                        // Afficher la liste des quartiers dans la main du joueur
+                        System.out.println("\nListe des quartiers dans votre main :");
+                        ArrayList<Quartier> main = joueurCourant.getMain();
+                        for (int k = 0; k < main.size(); k++) {
+                            System.out.println((k + 1) + ". " + main.get(k).getNom() + " : cout de construction = " + main.get(k).getCout());
+                        }
+
+                        // Demander au joueur de choisir un quartier
+                        System.out.print("Choisissez un quartier à construire (1-" + main.size() + ") : ");
+                        int choixQuartier = Interaction.lireUnEntier(1, main.size()+1);
+
+                        // Vérifier si le joueur a assez de trésors pour construire le quartier
+                        int coutQuartier = main.get(choixQuartier - 1).getCout();
+                        if (coutQuartier > joueurCourant.nbPieces()) {
+                            System.out.println("Vous n'avez pas les moyens nécessaires pour construire le quartier \"" + main.get(choixQuartier - 1).getNom() + "\".");
+                        } else {
+                            // Récupérer le quartier choisi
+                            Quartier quartierChoisi = main.get(choixQuartier - 1);
+
+                            // Ajouter le quartier dans la cité du joueur
+                            joueurCourant.ajouterQuartierDansCite(quartierChoisi);
+                            System.out.println("Vous avez construit le quartier \"" + quartierChoisi.getNom() + "\" dans votre cité.");
+
+                            // Afficher le contenu de la cité après la construction
+                            System.out.println("\nContenu de votre cité après la construction :");
+                            Quartier[] cite = joueurCourant.getCite();
+                            for (int k = 0; k < cite.length; k++) {
+                                if (cite[k] != null) {
+                                    System.out.println((k + 1) + ". " + cite[k].getNom());
+                                }
+                            }
+                        }
+                    }
+
+
+
+
+
+                        /*Quartier quartierChoisi = joueurCourant.retirerQuartierDansMain();
                         if (quartierChoisi != null) {
                             joueurCourant.ajouterQuartierDansCite(quartierChoisi);
                             System.out.println("Vous avez construit un quartier dans votre cité.");
                         } else {
                             System.out.println("Votre main est vide. Vous ne pouvez pas construire de quartier.");
-                        }
+                        }*/
                     }
                 }
             }
         }
-    }
 
     public void percevoirRessource(Joueur joueur) {
         System.out.println("\nChoisissez une action :");
