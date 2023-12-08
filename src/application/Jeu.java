@@ -331,8 +331,40 @@ public class Jeu {
             }
             //TODO Verification du premier joueur ayant complété sa cité
 
-            //TODO Ajout des bonus éventuels des Merveilles de la cité
+            //Ajout des bonus éventuels des Merveilles de la cité
+            if(joueur.quartierPresentDansCite("Dracoport")){
+                points += 2;
+                System.out.println(joueur.getNom() + " possède la merveille Dracoport dans sa cité. Elle lui rapporte 2 pts.");
+            }
 
+            if (joueur.quartierPresentDansCite("Fontaine aux Souhaits")){
+                for(Quartier quartier : joueur.getCite()){
+                    if(quartier != null){
+                        if (quartier.getType().equals("MERVEILLE")){
+                            points += 1;
+                        }
+                    }
+                }
+                System.out.println(joueur.getNom() + " possède la merveille Fontaine aux Souhaits dans sa cité. Elle lui rapporte 1 pt/merveille dans sa cité.");
+            }
+
+            if (joueur.quartierPresentDansCite("Salles des Cartes")){
+                points += joueur.nbQuartiersDansMain();
+                System.out.println(joueur.getNom() + " possède la merveille Salles des Cartes dans sa cité. Elle lui rapporte 1pt/nombre de carte dans sa main.");
+            }
+
+            if(joueur.quartierPresentDansCite("Statue Equestre") && joueur.getPossedeCouronne()){
+                points += 5;
+                System.out.println(joueur.getNom() + " possède la merveille Statue Equestre dans sa cité. Elle lui rapporte 5 pts.");
+            }
+
+            if (joueur.quartierPresentDansCite("Trésor Impérial")){
+                points += joueur.nbPieces();
+                System.out.println(joueur.getNom() + " possède la merveille Trésor Impérial dans sa cité. Elle lui rapporte 1pt/pièce d'or dans son trésor.");
+            }
+
+            System.out.println(MAGENTA + "\n RESULTATS");
+            System.out.println(joueur.getNom() + " : " + points + " points");
         }
     }
 
