@@ -395,7 +395,7 @@ public class Jeu {
         List<Joueur> joueurs = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(plateauDeJeu.getListeJoueurs(), 0, plateauDeJeu.getNombreJoueurs())));
         for ( Joueur joueur : joueurs){
             if (joueur.nbQuartiersDansCite() >= 2){
-                System.out.println("\n" + joueur.getNom() + " a une cité complète. La partie est terminée !");
+                System.out.println(GREEN + "\n" + joueur.getNom() + " a une cité complète. La partie est terminée !" + RESET);
                 return true;
             }
         }
@@ -532,6 +532,7 @@ public class Jeu {
                 }
                 }
             }
+            System.out.println("***********Fin du tour***********");
         }
 
     public void percevoirRessource(Joueur joueur) {
@@ -579,9 +580,11 @@ public class Jeu {
 
         HashMap<Joueur, Integer> pointsDesJoueurs = new HashMap<>();
 
+        System.out.println("Taille" + plateauDeJeu.getListeJoueurs().length);
         for (Joueur joueur : plateauDeJeu.getListeJoueurs()){
             int points = 0;
             if(joueur != null){
+                System.out.println(joueur.getNom());
                 //Calcul de la somme total des coûts de construction des quartiers de la cité
                 for (Quartier quartier : joueur.getCite()){
                     if (quartier != null){
