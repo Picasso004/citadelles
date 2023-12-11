@@ -338,6 +338,9 @@ public class Jeu {
     }
     private void reinitialisationPersonnages(){
         //TODO IMPLEMENTER
+            for (Personnage personnage : plateauDeJeu.getListePersonnages()) {
+                personnage.reinitialiser();
+            }
     }
     private boolean partieFinie(){
         List<Joueur> joueurs = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(plateauDeJeu.getListeJoueurs(), 0, plateauDeJeu.getNombreJoueurs())));
@@ -451,6 +454,7 @@ public class Jeu {
                             } else {
                                 // Le choix est valide, procéder comme avant
                                 Quartier quartierChoisi = main.get(choixQuartier - 1);
+                                int PieceRestant = joueurCourant.nbPieces() - quartierChoisi.getCout();
                                 joueurCourant.ajouterQuartierDansCite(quartierChoisi);
                                 System.out.println("Vous avez construit le quartier \"" + quartierChoisi.getNom() + "\" dans votre cité.");
 
@@ -461,6 +465,7 @@ public class Jeu {
                                         System.out.println((k + 1) + ". " + cite[k].getNom());
                                     }
                                 }
+                                System.out.println("\nIl vous reste : Trésor : " + PieceRestant + " pièces");
 
                                 choixValide = true;
                             }
