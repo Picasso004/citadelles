@@ -377,10 +377,10 @@ public class Jeu {
         }
     }
     private void reinitialisationPersonnages(){
-        //TODO IMPLEMENTER
-            for (Personnage personnage : plateauDeJeu.getListePersonnages()) {
+        for (Personnage personnage : plateauDeJeu.getListePersonnages()) {
+            if(personnage != null)
                 personnage.reinitialiser();
-            }
+        }
     }
     private boolean partieFinie(){
         List<Joueur> joueurs = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(plateauDeJeu.getListeJoueurs(), 0, plateauDeJeu.getNombreJoueurs())));
@@ -464,6 +464,7 @@ public class Jeu {
                         System.out.println("\nVoulez vous construire ? (oui/o non/n):");
                         if (lireOuiOuNon()) {
                             // Afficher la liste des quartiers dans la main du joueur
+                            System.out.println(YELLOW + "Trésor : " + joueurCourant.nbPieces() + " pieces" + RESET);
                             System.out.println("\nListe des quartiers dans votre main :");
                             ArrayList<Quartier> main = joueurCourant.getMain();
                             System.out.println("0. Ne rien construire");
