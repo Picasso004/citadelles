@@ -460,6 +460,21 @@ public class Jeu {
                             System.out.println("Vous avez utilisé votre pouvoir.");
                         }
 
+                        // Si le joueur décide d'utiliser son pouvoir avatar
+                        System.out.println("\nVoulez vous utiliser votre pouvoir avatar (oui/o non/n):");
+                        if(lireOuiOuNon()){
+                            personnageCourant.utiliserPouvoirAvatar();
+                            System.out.println("Vous avez utilisé votre pouvoir avatar.");
+                        }
+
+
+
+
+
+
+
+
+
                         // 5b - Si le joueur veut construire, construire
                         System.out.println("\nVoulez vous construire ? (oui/o non/n):");
                         if (lireOuiOuNon()) {
