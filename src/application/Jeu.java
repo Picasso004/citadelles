@@ -475,14 +475,6 @@ public class Jeu {
                             System.out.println("Vous avez utilisé votre pouvoir avatar.");
                         }
 
-
-
-
-
-
-
-
-
                         // 5b - Si le joueur veut construire, construire
                         System.out.println("\nVoulez vous construire ? (oui/o non/n):");
                         if (lireOuiOuNon()) {
@@ -517,7 +509,7 @@ public class Jeu {
                                 choixValide = true;
                             } else {
                                 // Le choix est valide, procéder comme avant
-                                Quartier quartierChoisi = main.get(choixQuartier - 1);
+                                Quartier quartierChoisi = main.remove(choixQuartier - 1);
                                 int PieceRestant = joueurCourant.nbPieces() - quartierChoisi.getCout();
                                 joueurCourant.ajouterQuartierDansCite(quartierChoisi);
                                 System.out.println("Vous avez construit le quartier \"" + quartierChoisi.getNom() + "\" dans votre cité.");
@@ -581,7 +573,6 @@ public class Jeu {
         }
     }
     private void calculDesPoints(){
-        //TODO implémenter la méthode
         System.out.println("\nCALCUL DES POINTS");
         System.out.println("******************");
 
