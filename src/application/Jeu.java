@@ -269,9 +269,19 @@ public class Jeu {
         Collections.shuffle(personnagesRestants);
 
         // Écarte deux cartes face cachée et une face visible
-        Personnage carteVisible = personnagesRestants.remove(0);
-        Personnage carteCachee1 = personnagesRestants.remove(0);
-        Personnage carteCachee2 = personnagesRestants.remove(0);
+        Personnage carteVisible1 = personnagesRestants.remove(0);
+        if(carteVisible1.getNom().equals("Roi")){
+            carteVisible1 = personnagesRestants.remove(0);
+            personnagesRestants.add(carteVisible1);
+        }
+
+        Personnage carteVisible2 = personnagesRestants.remove(0);
+        if(carteVisible2.getNom().equals("Roi")){
+            personnagesRestants.add(carteVisible2);
+            carteVisible2 = personnagesRestants.remove(0);
+        }
+
+        Personnage carteCachee = personnagesRestants.remove(0);
 
         Joueur[] temp = this.plateauDeJeu.getListeJoueurs();
         Joueur[] listeJoueur = new Joueur[this.plateauDeJeu.getNombreJoueurs()];
@@ -310,9 +320,7 @@ public class Jeu {
                 nouveauTableau[indexNouveauTableau] = listeJoueur[i];
                 indexNouveauTableau++;
             }
-
             listeJoueur = nouveauTableau;
-
         }
 
 
@@ -320,8 +328,8 @@ public class Jeu {
             Joueur joueur = listeJoueur[i];
             System.out.println(YELLOW + "\nC'est au tour du "+joueur.getNom() + " de choisir :" + RESET);
 
-            System.out.println("Le personnage \"" + carteVisible.getNom() + "\" est écarté face visible");
-            System.out.println("Le personnage \"" + carteCachee1.getNom() + "\" est écarté face cachée");
+            System.out.println("Le personnage \"" + carteVisible1.getNom() + "\" est écarté face visible");
+            System.out.println("Le personnage \"" + carteVisible2.getNom() + "\" est écarté face visible");
             System.out.println("Un personnage est écarté face cachée");
 
             Personnage p = choisirPersonnage(personnagesRestants);

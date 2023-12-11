@@ -3,7 +3,6 @@ package controleur;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-
 public class Interaction {
     private static Scanner sc = new Scanner(System.in);
 
@@ -15,67 +14,72 @@ public class Interaction {
     public static String BLUE = "\u001B[34m";
     public static String MAGENTA = "\u001B[35m";
 
-
     public static int lireUnEntier() {
         int i = 0;
         boolean continu = true;
         do {
             try {
                 i = sc.nextInt();
-                //sc.nextLine(); // Nettoie le retour à la ligne restant dans le buffer
                 continu = false;
             } catch (InputMismatchException e) {
                 System.out.print("Veuillez rentrer un chiffre : ");
                 sc.next(); // passe l'entier pour éviter de boucler
             }
-        } while(continu);
+        } while (continu);
         return i;
     }
 
-    // renvoie un entier lu au clavier compris dans l'intervalle [borneMin, borneMax[
+    // renvoie un entier lu au clavier compris dans l'intervalle
+    //     [borneMin, borneMax[
     public static int lireUnEntier(int borneMin, int borneMax) {
         int i = 0;
-        boolean valide = false;
-
-        // Tant que l'entrée n'est pas valide, demander à l'utilisateur de saisir un entier
-        while (!valide) {
-            i = lireUnEntier(); // Utilisation de la méthode lireUnEntier() précédemment définie
-
-            if (i >= borneMin && i < borneMax) {
-                valide = true; // Sortir de la boucle si l'entier est dans la plage spécifiée
-            } else {
-                System.out.println("Nombre hors de la plage spécifiée. Réessayez.");
+        boolean continu = true;
+        do {
+            try {
+                i = sc.nextInt();
+                if (i >= borneMin && i < borneMax)
+                    continu = false;
+            } catch (InputMismatchException e) {
+                continu = true;
+                System.out.print("Veuillez rentrer un chiffre compris entre: " + borneMin + " et " + borneMax);
+                sc.next(); // passe l'entier pour éviter de boucler
             }
-        }
+        } while (continu);
         return i;
     }
-
 
     // lit les réponses "oui", "non", "o" ou "n" et renvoie un booléen
     public static boolean lireOuiOuNon() {
-        boolean retour = true;
-        boolean continu = true;
-        do {
-            String i = lireUneChaine().toLowerCase();
-            if (i.equals("oui") || i.equals("o")){
-                continu = false;
+        boolean retour;
+        String valeur;
+        boolean i = false;
+
+        valeur = sc.next();
+        while (i == false) {
+            if ("oui".equals(valeur) || "o".equals(valeur) || "non".equals(valeur) || "n".equals(valeur)) {
+                i = true;
+            } else {
+                System.out.println("Veuillez entrer 'oui','o'/'non','n'");
+                valeur = sc.next();
             }
-            else if (i.equals("non") || i.equals("n")){
-                retour = false;
-                continu = false;
-            }
-            else
-                System.out.print("Veuillez rentrer oui (o) ou non (n) : ");
-        }while(continu);
+        }
+        if ("oui".equals(valeur) || "o".equals(valeur)) {
+            retour = true;
+        } else {
+            retour = false;
+        }
+
+        return retour;
+
+    }
+
+    // renvoie une chaîne de caractère lue au clavier:
+    public static String lireUneChaine() {
+        String retour = "";
+
+        retour = sc.next();
+
         return retour;
     }
 
-    // renvoie une cha�ne de caractère lue au clavier:
-    public static String lireUneChaine() {
-        String retour = null;
-        do {
-            retour = sc.next();
-        } while(retour==null);
-        return retour;
-    }
 }
