@@ -223,7 +223,8 @@ public class Jeu {
             System.out.println("\nTour de jeu " + i);
             tourDeJeu();
             gestionCouronne();
-            reinitialisationPersonnages();
+            if(!partieFinie())
+                reinitialisationPersonnages();
             i++;
         }while (!partieFinie());
 
