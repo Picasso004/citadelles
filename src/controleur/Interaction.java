@@ -54,13 +54,13 @@ public class Interaction {
         String valeur;
         boolean i = false;
 
-        valeur = sc.next();
+        valeur = sc.next().toLowerCase();
         while (i == false) {
             if ("oui".equals(valeur) || "o".equals(valeur) || "non".equals(valeur) || "n".equals(valeur)) {
                 i = true;
             } else {
                 System.out.println("Veuillez entrer 'oui','o'/'non','n'");
-                valeur = sc.next();
+                valeur = sc.next().toLowerCase();
             }
         }
         if ("oui".equals(valeur) || "o".equals(valeur)) {
