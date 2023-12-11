@@ -12,6 +12,12 @@ public class Roi extends Personnage {
     @Override
     public void utiliserPouvoir() {
         System.out.println("Je prends la couronne");
+        Joueur[] joueurs = this.getPlateau().getListeJoueurs();
+
+        for (Joueur joueur : joueurs){
+            if(joueur != null)
+                joueur.setPossedeCouronne(false);
+        }
         if (getJoueur() != null) {
             getJoueur().setPossedeCouronne(true);
         }
