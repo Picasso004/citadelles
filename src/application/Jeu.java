@@ -24,18 +24,18 @@ public class Jeu {
     public void jouer(){
         //Affichage message de bienvenue
         System.out.println("BIENVENUE SUR CITADELLES v1.0 !!!!");
-        System.out.println("\n" +
-                " ██████╗██╗████████╗ █████╗ ██████╗ ███████╗██╗     ██╗     ███████╗███████╗\n" +
-                "██╔════╝██║╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██║     ██║     ██╔════╝██╔════╝\n" +
-                "██║     ██║   ██║   ███████║██║  ██║█████╗  ██║     ██║     █████╗  ███████╗\n" +
-                "██║     ██║   ██║   ██╔══██║██║  ██║██╔══╝  ██║     ██║     ██╔══╝  ╚════██║\n" +
-                "╚██████╗██║   ██║   ██║  ██║██████╔╝███████╗███████╗███████╗███████╗███████║\n" +
-                " ╚═════╝╚═╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚══════╝╚══════╝╚══════╝╚══════╝╚══════╝\n" +
-                "                                                                            \n");
         //Affichage du menu
         Scanner scanner = new Scanner(System.in);
         int choix;
         do{
+            System.out.println("\n" +
+                    " ██████╗██╗████████╗ █████╗ ██████╗ ███████╗██╗     ██╗     ███████╗███████╗\n" +
+                    "██╔════╝██║╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██║     ██║     ██╔════╝██╔════╝\n" +
+                    "██║     ██║   ██║   ███████║██║  ██║█████╗  ██║     ██║     █████╗  ███████╗\n" +
+                    "██║     ██║   ██║   ██╔══██║██║  ██║██╔══╝  ██║     ██║     ██╔══╝  ╚════██║\n" +
+                    "╚██████╗██║   ██║   ██║  ██║██████╔╝███████╗███████╗███████╗███████╗███████║\n" +
+                    " ╚═════╝╚═╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚══════╝╚══════╝╚══════╝╚══════╝╚══════╝\n" +
+                    "                                                                            \n");
             System.out.println("\nMENU PRINCIPAL");
             System.out.println("1. JOUER UNE PARTIE");
             System.out.println("2. AFFICHER LES REGLES");
@@ -467,6 +467,21 @@ public class Jeu {
                             personnageCourant.utiliserPouvoir();
                             System.out.println("Vous avez utilisé votre pouvoir.");
                         }
+
+                        // Si le joueur décide d'utiliser son pouvoir avatar
+                        System.out.println("\nVoulez vous utiliser votre pouvoir avatar (oui/o non/n):");
+                        if(lireOuiOuNon()){
+                            personnageCourant.utiliserPouvoirAvatar();
+                            System.out.println("Vous avez utilisé votre pouvoir avatar.");
+                        }
+
+
+
+
+
+
+
+
 
                         // 5b - Si le joueur veut construire, construire
                         System.out.println("\nVoulez vous construire ? (oui/o non/n):");
