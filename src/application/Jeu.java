@@ -20,6 +20,7 @@ public class Jeu {
         this.plateauDeJeu = new PlateauDeJeu();
         this.numeroConfiguration = 0;
         this.generateur = new Random();
+        this.premierJoueur = null;
     }
 
     public void jouer(){
@@ -395,12 +396,10 @@ public class Jeu {
         }
     }
 
-    public boolean aFiniEnPremier(Joueur j){
-        if(j.nbQuartiersDansCite() >= 2) {
+    public void aFiniEnPremier(Joueur j){
+        if(this.premierJoueur == null && j.nbQuartiersDansCite() >= 2) { //TODO NE PAS OUBLIER DE REMPLACER 2 PAR 7 DANS aFiniEnPremier(), partieFinie() et calculDesPoints()
             this.premierJoueur = j;
-            return false;
         }
-        return false;
     }
     private boolean partieFinie(){
        Joueur[] joueurs = this.plateauDeJeu.getListeJoueurs();
@@ -607,6 +606,16 @@ public class Jeu {
                 boolean typesDifferents = aCinqTypesDifferents(joueur.getCite());
                 if (typesDifferents){
                     points += 3;
+                }
+
+                //Ajout des pts supplémentaires du premier joueur ayant complété sa cité
+                if (joueur == premierJoueur){
+                    points += 4;
+                }
+
+                //Ajout des pts supplémentaires des autres joueurs ayant complété leurs cités
+                if (joueur != premierJoueur && joueur.nbQuartiersDansCite() >= 2){
+                    points += 2;
                 }
 
                 //Ajout des bonus éventuels des Merveilles de la cité
