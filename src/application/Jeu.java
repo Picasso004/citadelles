@@ -7,8 +7,6 @@ import java.util.List;
 
 import java.util.*;
 
-
-
 public class Jeu {
     private PlateauDeJeu plateauDeJeu;
     private int numeroConfiguration;
