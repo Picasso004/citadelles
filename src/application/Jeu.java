@@ -14,6 +14,7 @@ public class Jeu {
     private int numeroConfiguration;
     private Random generateur;
     private List<Personnage> personnagesRestants;
+    private Joueur premierJoueur;
 
     public Jeu() {
         this.plateauDeJeu = new PlateauDeJeu();
@@ -222,9 +223,11 @@ public class Jeu {
             System.out.println("-----------------------------------------");
             System.out.println("\nTour de jeu " + i);
             tourDeJeu();
-            gestionCouronne();
-            if(!partieFinie())
+
+            if(!partieFinie()) {
+                gestionCouronne();
                 reinitialisationPersonnages();
+            }
             i++;
         }while (!partieFinie());
 
@@ -391,11 +394,18 @@ public class Jeu {
                 personnage.reinitialiser();
         }
     }
+
+    public boolean aFiniEnPremier(Joueur j){
+        if(j.nbQuartiersDansCite() >= 2) {
+            this.premierJoueur = j;
+            return false;
+        }
+        return false;
+    }
     private boolean partieFinie(){
-        List<Joueur> joueurs = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(plateauDeJeu.getListeJoueurs(), 0, plateauDeJeu.getNombreJoueurs())));
+       Joueur[] joueurs = this.plateauDeJeu.getListeJoueurs();
         for ( Joueur joueur : joueurs){
-            if (joueur.nbQuartiersDansCite() >= 2){
-                System.out.println(GREEN + "\n" + joueur.getNom() + " a une cité complète. La partie est terminée !" + RESET);
+            if (joueur !=null && joueur.nbQuartiersDansCite() >= 2){
                 return true;
             }
         }
@@ -530,9 +540,12 @@ public class Jeu {
                     }
 
                 }
+                aFiniEnPremier(joueurCourant);
                 }
-            }
-            System.out.println("***********Fin du tour***********");
+
+        }
+
+        System.out.println("\n***********Fin du tour***********");
         }
 
     public void percevoirRessource(Joueur joueur) {
@@ -575,16 +588,15 @@ public class Jeu {
         }
     }
     private void calculDesPoints(){
+        System.out.println(GREEN + this.premierJoueur.getNom() + " a une cité complete !" + RESET);
         System.out.println("\nCALCUL DES POINTS");
         System.out.println("******************");
 
         HashMap<Joueur, Integer> pointsDesJoueurs = new HashMap<>();
 
-        System.out.println("Taille" + plateauDeJeu.getListeJoueurs().length);
         for (Joueur joueur : plateauDeJeu.getListeJoueurs()){
             int points = 0;
             if(joueur != null){
-                System.out.println(joueur.getNom());
                 //Calcul de la somme total des coûts de construction des quartiers de la cité
                 for (Quartier quartier : joueur.getCite()){
                     if (quartier != null){
