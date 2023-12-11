@@ -273,7 +273,48 @@ public class Jeu {
         Personnage carteCachee1 = personnagesRestants.remove(0);
         Personnage carteCachee2 = personnagesRestants.remove(0);
 
-        Joueur[] listeJoueur = this.plateauDeJeu.getListeJoueurs();
+        Joueur[] temp = this.plateauDeJeu.getListeJoueurs();
+        Joueur[] listeJoueur = new Joueur[this.plateauDeJeu.getNombreJoueurs()];
+
+        for(int i = 0; i< this.plateauDeJeu.getNombreJoueurs(); i++){
+            if(temp[i] != null)
+                listeJoueur[i] = temp[i];
+        }
+
+        // Commencer par le joueur ayant la couronne
+        int indexCouronne = -1;
+
+        // Chercher le joueur qui possède la couronne
+        for (int i = 0; i < this.plateauDeJeu.getNombreJoueurs(); i++) {
+            Joueur joueur = listeJoueur[i];
+            if (joueur.getPossedeCouronne()) {
+                indexCouronne = i;
+                System.out.println(GREEN + "Le joueur " + joueur.getNom() + " possède la couronne" + RESET);
+                break;
+            }
+        }
+
+        // Réorganiser le tableau si la couronne a été trouvée
+        if (indexCouronne != -1) {
+            Joueur[] nouveauTableau = new Joueur[listeJoueur.length];
+            int indexNouveauTableau = 0;
+
+            // Copier à partir du joueur ayant la couronne jusqu'à la fin du tableau initial
+            for (int i = indexCouronne; i < listeJoueur.length; i++) {
+                nouveauTableau[indexNouveauTableau] = listeJoueur[i];
+                indexNouveauTableau++;
+            }
+
+            // Copier depuis le début jusqu'au joueur avant celui ayant la couronne
+            for (int i = 0; i < indexCouronne; i++) {
+                nouveauTableau[indexNouveauTableau] = listeJoueur[i];
+                indexNouveauTableau++;
+            }
+
+            listeJoueur = nouveauTableau;
+
+        }
+
 
         for (int i = 0; i<this.plateauDeJeu.getNombreJoueurs(); i++) {
             Joueur joueur = listeJoueur[i];
@@ -309,7 +350,6 @@ public class Jeu {
     }
 
     private void gestionCouronne(){
-        //TODO VERIFIER
         Personnage roi = null;
         Joueur joueurCouronne = null;
 
@@ -417,32 +457,32 @@ public class Jeu {
                             System.out.println("Vous avez utilisé votre pouvoir.");
                         }
 
-                    // 5b - Si le joueur veut construire, construire
-                    System.out.println("\nVoulez vous construire ? (oui/o non/n):");
-                    if (lireOuiOuNon()) {
-                        // Afficher la liste des quartiers dans la main du joueur
-                        System.out.println("\nListe des quartiers dans votre main :");
-                        ArrayList<Quartier> main = joueurCourant.getMain();
-                        System.out.println("0. Ne rien construire");
-                        for (int k = 0; k < main.size(); k++) {
-                            System.out.println((k + 1) + ". " + main.get(k).getNom() + " : cout de construction = " + main.get(k).getCout());
-                        }
-
-                        // Demander au joueur de choisir un quartier
-                        boolean choixValide = false;
-                        while (!choixValide) {
-                            // Demander au joueur de choisir un quartier (ou "0" pour ne rien construire)
-                            System.out.print("Choisissez un quartier à construire (0-" + main.size() + ") : ");
-                            int choixQuartier = Interaction.lireUnEntier(0, main.size()+1);
-
-                            while (choixQuartier != 0 && main.get(choixQuartier - 1).getCout() > joueurCourant.nbPieces()) {
-                                // Le joueur a choisi un quartier, mais il n'a pas les moyens de le construire
-                                System.out.println("Vous n'avez pas les moyens nécessaires pour construire le quartier \"" + main.get(choixQuartier - 1).getNom() + "\".");
-
-                                // Proposer de refaire un choix en lui permettant de saisir une nouvelle valeur au clavier
-                                System.out.print("Veuillez choisir à nouveau (0-" + main.size() + ") : ");
-                                choixQuartier = Interaction.lireUnEntier(0, main.size()+1);
+                        // 5b - Si le joueur veut construire, construire
+                        System.out.println("\nVoulez vous construire ? (oui/o non/n):");
+                        if (lireOuiOuNon()) {
+                            // Afficher la liste des quartiers dans la main du joueur
+                            System.out.println("\nListe des quartiers dans votre main :");
+                            ArrayList<Quartier> main = joueurCourant.getMain();
+                            System.out.println("0. Ne rien construire");
+                            for (int k = 0; k < main.size(); k++) {
+                                System.out.println((k + 1) + ". " + main.get(k).getNom() + " : cout de construction = " + main.get(k).getCout());
                             }
+
+                            // Demander au joueur de choisir un quartier
+                            boolean choixValide = false;
+                            while (!choixValide) {
+                                // Demander au joueur de choisir un quartier (ou "0" pour ne rien construire)
+                                System.out.print("Choisissez un quartier à construire (0-" + main.size() + ") : ");
+                                int choixQuartier = Interaction.lireUnEntier(0, main.size()+1);
+
+                                while (choixQuartier != 0 && main.get(choixQuartier - 1).getCout() > joueurCourant.nbPieces()) {
+                                    // Le joueur a choisi un quartier, mais il n'a pas les moyens de le construire
+                                    System.out.println("Vous n'avez pas les moyens nécessaires pour construire le quartier \"" + main.get(choixQuartier - 1).getNom() + "\".");
+
+                                    // Proposer de refaire un choix en lui permettant de saisir une nouvelle valeur au clavier
+                                    System.out.print("Veuillez choisir à nouveau (0-" + main.size() + ") : ");
+                                    choixQuartier = Interaction.lireUnEntier(0, main.size()+1);
+                                }
 
                             if (choixQuartier == 0) {
                                 // Le joueur a choisi de ne rien construire
