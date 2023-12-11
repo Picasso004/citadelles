@@ -24,18 +24,18 @@ public class Jeu {
     public void jouer(){
         //Affichage message de bienvenue
         System.out.println("BIENVENUE SUR CITADELLES v1.0 !!!!");
-        System.out.println("\n" +
-                " ██████╗██╗████████╗ █████╗ ██████╗ ███████╗██╗     ██╗     ███████╗███████╗\n" +
-                "██╔════╝██║╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██║     ██║     ██╔════╝██╔════╝\n" +
-                "██║     ██║   ██║   ███████║██║  ██║█████╗  ██║     ██║     █████╗  ███████╗\n" +
-                "██║     ██║   ██║   ██╔══██║██║  ██║██╔══╝  ██║     ██║     ██╔══╝  ╚════██║\n" +
-                "╚██████╗██║   ██║   ██║  ██║██████╔╝███████╗███████╗███████╗███████╗███████║\n" +
-                " ╚═════╝╚═╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚══════╝╚══════╝╚══════╝╚══════╝╚══════╝\n" +
-                "                                                                            \n");
         //Affichage du menu
         Scanner scanner = new Scanner(System.in);
         int choix;
         do{
+            System.out.println("\n" +
+                    " ██████╗██╗████████╗ █████╗ ██████╗ ███████╗██╗     ██╗     ███████╗███████╗\n" +
+                    "██╔════╝██║╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██║     ██║     ██╔════╝██╔════╝\n" +
+                    "██║     ██║   ██║   ███████║██║  ██║█████╗  ██║     ██║     █████╗  ███████╗\n" +
+                    "██║     ██║   ██║   ██╔══██║██║  ██║██╔══╝  ██║     ██║     ██╔══╝  ╚════██║\n" +
+                    "╚██████╗██║   ██║   ██║  ██║██████╔╝███████╗███████╗███████╗███████╗███████║\n" +
+                    " ╚═════╝╚═╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚══════╝╚══════╝╚══════╝╚══════╝╚══════╝\n" +
+                    "                                                                            \n");
             System.out.println("\nMENU PRINCIPAL");
             System.out.println("1. JOUER UNE PARTIE");
             System.out.println("2. AFFICHER LES REGLES");
@@ -377,10 +377,10 @@ public class Jeu {
         }
     }
     private void reinitialisationPersonnages(){
-        //TODO IMPLEMENTER
-            for (Personnage personnage : plateauDeJeu.getListePersonnages()) {
+        for (Personnage personnage : plateauDeJeu.getListePersonnages()) {
+            if(personnage != null)
                 personnage.reinitialiser();
-            }
+        }
     }
     private boolean partieFinie(){
         List<Joueur> joueurs = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(plateauDeJeu.getListeJoueurs(), 0, plateauDeJeu.getNombreJoueurs())));
@@ -464,6 +464,7 @@ public class Jeu {
                         System.out.println("\nVoulez vous construire ? (oui/o non/n):");
                         if (lireOuiOuNon()) {
                             // Afficher la liste des quartiers dans la main du joueur
+                            System.out.println(YELLOW + "Trésor : " + joueurCourant.nbPieces() + " pieces" + RESET);
                             System.out.println("\nListe des quartiers dans votre main :");
                             ArrayList<Quartier> main = joueurCourant.getMain();
                             System.out.println("0. Ne rien construire");
