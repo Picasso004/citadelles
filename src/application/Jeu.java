@@ -402,14 +402,14 @@ public class Jeu {
     }
 
     public void aFiniEnPremier(Joueur j){
-        if(this.premierJoueur == null && j.nbQuartiersDansCite() >= 2) { //TODO NE PAS OUBLIER DE REMPLACER 2 PAR 7 DANS aFiniEnPremier(), partieFinie() et calculDesPoints()
+        if(this.premierJoueur == null && j.nbQuartiersDansCite() >= 7) {
             this.premierJoueur = j;
         }
     }
     private boolean partieFinie(){
        Joueur[] joueurs = this.plateauDeJeu.getListeJoueurs();
         for ( Joueur joueur : joueurs){
-            if (joueur !=null && joueur.nbQuartiersDansCite() >= 2){
+            if (joueur !=null && joueur.nbQuartiersDansCite() >= 7){
                 return true;
             }
         }
@@ -700,7 +700,7 @@ public class Jeu {
                 }
 
                 //Ajout des pts supplémentaires des autres joueurs ayant complété leurs cités
-                if (joueur != premierJoueur && joueur.nbQuartiersDansCite() >= 2){
+                if (joueur != premierJoueur && joueur.nbQuartiersDansCite() >= 7){
                     points += 2;
                 }
 
