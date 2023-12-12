@@ -335,7 +335,14 @@ public class Jeu {
             System.out.println("Le personnage \"" + carteVisible2.getNom() + "\" est écarté face visible");
             System.out.println("Un personnage est écarté face cachée");
 
-            Personnage p = choisirPersonnage(personnagesRestants);
+            Personnage p;
+            if(!joueur.isSimule()) {
+                p = choisirPersonnage(personnagesRestants);
+            }
+            else {
+                int choix = generateur.nextInt(personnagesRestants.size());
+                p = personnagesRestants.remove(choix);
+            }
             joueur.setPersonnage(p);
             personnagesRestants.remove(p);
             p.setJoueur(joueur);
