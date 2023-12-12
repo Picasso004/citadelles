@@ -21,7 +21,19 @@ public class Architecte extends Personnage{
         }
     }
 
-    @Override
+    public void utiliserPouvoirAvatar(){
+        if (!getAssassine()){
+            for (int i=0; i<2; i++){
+                Quartier cartePiochee = getPlateau().getPioche().piocher();
+                if (cartePiochee != null){
+                    getJoueur().ajouterQuartierDansMain(cartePiochee);
+                }
+            }
+            System.out.println(getNom() + " a utilisé son pouvoir et a pioché deux cartes quartier supplémentaires.");
+        }
+    }
+
+    /*@Override
     public void utiliserPouvoirAvatar() {
         if (!getAssassine()) {
             System.out.println("Le pouvoir de l'Architecte Avatar est activé!");
@@ -49,5 +61,5 @@ public class Architecte extends Personnage{
         } else {
             System.out.println("L'Architecte ne peut pas utiliser son pouvoir Avatar car il est assassiné.");
         }
-    }
+    }*/
 }
