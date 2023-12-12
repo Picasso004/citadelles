@@ -335,7 +335,14 @@ public class Jeu {
             System.out.println("Le personnage \"" + carteVisible2.getNom() + "\" est écarté face visible");
             System.out.println("Un personnage est écarté face cachée");
 
-            Personnage p = choisirPersonnage(personnagesRestants);
+            Personnage p;
+            if(!joueur.isSimule()) {
+                p = choisirPersonnage(personnagesRestants);
+            }
+            else {
+                int choix = generateur.nextInt(personnagesRestants.size());
+                p = personnagesRestants.remove(choix);
+            }
             joueur.setPersonnage(p);
             personnagesRestants.remove(p);
             p.setJoueur(joueur);
@@ -742,17 +749,26 @@ public class Jeu {
 
         System.out.println(MAGENTA + "\n RESULTATS"+RESET);
 
-        // Maintenant que tous les points sont calculés, on peut les trier par ordre décroissant
-        // En utilisant un TreeMap pour trier la HashMap par les valeurs (points) de manière décroissante
-        TreeMap<Joueur, Integer> pointsTries = new TreeMap<>((a, b) -> pointsDesJoueurs.get(b).compareTo(pointsDesJoueurs.get(a)));
-        pointsTries.putAll(pointsDesJoueurs);
+        // Trier les joueurs par points
+        List<Joueur> joueursTries = trierJoueursParPoints(pointsDesJoueurs);
 
         // Affichage des points triés
-        for (Map.Entry<Joueur, Integer> entry : pointsTries.entrySet()) {
-            System.out.println(entry.getKey().getNom() + " : " + entry.getValue() + " points (Dernier personnage : " +
-                    entry.getKey().getPersonnage().getNom() + " - rang " + entry.getKey().getPersonnage().getRang()+")");
+        for (Joueur joueur : joueursTries) {
+            int points = pointsDesJoueurs.get(joueur);
+            System.out.println(joueur.getNom() + " : " + points + " points (Dernier personnage : " +
+                    joueur.getPersonnage().getNom() + " - rang " + joueur.getPersonnage().getRang() + ")");
         }
         System.out.println();
+    }
+
+    public List<Joueur> trierJoueursParPoints(HashMap<Joueur, Integer> pointsDesJoueurs) {
+        // Création d'une liste de joueurs
+        List<Joueur> joueurs = new ArrayList<>(pointsDesJoueurs.keySet());
+
+        // Trier les joueurs en fonction des points
+        joueurs.sort((j1, j2) -> pointsDesJoueurs.get(j2).compareTo(pointsDesJoueurs.get(j1)));
+
+        return joueurs;
     }
 
     //Methode auxiliaire pour vérifier la présence d'au moins un quartier de chaque type
@@ -788,14 +804,4 @@ public class Jeu {
         return totalTypes >= 5;
     }
 
-
-    /*private void percevoirRessourcesSpecifiques(Personnage personnage) {
-        // Percevoir les ressources spécifiques en fonction du personnage
-        // Méthode à implémenter
-    }*/
-    private boolean tousLesPersonnagesOntJoue() {
-        // Vérifier si tous les personnages ont joué
-        // Méthode à implémenter
-        return false;
-    }
 }
