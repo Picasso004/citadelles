@@ -27,7 +27,7 @@ public class Roi extends Personnage {
     public void utiliserPouvoirAvatar() {
 
             if (!getAssassine()) {
-                System.out.println("Le pouvoir du Roi Avatar est activé!");
+                System.out.println("Le pouvoir du Roi est activé!");
                 System.out.println("Le joueur " + getJoueur().getNom() + " a pris la couronne.");
                 Joueur[] joueurs = this.getPlateau().getListeJoueurs();
 

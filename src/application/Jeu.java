@@ -573,11 +573,11 @@ public class Jeu {
                         boolean decision = generateur.nextBoolean();
 
                         if (decision) {
-                            System.out.println("Le "+ joueurCourant.getNom() + " a decide d'utiliser son pouvoir");
+                            System.out.println("Le "+ personnageCourant.getNom() + " a decide d'utiliser son pouvoir");
                             personnageCourant.utiliserPouvoirAvatar();
                         }
                         else {
-                            System.out.println("Le "+ joueurCourant.getNom() + " a decide de ne pas utiliser son pouvoir");
+                            System.out.println("Le "+ personnageCourant.getNom() + " a decide de ne pas utiliser son pouvoir");
                         }
 
                         // 5b - Si le joueur veut construire, construire
@@ -627,7 +627,7 @@ public class Jeu {
 
                     }
                     else {
-                        System.out.println("Le "+ joueurCourant.getNom() + " a été assassiné. Il passe son tour." );
+                        System.out.println("Le "+ personnageCourant.getNom() + " a été assassiné. Il passe son tour." );
                     }
                 }
 

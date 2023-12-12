@@ -49,9 +49,9 @@ public class Marchande extends Personnage{
                 if (quartier != null && quartier.getType().equals("COMMERCANT")){
                     quartiersCommercants +=1;
                 }
-                getJoueur().ajouterPieces(quartiersCommercants);
-                System.out.println("La marchande a utilisé son pouvoir et a reçu " + quartiersCommercants + " pièce(s) d'or supplémentaire.");
             }
+            getJoueur().ajouterPieces(quartiersCommercants);
+            System.out.println("La marchande a utilisé son pouvoir et a reçu " + quartiersCommercants + " pièce(s) d'or supplémentaire.");
 
         } else {
             System.out.println("La Marchande ne peut pas utiliser son pouvoir Avatar car elle est assassinée.");
