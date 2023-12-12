@@ -56,7 +56,7 @@ public class Assassin extends Personnage {
             int choice;
             do {
                 choice = random.nextInt(plateau.getNombrePersonnages()); // Assuming there are 3 choices, modify as needed
-            }while (plateau.getPersonnage(choice) == this);
+            }while (plateau.getPersonnage(choice) == this || plateau.getPersonnage(choice).getJoueur()==null);
             plateau.getPersonnage(choice).setAssassine();
             System.out.println("Le personnage " + plateau.getPersonnage(choice).getNom() + " a été assassiné.");
         } else {
