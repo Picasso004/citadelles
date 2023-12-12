@@ -536,9 +536,9 @@ public class Jeu {
                     // 3a - Si le personnage est assassiné, changer de personnage
                     if (!personnageCourant.getAssassine()) {
                         // 3b - Si le personnage est volé, donner de l'argent au voleur et percevoir les ressources
-                        /*if (personnageCourant.getVole()) {
-                            System.out.println(RED + personnageCourant.getNom() + " s'est fait voler ses ressources."+RESET);
-                        }*/
+                        if (personnageCourant.getVole()) {
+                            System.out.println(RED + "Le "+ joueurCourant.getNom() + " s'est fait voler ses ressources."+RESET);
+                        }
 
                         // percevoir les ressources
                         int choix = generateur.nextInt(2);
@@ -566,11 +566,11 @@ public class Jeu {
                         boolean decision = generateur.nextBoolean();
 
                         if (decision) {
-                            System.out.println("Le "+ joueurCourant.getNom() + " a decide d'utiliser son pouvoir Avatar");
+                            System.out.println("Le "+ joueurCourant.getNom() + " a decide d'utiliser son pouvoir");
                             personnageCourant.utiliserPouvoirAvatar();
                         }
                         else {
-                            System.out.println("Le "+ joueurCourant.getNom() + " a decide de ne pas utiliser son pouvoir Avatar");
+                            System.out.println("Le "+ joueurCourant.getNom() + " a decide de ne pas utiliser son pouvoir");
                         }
 
                         // 5b - Si le joueur veut construire, construire
@@ -582,7 +582,7 @@ public class Jeu {
                             // Demander au joueur de choisir un quartier
                             boolean choixValide = false;
                             while (!choixValide) {
-                                int choixQuartier ;
+                                int choixQuartier;
 
                                 do{
                                     choixQuartier = generateur.nextInt(main.size()+1);
