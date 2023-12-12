@@ -97,9 +97,9 @@ public class Configuration {
 
         // Créer quatre joueurs avec leur nom
         Joueur joueur1 = new Joueur("Joueur 1");
-        Joueur joueur2 = new Joueur("Joueur 2");
-        Joueur joueur3 = new Joueur("Joueur 3");
-        Joueur joueur4 = new Joueur("Joueur 4");
+        Joueur joueur2 = new Joueur("bot1");
+        Joueur joueur3 = new Joueur("bot2");
+        Joueur joueur4 = new Joueur("bot3");
 
 
         // Créer un nouveau plateau de jeu

@@ -13,6 +13,9 @@ public class Joueur {
     private ArrayList<Quartier> main;
 
     protected Personnage monPersonnage;
+    //test de simulation
+    private boolean simule;
+    // fin de ligne simulation
 
     //Constructeur
     public Joueur(String nom) {
@@ -23,6 +26,7 @@ public class Joueur {
         this.cite = new Quartier[8];
         this.main = new ArrayList<>();
         this.monPersonnage = null;
+        this.simule = false;
     }
 
     // Accesseurs en lecture
@@ -45,6 +49,17 @@ public class Joueur {
     public ArrayList<Quartier> getMain() {
         return this.main;
     }
+
+
+
+    public boolean isSimule() {
+        return simule;
+    }
+    public void setSimule(boolean simule) {
+        this.simule = simule;
+    }
+
+
 
     public int nbQuartiersDansMain() {
         return this.main.size();

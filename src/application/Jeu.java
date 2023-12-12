@@ -253,6 +253,12 @@ public class Jeu {
                 if (carte != null) {
                     joueur.ajouterQuartierDansMain(carte);
                 }
+
+                //On attribut à chaque joueur s'il est simulé ou pas
+                if (joueur.getNom().contains("bot")) {
+                    joueur.setSimule(true);
+                }
+
             }
         }
 
@@ -430,6 +436,7 @@ public class Jeu {
                         if (personnageCourant.getVole()) {
                             System.out.println(RED + personnageCourant.getNom() + " s'est fait voler ses ressources."+RESET);
                         }
+                    //on vérifie si le joueur associé au personnage n'est pas simulé par l'ordinateur en testant son attribut simule de la classe joueur
 
                         //Affichage informations personnage
                         System.out.println(MAGENTA + "Caracteristiques de " + personnageCourant.getNom() + " : ");
@@ -463,6 +470,7 @@ public class Jeu {
                         else {
                             System.out.println(RED + "Votre main est vide !" + RESET);
                         }
+                    }
 
                         percevoirRessource(joueurCourant);
 
@@ -471,30 +479,57 @@ public class Jeu {
 
                         // 5 - Si le joueur décide d'utiliser son pouvoir, utiliser le pouvoir
                         System.out.println("\nVoulez vous utiliser votre pouvoir (oui/o non/n):");
-                        if (lireOuiOuNon()) {
-                            personnageCourant.utiliserPouvoir();
-                            System.out.println("Vous avez utilisé votre pouvoir.");
+                        //on teste si le personnage n'est pas simulé par l'ordinateur
+                        if(!personnageCourant.getJoueur().isSimule()){
+                            if (lireOuiOuNon()) {
+                                personnageCourant.utiliserPouvoir();
+                                System.out.println("Vous avez utilisé votre pouvoir.");
+                            }
                         }
+                        else {
+                            boolean response = this.generateur.nextInt(2) == 1;
+                            if(response){
+                                personnageCourant.utiliserPouvoir();
+                                System.out.println("\nVous avez utilisé votre pouvoir !");
+                            }
+                            else { System.out.println("\nVous avez décidé de ne pas utiliser votre pouvoir !");}
+
+                        }
+
 
                         // Si le joueur décide d'utiliser son pouvoir avatar
                         System.out.println("\nVoulez vous utiliser votre pouvoir avatar (oui/o non/n):");
+                        //on teste si le personnage n'est pas simulé par l'ordinateur
+                        if(!personnageCourant.getJoueur().isSimule()){
                         if(lireOuiOuNon()){
                             personnageCourant.utiliserPouvoirAvatar();
                             System.out.println("Vous avez utilisé votre pouvoir avatar.");
                         }
+                        }
+                        else {
+                            boolean response = this.generateur.nextInt(2) == 1;
+                            if(response){
+                                personnageCourant.utiliserPouvoirAvatar();
+                                System.out.println("\nVous avez utilisé votre pouvoir avatar !");
+                            }
+                            else { System.out.println("\nVous avez décidé de ne pas utiliser votre pouvoir avatar !");}
+
+                        }
 
                         // 5b - Si le joueur veut construire, construire
                         System.out.println("\nVoulez vous construire ? (oui/o non/n):");
-                        if (lireOuiOuNon()) {
-                            // Afficher la liste des quartiers dans la main du joueur
-                            System.out.println(YELLOW + "Trésor : " + joueurCourant.nbPieces() + " pieces" + RESET);
-                            System.out.println("\nListe des quartiers dans votre main :");
-                            ArrayList<Quartier> main = joueurCourant.getMain();
-                            System.out.println("0. Ne rien construire");
-                            for (int k = 0; k < main.size(); k++) {
-                                System.out.println((k + 1) + ". " + main.get(k).getNom() + " : cout de construction = " + main.get(k).getCout());
-                            }
 
+                        //on teste si le personnage n'est pas simulé par l'ordinateur
+                        if(!personnageCourant.getJoueur().isSimule()){
+                            if (lireOuiOuNon()) {
+                                // Afficher la liste des quartiers dans la main du joueur
+                                System.out.println(YELLOW + "Trésor : " + joueurCourant.nbPieces() + " pieces" + RESET);
+                                System.out.println("\nListe des quartiers dans votre main :");
+                                ArrayList<Quartier> main = joueurCourant.getMain();
+                                System.out.println("0. Ne rien construire");
+                                for (int k = 0; k < main.size(); k++) {
+                                    System.out.println((k + 1) + ". " + main.get(k).getNom() + " : cout de construction = " + main.get(k).getCout());
+                                }
                             // Demander au joueur de choisir un quartier
                             boolean choixValide = false;
                             while (!choixValide) {
@@ -534,21 +569,38 @@ public class Jeu {
                                 choixValide = true;
                             }
                         }
+                        }
+                            }
+                        else {
+                                boolean response = this.generateur.nextInt(2) == 1;
+                                ArrayList<Quartier> main = joueurCourant.getMain();
+                                 Quartier quartierChoisi = main.get(1);
+                                if (response){
+                                    joueurCourant.ajouterQuartierDansCite(quartierChoisi);
+                                    System.out.println("\nVous avez construit le quartier :  " + quartierChoisi.getNom() + " dans vitre cité");
+                                    System.out.println("\nContenu de votre cité après la construction :");
+                                    Quartier[] cite = joueurCourant.getCite();
+                                    for (int k = 0; k < cite.length; k++) {
+                                        if (cite[k] != null) {
+                                            System.out.println((k + 1) + ". " + cite[k].getNom());
+                                        }
+                                    }
+                                }
+                                else {  System.out.println("\nVous avez décidé de ne rien construire:"); }
+                            }
+                    aFiniEnPremier(joueurCourant);
+
                     }
 
                 }
-                aFiniEnPremier(joueurCourant);
-                }
-
-        }
-
-        System.out.println("\n***********Fin du tour***********");
+                System.out.println("\n***********Fin du tour***********");
         }
 
     public void percevoirRessource(Joueur joueur) {
         System.out.println("\nChoisissez une action :");
         System.out.println("1) Prendre deux pièces d'or");
         System.out.println("2) Piocher deux cartes de la pioche");
+        if(!joueur.isSimule()){
 
         int choix = Interaction.lireUnEntier(1, 3);
 
@@ -581,6 +633,17 @@ public class Jeu {
             default -> {
                 System.out.println("Choix invalide. Veuillez choisir à nouveau.");
                 percevoirRessource(joueur);
+            }
+         }
+        }
+        else {
+            boolean choix = this.generateur.nextInt(2) ==1;
+            if(choix){
+                joueur.ajouterPieces(2);
+                System.out.println(joueur.getNom() + " a reçu 2 pieces d'or.");
+            }
+            else {
+                System.out.println(joueur.getNom() + " est censé piocher 2 cartes et garder une");
             }
         }
     }
