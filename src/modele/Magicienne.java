@@ -28,7 +28,7 @@ public class Magicienne extends Personnage {
                 }
             }
 
-            int choixJoueur = Interaction.lireUnEntier(1, joueurs.size()+1)-1;
+            int choixJoueur = Interaction.lireUnEntier(1, joueurs.size() + 1) - 1;
             Joueur joueurChoisi = joueurs.get(choixJoueur);
 
             // Copier les mains des deux joueurs
@@ -46,7 +46,7 @@ public class Magicienne extends Personnage {
             System.out.println("Échange effectué avec " + joueurChoisi.getNom() + ".");
         } else {
             System.out.println("Combien de cartes voulez-vous prendre dans la pioche? (0 pour ne rien faire)");
-            int nbCartesPioche = Interaction.lireUnEntier(0, getJoueur().nbQuartiersDansMain()+1)-1;
+            int nbCartesPioche = Interaction.lireUnEntier(0, getJoueur().nbQuartiersDansMain() + 1) - 1;
 
             if (nbCartesPioche > 0) {
                 // Copier la main de la magicienne
@@ -87,32 +87,78 @@ public class Magicienne extends Personnage {
     @Override
     public void utiliserPouvoirAvatar() {
         if (!getAssassine()) {
-            System.out.println("Le pouvoir de la Magicienne  Avatar est activé!");
+            System.out.println("Le Pouvoir Avatar de la Magicienne est Activé!!");
+            System.out.println("Voulez-vous échanger vos cartes avec celles d'un autre joueur? (o/n)");
+            boolean echangerAvecJoueur = Interaction.lireOuiOuNon();
 
-            // Simulate a random choice for the avatar power
-            Random random=new Random();
-            int choice = random.nextInt(3);  // Assuming there are 3 choices, modify as needed
+            if (echangerAvecJoueur) {
+                // Afficher tous les joueurs sauf la magicienne elle-même
+                PlateauDeJeu plateau = getPlateau();
+                ArrayList<Joueur> joueurs = new ArrayList<>();
+                for (int i = 0; i < plateau.getNombreJoueurs(); i++) {
+                    if (plateau.getJoueur(i) != null && plateau.getJoueur(i).getPersonnage() != this) {
+                        joueurs.add(plateau.getJoueur(i));
+                        System.out.println(joueurs.size() + ". " + plateau.getJoueur(i).getNom());
+                    }
+                }
 
-            switch (choice) {
-                case 0:
-                    // Perform action for choice 0
-                    System.out.println("Action spéciale pour le choix 0 de la Magicienne Avatar.");
-                    break;
-                case 1:
-                    // Perform action for choice 1
-                    System.out.println("Action spéciale pour le choix 1 de la Magicienne  Avatar.");
-                    break;
-                case 2:
-                    // Perform action for choice 2
-                    System.out.println("Action spéciale pour le choix 2 de la Magicienne  Avatar.");
-                    break;
-                default:
-                    // Handle unexpected choice
-                    System.out.println("Choix invalide pour la Magicienne  Avatar.");
+                if (!joueurs.isEmpty()) {
+                    // Choix aléatoire d'un joueur
+                    Random random = new Random();
+                    int choixJoueur = random.nextInt(joueurs.size());
+                    Joueur joueurChoisi = joueurs.get(choixJoueur);
+
+                    // Copier les mains des deux joueurs
+                    ArrayList<Quartier> copieMainMagicienne = new ArrayList<>(getJoueur().getMain());
+                    ArrayList<Quartier> copieMainJoueur = new ArrayList<>(joueurChoisi.getMain());
+
+                    // Vider les mains originales
+                    getJoueur().getMain().clear();
+                    joueurChoisi.getMain().clear();
+
+                    // Ajouter le contenu des copies aux mains originales
+                    getJoueur().getMain().addAll(copieMainJoueur);
+                    joueurChoisi.getMain().addAll(copieMainMagicienne);
+
+                    System.out.println("Échange effectué avec " + joueurChoisi.getNom() + ".");
+                } else {
+                    System.out.println("Il n'y a pas d'autres joueurs pour effectuer un échange.");
+
+                }
+            } else {
+                int nbCartesPioche = Interaction.lireUnEntier(0, getJoueur().nbQuartiersDansMain() + 1) - 1;
+
+                if (nbCartesPioche > 0) {
+                    // Copier la main de la magicienne
+                    ArrayList<Quartier> copieMainMagicienne = new ArrayList<>(getJoueur().getMain());
+
+                    if (nbCartesPioche == getJoueur().nbQuartiersDansMain()) {
+                        // Retirer un à un les quartiers de la main originale et les ajouter dans la pioche
+                        for (Quartier quartier : copieMainMagicienne) {
+                            getPlateau().getPioche().ajouter(quartier);
+                        }
+
+                        // Vider la main originale
+                        getJoueur().getMain().clear();
+                    } else {
+                        // Échanger de manière aléatoire avec la pioche
+                        Random random = new Random();
+                        for (int i = 0; i < nbCartesPioche; i++) {
+                            int indexCarte = random.nextInt(copieMainMagicienne.size());
+                            Quartier carteRetiree = copieMainMagicienne.remove(indexCarte);
+                            getPlateau().getPioche().ajouter(carteRetiree);
+                        }
+
+                        // Ajouter nbCartesPioche cartes de la pioche dans la main originale
+                        for (int i = 0; i < nbCartesPioche; i++) {
+                            getJoueur().ajouterQuartierDansMain(getPlateau().getPioche().piocher());
+                        }
+                    }
+
+                    System.out.println("Cartes échangées avec la pioche.");
+                }
             }
-        } else {
-            System.out.println("La Magicienne  ne peut pas utiliser son pouvoir Avatar car il est assassiné.");
-        }
 
+        }
     }
 }
