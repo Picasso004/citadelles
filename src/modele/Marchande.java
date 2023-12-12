@@ -29,8 +29,14 @@ public class Marchande extends Personnage{
     @Override
     public void utiliserPouvoir() {
         if(getJoueur() != null && !getAssassine()){
-            getJoueur().ajouterPieces(1);
-            System.out.println(getNom() + " a utilisé son pouvoir et a reçu 1 pièce d'or supplémentaire.");
+            int quartiersCommercants = 0;
+            for(Quartier quartier : this.getJoueur().getCite()){
+                if (quartier.getType().equals("COMMERCANT")){
+                    quartiersCommercants += 1;
+                }
+            }
+            getJoueur().ajouterPieces(quartiersCommercants);
+            System.out.println(getNom() + " a utilisé son pouvoir et a reçu " + quartiersCommercants + " pièce(s) d'or supplémentaire.");
         }
     }
 
