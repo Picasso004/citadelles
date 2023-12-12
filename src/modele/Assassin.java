@@ -58,6 +58,7 @@ public class Assassin extends Personnage {
                 choice = random.nextInt(plateau.getNombrePersonnages()); // Assuming there are 3 choices, modify as needed
             }while (plateau.getPersonnage(choice) == this);
             plateau.getPersonnage(choice).setAssassine();
+            System.out.println("Le personnage " + plateau.getPersonnage(choice).getNom() + " a été assassiné.");
         } else {
             System.out.println("L'Assassin ne peut pas utiliser son pouvoir Avatar car il est assassiné.");
         }
