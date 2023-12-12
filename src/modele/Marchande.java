@@ -31,7 +31,7 @@ public class Marchande extends Personnage{
         if(getJoueur() != null && !getAssassine()){
             int quartiersCommercants = 0;
             for(Quartier quartier : this.getJoueur().getCite()){
-                if (quartier.getType().equals("COMMERCANT")){
+                if (quartier != null && quartier.getType().equals("COMMERCANT")){
                     quartiersCommercants += 1;
                 }
             }
