@@ -47,37 +47,43 @@ public class Condottiere extends Personnage {
 
             if (choixJoueur >= 0 && choixJoueur < plateau.getNombreJoueurs()) {
                 joueurCible = joueurs[choixJoueur];
-                System.out.println("Quel quartier choisissez-vous ? (0 pour ne rien faire)");
-                for (int i = 0; i < joueurCible.nbQuartiersDansCite(); i++) {
-                    Quartier quartier = joueurCible.getCite()[i];
-                    System.out.println((i + 1) + " " + quartier.getNom() + "(coût de destruction " + (quartier.getCout()-1) + ")");
+                if(joueurCible.nbQuartiersDansCite() < 1){
+                    System.out.println("Le joueur cible n'a aucun quartier dans sa cité. Choississez en un autre.");
                 }
-
-                int choixQuartier = Interaction.lireUnEntier(0, joueurCible.nbQuartiersDansCite() + 1) - 1;
-
-                if (choixQuartier > -1) {
-                    quartierCible = joueurCible.getCite()[choixQuartier];
-                    int coutDestruction = quartierCible.getCout() - 1;
-
-                    if (!(joueurCible.nbQuartiersDansCite() >= 7)) {
-                        if (this.getJoueur().nbPieces() >= coutDestruction) {
-                            joueurCible.retirerQuartierDansCite(quartierCible.getNom());
-                            this.getJoueur().retirerPieces(coutDestruction);
-                            System.out.println("=> On retire " + quartierCible.getNom() + " à " + joueurCible.getNom());
-                            System.out.println(YELLOW + "\nPour information, votre trésor est maintenant de " + this.getJoueur().nbPieces() + " pieces" + RESET);
-                            break;
-                        } else {
-                            System.out.println(RED + "Votre trésor n'est pas suffisant pour détruire ce quartier." + RESET + "\nVeuillez reessayer");
-                            continue;
-                        }
-                    } else {
-                        System.out.println("Vous ne pouvez pas détruire ce quartier. Le joueur cible a une cité complète.");
+                else {
+                    System.out.println("Quel quartier choisissez-vous ? (0 pour ne rien faire)");
+                    for (int i = 0; i < joueurCible.nbQuartiersDansCite(); i++) {
+                        Quartier quartier = joueurCible.getCite()[i];
+                        System.out.println((i + 1) + " " + quartier.getNom() + "(coût de destruction " + (quartier.getCout()-1) + ")");
                     }
-                } else if (choixQuartier == -1) {
-                    System.out.println("Annulation de la destruction");
-                    break;
+
+                    int choixQuartier = Interaction.lireUnEntier(0, joueurCible.nbQuartiersDansCite() + 1) - 1;
+
+                    if (choixQuartier > -1) {
+                        quartierCible = joueurCible.getCite()[choixQuartier];
+                        int coutDestruction = quartierCible.getCout() - 1;
+
+
+                        if (!(joueurCible.nbQuartiersDansCite() >= 7)) {
+                            if (this.getJoueur().nbPieces() >= coutDestruction) {
+                                joueurCible.retirerQuartierDansCite(quartierCible.getNom());
+                                this.getJoueur().retirerPieces(coutDestruction);
+                                System.out.println("=> On retire " + quartierCible.getNom() + " à " + joueurCible.getNom());
+                                System.out.println(YELLOW + "\nPour information, votre trésor est maintenant de " + this.getJoueur().nbPieces() + " pieces" + RESET);
+                                break;
+                            } else {
+                                System.out.println(RED + "Votre trésor n'est pas suffisant pour détruire ce quartier." + RESET + "\nVeuillez reessayer");
+                            }
+                        } else {
+                            System.out.println("Vous ne pouvez pas détruire ce quartier. Le joueur cible a une cité complète.");
+                        }
+                    } else if (choixQuartier == -1) {
+                        System.out.println("Annulation de la destruction");
+                        break;
+                    }
                 }
-            } else if (choixJoueur != -1) {
+
+            } else if (choixJoueur == -1) {
                 System.out.println("Annulation de la destruction");
                 break;
             }
@@ -89,45 +95,63 @@ public class Condottiere extends Personnage {
         PlateauDeJeu plateau = this.getPlateau();
         Joueur[] joueurs = new Joueur[plateau.getNombreJoueurs()];
 
+        boolean auMoinsUnAUnQuartier = false;
+
         // Récupération de la liste des joueurs
         for (int i = 0; i < plateau.getNombreJoueurs(); i++) {
             joueurs[i] = plateau.getJoueur(i);
-        }
-
-        // Choix aléatoire du joueur à attaquer
-        Random random = new Random();
-        int choixJoueur = random.nextInt(plateau.getNombreJoueurs() + 1) - 1;
-
-        if (choixJoueur >= 0 && choixJoueur < plateau.getNombreJoueurs()) {
-            Joueur joueurCible = joueurs[choixJoueur];
-
-            // Choix aléatoire du quartier à détruire
-            int choixQuartier;
-            Quartier quartierCible;
-
-            do {
-                choixQuartier = random.nextInt(joueurCible.nbQuartiersDansCite());
-                quartierCible = joueurCible.getCite()[choixQuartier];
-            } while (quartierCible.getCout() - 1 > this.getJoueur().nbPieces());
-
-            int coutDestruction = quartierCible.getCout() - 1;
-
-            if (this.getJoueur().nbQuartiersDansCite() >= 7) {
-                if (this.getJoueur().nbPieces() >= coutDestruction) {
-                    joueurCible.retirerQuartierDansCite(quartierCible.getNom());
-                    this.getJoueur().retirerPieces(coutDestruction);
-                    System.out.println("=> On retire " + quartierCible.getNom() + " a " + joueurCible.getNom());
-                    System.out.println("Pour information, votre tresor est constitue d'une piece d'or");
-                } else {
-                    System.out.println("Votre tresor n'est pas suffisant pour detruire ce quartier.");
-                }
-            } else {
-                System.out.println("Vous ne pouvez pas détruire ce quartier. Le joueur cible a une cité complète");
+            if(joueurs[i].nbQuartiersDansCite() > 0){
+                auMoinsUnAUnQuartier = true;
             }
-
-        } else {
-            System.out.println("Aucun joueur choisi.");
         }
+
+
+        if(auMoinsUnAUnQuartier){
+            // Choix aléatoire du joueur à attaquer
+            Random random = new Random();
+
+
+            int choixJoueur;
+            do{
+                choixJoueur = random.nextInt(plateau.getNombreJoueurs());
+            }while (joueurs[choixJoueur].nbQuartiersDansCite() < 1);
+
+            if (choixJoueur < plateau.getNombreJoueurs()) {
+                Joueur joueurCible = joueurs[choixJoueur];
+
+                // Choix aléatoire du quartier à détruire
+                int choixQuartier;
+                Quartier quartierCible;
+
+                do {
+                    choixQuartier = random.nextInt(joueurCible.nbQuartiersDansCite());
+                    quartierCible = joueurCible.getCite()[choixQuartier];
+                } while (quartierCible.getCout() - 1 > this.getJoueur().nbPieces());
+
+                int coutDestruction = quartierCible.getCout() - 1;
+
+                if (this.getJoueur().nbQuartiersDansCite() >= 7) {
+                    if (this.getJoueur().nbPieces() >= coutDestruction) {
+                        joueurCible.retirerQuartierDansCite(quartierCible.getNom());
+                        this.getJoueur().retirerPieces(coutDestruction);
+                        System.out.println("=> On retire " + quartierCible.getNom() + " a " + joueurCible.getNom());
+                        System.out.println("Pour information, votre tresor est constitue d'une piece d'or");
+                    } else {
+                        System.out.println("Votre tresor n'est pas suffisant pour detruire ce quartier.");
+                    }
+                } else {
+                    System.out.println("Condottiere ne peut pas détruire le quartier choisi car Le joueur cible a une cité complète");
+                }
+
+            } else {
+                System.out.println("Aucun joueur choisi.");
+            }
+        }
+        else {
+            System.out.println("Aucun joueur sur le plateau ne possède de quartiers...");
+            System.out.println("Vous ne pouvez pas utilisez votre pouvoir");
+        }
+
     }
 
     @Override

@@ -129,6 +129,12 @@ public class Joueur {
         }
         return null;
     }
+    public Quartier retirerQuartierDansMain(int index) {
+        if (!this.main.isEmpty()) {
+            return this.main.remove(index);
+        }
+        return null;
+    }
 
     public void reinitialiser() {
         this.tresor = 0;

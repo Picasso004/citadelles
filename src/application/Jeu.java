@@ -518,18 +518,11 @@ public class Jeu {
                                     choixValide = true;
                                 } else {
                                     // Le choix est valide, procéder comme avant
-                                    Quartier quartierChoisi = main.remove(choixQuartier - 1);
+                                    Quartier quartierChoisi = joueurCourant.retirerQuartierDansMain(choixQuartier - 1);
                                     int PieceRestant = joueurCourant.nbPieces() - quartierChoisi.getCout();
                                     joueurCourant.ajouterQuartierDansCite(quartierChoisi);
                                     System.out.println("Vous avez construit le quartier \"" + quartierChoisi.getNom() + "\" dans votre cité.");
 
-                                    System.out.println("\nContenu de votre cité après la construction :");
-                                    Quartier[] cite = joueurCourant.getCite();
-                                    for (int k = 0; k < cite.length; k++) {
-                                        if (cite[k] != null) {
-                                            System.out.println((k + 1) + ". " + cite[k].getNom());
-                                        }
-                                    }
                                     System.out.println("\nIl vous reste : Trésor : " + PieceRestant + " pièces");
 
                                     choixValide = true;
@@ -602,20 +595,10 @@ public class Jeu {
                                     choixValide = true;
                                 } else {
                                     // Le choix est valide, procéder comme avant
-                                    Quartier quartierChoisi = main.remove(choixQuartier - 1);
+                                    Quartier quartierChoisi = joueurCourant.retirerQuartierDansMain(choixQuartier - 1);
                                     joueurCourant.ajouterQuartierDansCite(quartierChoisi);
                                     System.out.println("Le "+ joueurCourant.getNom() + " a construit \""+ quartierChoisi.getNom() + "\" dans sa cité.");
 
-                                    System.out.println("La cité de " + joueurCourant.getNom() + " contient : ");
-                                    if(joueurCourant.nbQuartiersDansCite() > 0) {
-                                        List<Quartier> cite = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(joueurCourant.getCite(), 0, joueurCourant.nbQuartiersDansCite())));
-                                        for(int k = 0; k < cite.size();k++){
-                                            System.out.println((k+1) + ". " + cite.get(k).getNom());
-                                        }
-                                    }
-                                    else {
-                                        System.out.println(RED + "Votre cite est vide !" + RESET);
-                                    }
 
                                     choixValide = true;
                                 }
@@ -629,6 +612,17 @@ public class Jeu {
                     else {
                         System.out.println("Le "+ personnageCourant.getNom() + " a été assassiné. Il passe son tour." );
                     }
+                }
+
+                System.out.println("La cité de " + joueurCourant.getNom() + " contient : ");
+                if(joueurCourant.nbQuartiersDansCite() > 0) {
+                    List<Quartier> cite = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(joueurCourant.getCite(), 0, joueurCourant.nbQuartiersDansCite())));
+                    for(int k = 0; k < cite.size();k++){
+                        System.out.println((k+1) + ". " + cite.get(k).getNom());
+                    }
+                }
+                else {
+                    System.out.println(RED + "La cite est vide !" + RESET);
                 }
 
                 aFiniEnPremier(joueurCourant);
@@ -747,29 +741,43 @@ public class Jeu {
             }
         }
 
-        System.out.println(MAGENTA + "\n RESULTATS"+RESET);
+        System.out.println(MAGENTA + "\nRESULTATS"+RESET);
 
         // Trier les joueurs par points
         List<Joueur> joueursTries = trierJoueursParPoints(pointsDesJoueurs);
 
         // Affichage des points triés
+        int i = 1;
         for (Joueur joueur : joueursTries) {
             int points = pointsDesJoueurs.get(joueur);
-            System.out.println(joueur.getNom() + " : " + points + " points (Dernier personnage : " +
+            System.out.println(i + "- " +joueur.getNom() + " : " + points + " points (Dernier personnage : " +
                     joueur.getPersonnage().getNom() + " - rang " + joueur.getPersonnage().getRang() + ")");
+            i++;
         }
         System.out.println();
     }
 
     public List<Joueur> trierJoueursParPoints(HashMap<Joueur, Integer> pointsDesJoueurs) {
-        // Création d'une liste de joueurs
         List<Joueur> joueurs = new ArrayList<>(pointsDesJoueurs.keySet());
 
-        // Trier les joueurs en fonction des points
-        joueurs.sort((j1, j2) -> pointsDesJoueurs.get(j2).compareTo(pointsDesJoueurs.get(j1)));
+        // Trier les joueurs par points
+        joueurs.sort((j1, j2) -> {
+            int pointsDiff = pointsDesJoueurs.get(j2).compareTo(pointsDesJoueurs.get(j1));
+            if (pointsDiff != 0) {
+                // S'ils ont des points différents, retourner la différence
+                return pointsDiff;
+            } else {
+                // S'ils ont les mêmes points, comparer les rangs de leurs derniers personnages
+                int rang1 = j1.getPersonnage().getRang();
+                int rang2 = j2.getPersonnage().getRang();
+                // Classer en fonction du rang le plus élevé
+                return Integer.compare(rang1, rang2);
+            }
+        });
 
         return joueurs;
     }
+
 
     //Methode auxiliaire pour vérifier la présence d'au moins un quartier de chaque type
     private boolean aCinqTypesDifferents(Quartier[] cite){

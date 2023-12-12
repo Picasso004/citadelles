@@ -5,6 +5,8 @@ import controleur.Interaction;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static controleur.Interaction.*;
+
 public class Magicienne extends Personnage {
 
     public Magicienne() {
@@ -24,7 +26,7 @@ public class Magicienne extends Personnage {
             for (int i = 0; i < plateau.getNombreJoueurs(); i++) {
                 if (plateau.getJoueur(i) != null && plateau.getJoueur(i).getPersonnage() != this) {
                     joueurs.add(plateau.getJoueur(i));
-                    System.out.println(joueurs.size() + ". " + plateau.getJoueur(i).getNom());
+                    System.out.println((i+1) + ". " + plateau.getJoueur(i).getNom());
                 }
             }
 
@@ -45,42 +47,39 @@ public class Magicienne extends Personnage {
 
             System.out.println("Échange effectué avec " + joueurChoisi.getNom() + ".");
         } else {
-            System.out.println("Combien de cartes voulez-vous prendre dans la pioche? (0 pour ne rien faire)");
-            int nbCartesPioche = Interaction.lireUnEntier(0, getJoueur().nbQuartiersDansMain() + 1) - 1;
+            System.out.println("Combien de cartes voulez-vous prendre dans la pioche?");
+            int nbCartesPioche = Interaction.lireUnEntier(1, getJoueur().nbQuartiersDansMain() + 1);
 
-            if (nbCartesPioche > 0) {
-                // Copier la main de la magicienne
-                ArrayList<Quartier> copieMainMagicienne = new ArrayList<>(getJoueur().getMain());
-
-                if (nbCartesPioche == getJoueur().nbQuartiersDansMain()) {
-                    // Retirer un à un les quartiers de la main originale et les ajouter dans la pioche
-                    for (Quartier quartier : copieMainMagicienne) {
-                        getPlateau().getPioche().ajouter(quartier);
-                    }
-
-                    // Vider la main originale
-                    getJoueur().getMain().clear();
-                } else {
-                    // Faire une copie de la main de la magicienne
-                    //ArrayList<Quartier> copieMainMagicienne = new ArrayList<>(getJoueur().getMain());
-
-                    // Demander à l'utilisateur de choisir des cartes à échanger avec la pioche
-                    for (int i = 0; i < nbCartesPioche; i++) {
-                        System.out.println("Veuillez choisir une carte à retirer de votre main :");
-                        int indexCarte = Interaction.lireUnEntier(1, copieMainMagicienne.size()) - 1;
-
-                        Quartier carteRetiree = copieMainMagicienne.remove(indexCarte);
-                        getPlateau().getPioche().ajouter(carteRetiree);
-                    }
-
-                    // Ajouter nbCartesPioche cartes de la pioche dans la main originale
-                    for (int i = 0; i < nbCartesPioche; i++) {
-                        getJoueur().ajouterQuartierDansMain(getPlateau().getPioche().piocher());
-                    }
-                }
-
-                System.out.println("Cartes échangées avec la pioche.");
+            System.out.println("Voici votre main");
+            for (int i =0; i<this.getJoueur().nbQuartiersDansMain();i++){
+                System.out.println(i+1 + " ." +this.getJoueur().getMain().get(i));
             }
+            System.out.println("Quel carte voulez vous echanger ? " + " ("+nbCartesPioche + " cartes attendues)");
+            for(int i=0;i<nbCartesPioche;i++){
+                System.out.println("Carte " + i + ":");
+                int carteIndex = Interaction.lireUnEntier(1, getJoueur().nbQuartiersDansMain() + 1)-1;
+                Quartier carte = this.getJoueur().retirerQuartierDansMain(carteIndex);
+                this.getPlateau().getPioche().ajouter(carte);
+            }
+
+            // Ajouter nbCartesPioche cartes de la pioche dans la main originale
+            for (int i = 0; i < nbCartesPioche; i++) {
+                getJoueur().ajouterQuartierDansMain(getPlateau().getPioche().piocher());
+            }
+
+            System.out.println(nbCartesPioche + " cartes échangées avec la pioche.");
+
+        }
+        System.out.println(BLUE + "\nVoici votre main :");
+        if(this.getJoueur().nbQuartiersDansMain() > 0) {
+            ArrayList<Quartier> main = this.getJoueur().getMain();
+            for(int k = 0; k < main.size();k++){
+                System.out.println((k+1) + ". " + main.get(k).getNom());
+            }
+            System.out.println(RESET);
+        }
+        else {
+            System.out.println(RED + "Votre main est vide !" + RESET);
         }
     }
 
@@ -88,10 +87,11 @@ public class Magicienne extends Personnage {
     public void utiliserPouvoirAvatar() {
         if (!getAssassine()) {
             System.out.println("Le Pouvoir Avatar de la Magicienne est Activé!!");
-            System.out.println("Voulez-vous échanger vos cartes avec celles d'un autre joueur? (o/n)");
-            boolean echangerAvecJoueur = Interaction.lireOuiOuNon();
+            Random random = new Random();
+            boolean echangerAvecJoueur = random.nextBoolean();
 
             if (echangerAvecJoueur) {
+                System.out.println("La Magicienne a décidé d'echanger avec un joueur");
                 // Afficher tous les joueurs sauf la magicienne elle-même
                 PlateauDeJeu plateau = getPlateau();
                 ArrayList<Joueur> joueurs = new ArrayList<>();
@@ -104,7 +104,6 @@ public class Magicienne extends Personnage {
 
                 if (!joueurs.isEmpty()) {
                     // Choix aléatoire d'un joueur
-                    Random random = new Random();
                     int choixJoueur = random.nextInt(joueurs.size());
                     Joueur joueurChoisi = joueurs.get(choixJoueur);
 
@@ -126,37 +125,24 @@ public class Magicienne extends Personnage {
 
                 }
             } else {
-                int nbCartesPioche = Interaction.lireUnEntier(0, getJoueur().nbQuartiersDansMain() + 1) - 1;
+                System.out.println("La Magicienne a décidé d'echanger avec la pioche");
+                int nbCartesPioche = random.nextInt(1,getJoueur().nbQuartiersDansMain() + 1);
+                // Copier la main de la magicienne
+                ArrayList<Quartier> mainMagicienne = this.getJoueur().getMain();
 
-                if (nbCartesPioche > 0) {
-                    // Copier la main de la magicienne
-                    ArrayList<Quartier> copieMainMagicienne = new ArrayList<>(getJoueur().getMain());
-
-                    if (nbCartesPioche == getJoueur().nbQuartiersDansMain()) {
-                        // Retirer un à un les quartiers de la main originale et les ajouter dans la pioche
-                        for (Quartier quartier : copieMainMagicienne) {
-                            getPlateau().getPioche().ajouter(quartier);
-                        }
-
-                        // Vider la main originale
-                        getJoueur().getMain().clear();
-                    } else {
-                        // Échanger de manière aléatoire avec la pioche
-                        Random random = new Random();
-                        for (int i = 0; i < nbCartesPioche; i++) {
-                            int indexCarte = random.nextInt(copieMainMagicienne.size());
-                            Quartier carteRetiree = copieMainMagicienne.remove(indexCarte);
-                            getPlateau().getPioche().ajouter(carteRetiree);
-                        }
-
-                        // Ajouter nbCartesPioche cartes de la pioche dans la main originale
-                        for (int i = 0; i < nbCartesPioche; i++) {
-                            getJoueur().ajouterQuartierDansMain(getPlateau().getPioche().piocher());
-                        }
-                    }
-
-                    System.out.println("Cartes échangées avec la pioche.");
+                // Échanger de manière aléatoire avec la pioche
+                for (int i = 0; i < nbCartesPioche; i++) {
+                    int indexCarte = random.nextInt(mainMagicienne.size());
+                    Quartier carteRetiree = mainMagicienne.remove(indexCarte);
+                    getPlateau().getPioche().ajouter(carteRetiree);
                 }
+
+                // Ajouter nbCartesPioche cartes de la pioche dans la main originale
+                for (int i = 0; i < nbCartesPioche; i++) {
+                    getJoueur().ajouterQuartierDansMain(getPlateau().getPioche().piocher());
+                }
+
+                System.out.println("La Magicienne a échangée " +  nbCartesPioche + " avec la pioche.");
             }
 
         }

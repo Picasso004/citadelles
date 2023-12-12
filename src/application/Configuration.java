@@ -102,6 +102,7 @@ public class Configuration {
         Joueur bot3 = new Joueur("bot3");
 
         // Indiquer que les bots sont simulés
+        //joueur1.setSimule(true);
         bot1.setSimule(true);
         bot2.setSimule(true);
         bot3.setSimule(true);
