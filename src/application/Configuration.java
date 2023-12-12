@@ -97,9 +97,16 @@ public class Configuration {
 
         // Créer quatre joueurs avec leur nom
         Joueur joueur1 = new Joueur("Joueur 1");
-        Joueur joueur2 = new Joueur("Joueur 2");
-        Joueur joueur3 = new Joueur("Joueur 3");
-        Joueur joueur4 = new Joueur("Joueur 4");
+        Joueur bot1 = new Joueur("bot1");
+        Joueur bot2 = new Joueur("bot2");
+        Joueur bot3 = new Joueur("bot3");
+
+        // Indiquer que les bots sont simulés
+        bot1.setSimule(true);
+        bot2.setSimule(true);
+        bot3.setSimule(true);
+
+
 
 
         // Créer un nouveau plateau de jeu
@@ -116,9 +123,9 @@ public class Configuration {
         plateau.ajouterPersonnage(condottiere);
 
         plateau.ajouterJoueur(joueur1);
-        plateau.ajouterJoueur(joueur2);
-        plateau.ajouterJoueur(joueur3);
-        plateau.ajouterJoueur(joueur4);
+        plateau.ajouterJoueur(bot1);
+        plateau.ajouterJoueur(bot2);
+        plateau.ajouterJoueur(bot3);
 
 
         // Ajouter les 14 quartiers Merveille à la pioche passée en paramètre
