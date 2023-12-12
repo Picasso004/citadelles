@@ -18,26 +18,8 @@ public class Eveque extends Personnage {
         if (!getAssassine()) {
             System.out.println("Le pouvoir de l'Évêque Avatar est activé!");
 
-            // Simulate a random choice for the avatar power
-            Random random=new Random();
-            int choice = random.nextInt(3);  // Assuming there are 3 choices, modify as needed
-
-            switch (choice) {
-                case 0:
-                    // Perform action for choice 0
-                    System.out.println("Action spéciale pour le choix 0 de l'Évêque Avatar.");
-                    break;
-                case 1:
-                    // Perform action for choice 1
-                    System.out.println("Action spéciale pour le choix 1 de l'Évêque Avatar.");
-                    break;
-                case 2:
-                    // Perform action for choice 2
-                    System.out.println("Action spéciale pour le choix 2 de l'Évêque Avatar.");
-                    break;
-                default:
-                    // Handle unexpected choice
-                    System.out.println("Choix invalide pour l'Évêque Avatar.");
+            if (getRang() == 8) {
+                protegerDesPouvoirs();
             }
         } else {
             System.out.println("L'Évêque ne peut pas utiliser son pouvoir Avatar car il est assassiné.");
