@@ -50,8 +50,6 @@ public class Joueur {
         return this.main;
     }
 
-
-
     public boolean isSimule() {
         return simule;
     }
