@@ -24,7 +24,7 @@ public class Voleur extends Personnage {
         int choix;
         do {
             System.out.print("Votre choix : ");
-            choix = Interaction.lireUnEntier() - 1; // Convertir le choix de l'utilisateur en indice
+            choix = Interaction.lireUnEntier() - 1; // Convertir le choix de l'utilisateur en indice de tableau
 
             if (choix >= 0 && choix < plateau.getNombrePersonnages()) {
                 if (plateau.getPersonnage(choix) == this || plateau.getPersonnage(choix).getRang() == 1) {
