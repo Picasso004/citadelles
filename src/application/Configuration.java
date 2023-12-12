@@ -122,20 +122,28 @@ public class Configuration {
 
 
         // Ajouter les 14 quartiers Merveille à la pioche passée en paramètre
-        Quartier bibliotheque = new Quartier("Bibliothèque", Quartier.TYPE_QUARTIERS[4], 6);
-        Quartier forge = new Quartier("Forge", Quartier.TYPE_QUARTIERS[4], 5);
-        Quartier carriere = new Quartier("Carrière", Quartier.TYPE_QUARTIERS[4], 5);
-        Quartier laboratoire = new Quartier("Laboratoire", Quartier.TYPE_QUARTIERS[4], 5 );
-        Quartier courDesMiracles = new Quartier("Cour des Miracles", Quartier.TYPE_QUARTIERS[4], 2);
-        Quartier manufacture = new Quartier("Manufacture", Quartier.TYPE_QUARTIERS[4], 5);
-        Quartier donjon = new Quartier("Donjon", Quartier.TYPE_QUARTIERS[4], 3);
-        Quartier salleDesCartes = new Quartier("Salles des Cartes", Quartier.TYPE_QUARTIERS[4], 5);
-        Quartier dracoport = new Quartier("Dracoport", Quartier.TYPE_QUARTIERS[4], 6);
-        Quartier statueEquestre = new Quartier("Statue Equestre", Quartier.TYPE_QUARTIERS[4], 3);
-        Quartier ecoleDeMagie = new Quartier("Ecole de Magie", Quartier.TYPE_QUARTIERS[4], 6);
-        Quartier tresorImperial = new Quartier("Trésor Impérial", Quartier.TYPE_QUARTIERS[4], 5);
-        Quartier fontaineAuxSouhaits = new Quartier("Fontaine aux Souhaits", Quartier.TYPE_QUARTIERS[4], 5);
-        Quartier tripot = new Quartier("Tripot", Quartier.TYPE_QUARTIERS[4],6 );
+        Quartier bibliotheque = new Quartier("Bibliothèque", Quartier.TYPE_QUARTIERS[4], 6, "Si vous choisissez de piocher des cartes au d´ebut du tour, concervez-les toutes.");
+        Quartier forge = new Quartier("Forge", Quartier.TYPE_QUARTIERS[4], 5, "Une fois par tour, vous pouvez payez 2 pi`eces d’or pour piocher 3 cartes.\n");
+        Quartier carriere = new Quartier("Carrière", Quartier.TYPE_QUARTIERS[4], 5, "Vous pouvez bˆatir des quartiers identiques `a d’autres quartiers de votre cit´e. Le propriétaire\n" +
+                "de la carrière peut batir autant de quartiers identiques qu’il le souhaite, mais ne peut pas utiliser le pouvoir de l’Echevin, du Diplomate ou du Capitaine pour acqu´erir des quartiers identiques.\n");
+        Quartier laboratoire = new Quartier("Laboratoire", Quartier.TYPE_QUARTIERS[4], 5, "Une fois par tour, vous pouvez d´efausser 1 carte pour recevoir 2 pi`eces d’or.");
+        Quartier courDesMiracles = new Quartier("Cour des Miracles", Quartier.TYPE_QUARTIERS[4], 2, "Pour le calcul du score final, la Cour des Miracles est consid´er´ee comme un quartier de type\n" +
+                "(couleur) de votre choix. Dans la cas o`u le propri´etaire la consid`ere comme un quartier noble,\n" +
+                "militaire, marchant ou religieux, la Cour des Miracles ne peut plus ˆetre consid´er´ee comme\n" +
+                "une merveille.\n");
+        Quartier manufacture = new Quartier("Manufacture", Quartier.TYPE_QUARTIERS[4], 5, "Payez 1 pi`ece d’or de moins lorsque vous bˆatissez une autre merveille.");
+        Quartier donjon = new Quartier("Donjon", Quartier.TYPE_QUARTIERS[4], 3, "Le Donjon ne peut ˆetre affect´e par les pouvoirs des personnages de rang 8.");
+        Quartier salleDesCartes = new Quartier("Salles des Cartes", Quartier.TYPE_QUARTIERS[4], 5, "A la fin de la partie, marquez 1 point suppl´ementaire par carte dans votre main.");
+        Quartier dracoport = new Quartier("Dracoport", Quartier.TYPE_QUARTIERS[4], 6, "Marquez 2 points suppl´ementaires `a la fin de la partie.\n");
+        Quartier statueEquestre = new Quartier("Statue Equestre", Quartier.TYPE_QUARTIERS[4], 3, "Si vous d´etenez le Couronne `a la fin de la partie, marquez 5 points suppl´ementaires.");
+        Quartier ecoleDeMagie = new Quartier("Ecole de Magie", Quartier.TYPE_QUARTIERS[4], 6, "Pour la perception des revenus des personnages, l’Ecole de Magie est consid´er´ee comme un ´\n" +
+                "quartier du type (couleur) de votre choix.\n");
+        Quartier tresorImperial = new Quartier("Trésor Impérial", Quartier.TYPE_QUARTIERS[4], 5, "A la fin de la partie, marquez 1 point suppl´ementaire par pi`ece d’or dans votre tr´esor. ");
+        Quartier fontaineAuxSouhaits = new Quartier("Fontaine aux Souhaits", Quartier.TYPE_QUARTIERS[4], 5, "A la fin de la partie, marquez 1 point supplm´entaire par merveille dans votre cit´e, y compris `\n" +
+                "la Fontaine aux Souhaits.\n");
+        Quartier tripot = new Quartier("Tripot", Quartier.TYPE_QUARTIERS[4],6, "Vous pouvez payer tout ou partie du coˆut de construction du Tripot en cartes de votre main,\n" +
+                "au prix de 1 carte pour 1 pi`ece d’or. Si le Tripot est confisqu´e par l’Echevin, le joueur n’est ´\n" +
+                "rembours´e que de l’or qu’il a d´epens´e, pas des cartes." );
 
 
         p.ajouter(bibliotheque);
